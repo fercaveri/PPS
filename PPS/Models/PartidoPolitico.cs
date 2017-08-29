@@ -7,8 +7,8 @@ namespace PPS.Models
 {
     public class PartidoPolitico
     {
-        private int lista;
-        private String nombre;
+        public int lista { get; set; }
+        public String nombre { get; set; }
 
         public PartidoPolitico(int lista, String nombre)
         {
