@@ -7,7 +7,7 @@ namespace PPS.Models
 {
     public class Candidato : Persona
     {
-        private PartidoPolitico partidoPolitico;
+        public PartidoPolitico partidoPolitico { get; set; }
         public Candidato(String nombre, String apellido, int DNI, string nombrePartido) : base(nombre, apellido, DNI)
         {
             //this.partidoPolitico = API_PartidosPoliticos.GetPartidoPorNombre(nombrePartido);

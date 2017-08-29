@@ -7,10 +7,10 @@ namespace PPS.Models
 {
     public class Persona
     {
-        private String nombre;
-        private String apellido;
-        private String nombreCompleto;
-        private int DNI;
+        public String nombre { get; set; } 
+        public String apellido { get; set; }
+        public String nombreCompleto { get; set; }
+        public int DNI { get; set; }
 
         public Persona(String nombre, String apellido, int DNI)
         {
