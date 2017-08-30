@@ -7,12 +7,12 @@ namespace PPS.Models
 {
     public class PartidoPolitico
     {
-        public int lista { get; set; }
+        public int numeroLista { get; set; }
         public String nombre { get; set; }
 
-        public PartidoPolitico(int lista, String nombre)
+        public PartidoPolitico(int numLista, String nombre)
         {
-            this.lista = lista;
+            this.numeroLista = numLista;
             this.nombre = nombre;
         }
     }

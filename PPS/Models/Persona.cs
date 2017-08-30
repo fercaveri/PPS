@@ -16,7 +16,7 @@ namespace PPS.Models
         {
             this.nombre = nombre;
             this.apellido = apellido;
-            nombreCompleto = apellido + ", " + nombre;
+            this.nombreCompleto = apellido + ", " + nombre;
             this.DNI = DNI;
         }
     }
