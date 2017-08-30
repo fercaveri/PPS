@@ -13,7 +13,7 @@ namespace PPS.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Persona>().ToTable("Personas");
+            modelBuilder.Entity<Persona>().ToTable("Personas");
         }
     }
 }
