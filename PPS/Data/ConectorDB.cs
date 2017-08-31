@@ -10,10 +10,12 @@ namespace PPS.Data
         }
 
         public DbSet<Persona> Personas { get; set; }
+        public DbSet<PartidoPolitico> PartidosPoliticos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Persona>().ToTable("Personas");
+            modelBuilder.Entity<PartidoPolitico>().ToTable("PartidosPoliticos");
         }
     }
 }
