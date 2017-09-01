@@ -1,28 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace PPS.Models
 {
+    [Table("PartidoPolitico")]
     public class PartidoPolitico
     {
+        [Key]
         public int numeroLista { get; set; }
         public String nombre { get; set; }
-        public Localidad localidad { get; set; }
-        public List<Candidato> candidatos { get; set; }
+        private List<Candidato> candidatos;
 
         public PartidoPolitico(int numLista, String nombre, String localidad)
         {
             this.numeroLista = numLista;
             this.nombre = nombre;
             this.candidatos = new List<Candidato>();
-            //this.localidad = LocalidadesController.getLocalidadPorNombre(localidad);
         }
 
-        public void agregarCandidato(Candidato cand)
+        public void addCandidato(Candidato c)
         {
-            candidatos.Add(cand);
+            candidatos.Add(c);
+        }
+
+        public void removeCandidato(int dni)
+        {
+            foreach(Candidato c in candidatos)
+            {
+                if(c.DNI == dni)
+                {
+                    candidatos.Remove(c);
+                }
+            }
         }
     }
 }
