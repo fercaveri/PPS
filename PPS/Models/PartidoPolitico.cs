@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace PPS.Models
 {
-    [Table("PartidoPolitico")]
     public class PartidoPolitico
     {
         [Key]
         public int numeroLista { get; set; }
         public String nombre { get; set; }
-        private List<Candidato> candidatos;
+        public Provincia provincia { get; set; }
+        public List<Candidato> candidatos;
 
-        public PartidoPolitico(int numLista, String nombre, String localidad)
+        public PartidoPolitico(int numLista, String nombre, Provincia provincia)
         {
             this.numeroLista = numLista;
             this.nombre = nombre;

@@ -30,7 +30,7 @@ namespace PPS
                     var context = services.GetRequiredService<ConectorDB>();
 
                     //Para testear y si es necesario arrancar con alguna informacion cargada
-                    //DbInitializer.Initialize(context);
+                    DbInitializer.Initialize(context);
                 }
                 catch (Exception ex)
                 {

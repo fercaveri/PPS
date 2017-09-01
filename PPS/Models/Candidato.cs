@@ -11,16 +11,11 @@ namespace PPS.Models
         Concejal, DiputadoProvincial , DiputadoNacional, SenadorProvincial, SenadorNacional
     }
 
-    [Table("Candidato")]
     public class Candidato : Persona
     {
         public PartidoPolitico partidoPolitico { get; set; }
-        private Cargo? cargo { get; set; }
-
-        public Candidato(String nombre, String apellido, int DNI, string nombrePartido, Cargo cargo) : base(nombre, apellido, DNI)
-        {
-            //this.partidoPolitico = API_PartidosPoliticos.GetPartidoPorNombre(nombrePartido);
-        }
+        public Cargo? cargo { get; set; }
+        //public Localidad localidad { get; set; }
 
         public Candidato(String nombre, String apellido, int DNI, int numeroLista, Cargo cargo) : base(nombre, apellido, DNI)
         {

@@ -11,22 +11,30 @@ namespace PPS.Data
 
         public static void Initialize(ConectorDB context)
         {
-            context.Database.EnsureCreated();
 
-            // Look for any students.
-            if (context.Personas.Any())
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+            
+            Provincia provinciaBsAs = new Provincia("Buenos Aires");
+            Provincia provinciaCba = new Provincia("Cordoba");
+
+            var provincias = new Provincia[] { provinciaBsAs, provinciaCba };
+            foreach (Provincia p in provincias)
             {
-                return;   // DB has been seeded
+                context.Provincias.Add(p);
             }
 
-            var personas = new Persona[]
+            var localidades = new Localidad[]
             {
-            new Persona("Gaston","Sturla",39169586),
-            new Persona("Fernando","Caveri",38256120)
+            new Localidad("San Miguel",provinciaBsAs),
+            new Localidad("Jose C. Paz",provinciaBsAs),
+            new Localidad("Malvinas Argentinas",provinciaBsAs),
+            new Localidad("Pilar",provinciaBsAs)
+
             };
-            foreach (Persona p in personas)
+            foreach (Localidad l in localidades )
             {
-                context.Personas.Add(p);
+                context.Localidades.Add(l);
             }
             context.SaveChanges();
         }

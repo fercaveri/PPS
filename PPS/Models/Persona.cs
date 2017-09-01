@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace PPS.Models
 {
-    [Table("Persona")]
     public class Persona
     {
         [Key]
