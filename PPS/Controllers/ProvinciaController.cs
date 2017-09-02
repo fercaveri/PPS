@@ -9,21 +9,21 @@ using PPS.Models;
 namespace PPS.Controllers
 {
   [Route("api/[controller]")]
-  public class PartidoPoliticoController : Controller
+  public class ProvinciaController : Controller
   {
     private ConectorDB _db;
 
-    public PartidoPoliticoController(
+    public ProvinciaController(
         ConectorDB db)
     {
       _db = db;
     }
-    // GET api/partidopolitico
+    // GET api/provincia
     [HttpGet]
-    public IEnumerable<PartidoPolitico> Get()
+    public IEnumerable<Provincia> Get()
     {
-      var Partidos = _db.Partidos.Select(x => new PartidoPolitico(x.numeroLista, x.nombre, x.provincia)).ToList();
-      return Partidos;
+      var Provincias = _db.Provincias.Select(x => new Provincia(x.nombre)).ToList();
+      return Provincias;
     }
 
     // GET api/values/5

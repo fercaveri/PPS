@@ -34,7 +34,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Application says what?</h1>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value}}</li>\r\n</ul>\r\n"
+module.exports = "<h1>TUS PROBINSIAS SON:</h1>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value.nombre}}</li>\r\n</ul>\r\n"
 
 /***/ }),
 
@@ -63,7 +63,7 @@ var AppComponent = (function () {
     }
     AppComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._httpService.get('/api/values').subscribe(function (values) {
+        this._httpService.get('/api/provincia').subscribe(function (values) {
             _this.apiValues = values.json();
         });
     };
