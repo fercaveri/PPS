@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="src\app\partido\partido.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="pps-app\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
@@ -27,6 +31,10 @@
   
   <ItemGroup>
 	<DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <TypeScriptCompile Include="src\app\partido\partido.component.ts" />
   </ItemGroup>
 
 </Project>

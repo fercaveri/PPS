@@ -35,8 +35,16 @@ namespace PPS.Controllers
 
     // POST api/values
     [HttpPost]
-    public void Post([FromBody]string value)
+    public void Post([FromBody]PartidoPolitico partido)
     {
+      try
+      {
+        _db.Partidos.Add(partido);
+      }
+      catch(Exception ex)
+      {
+
+      }
     }
 
     // PUT api/values/5

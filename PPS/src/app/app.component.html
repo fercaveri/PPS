@@ -1,4 +1,14 @@
-<h1>TUS PROBINSIAS SON:</h1>
+<h1>Bienvenido a el Xcrutiño</h1>
 <ul>
   <li *ngFor="let value of apiValues">{{value.nombre}}</li>
 </ul>
+<div class="app-menu-wrapper">
+  <div>
+    <button (click)="(show='consulta')"> Consultar Partidos Politicos </button>
+    <button (click)="(show='alta')"> Alta Partido Politico </button>
+  </div>
+  <div *ngIf="show == 'alta'">
+    <partido-politico>
+    </partido-politico>
+  </div>
+</div>
