@@ -12,13 +12,13 @@ namespace PPS.Data
         public static void Initialize(ConectorDB context)
         {
 
-            /*context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();*/
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
 
-            if (context.Provincias.Any()||context.Partidos.Any())
+            /*if (context.Provincias.Any()||context.Partidos.Any())
             {
               return;
-            }
+            }*/
             
             Provincia provinciaBsAs = new Provincia("Buenos Aires");
             Provincia provinciaCba = new Provincia("Cordoba");
@@ -34,8 +34,9 @@ namespace PPS.Data
             new Localidad("San Miguel",provinciaBsAs),
             new Localidad("Jose C. Paz",provinciaBsAs),
             new Localidad("Malvinas Argentinas",provinciaBsAs),
-            new Localidad("Pilar",provinciaBsAs)
-
+            new Localidad("Rio Tercero", provinciaCba),
+            new Localidad("Tanti", provinciaCba),
+            new Localidad("Pilar", provinciaBsAs)
             };
             foreach (Localidad l in localidades )
             {

@@ -9,7 +9,7 @@ export class LocalidadComponent implements OnInit {
     constructor(private _httpService: Http) { }
     apiValues: object[] = [];
     ngOnInit() {
-        this._httpService.get('/api/localidad').subscribe(values => {
+        this._httpService.get('/api/localidad?nombreProvincia=Buenos-Aires').subscribe(values => {
             this.apiValues = values.json() as object[];
         });
     }

@@ -227,7 +227,7 @@ var LocalidadComponent = (function () {
     }
     LocalidadComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._httpService.get('/api/localidad').subscribe(function (values) {
+        this._httpService.get('/api/localidad?nombreProvincia=Buenos-Aires').subscribe(function (values) {
             _this.apiValues = values.json();
         });
     };

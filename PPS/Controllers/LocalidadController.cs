@@ -20,16 +20,22 @@ namespace PPS.Controllers
       _db = db;
     }
 
-    // GET api/localidad/[nombreProvincia]
+    // GET api/localidad?[nombreProvincia]
     [HttpGet]
     public IEnumerable<Localidad> Get(String nombreProvincia)
     {
-      
+      Console.WriteLine(nombreProvincia);
+      String nombreSinGuion = "";
+      foreach(Char c in nombreProvincia)
+      {
+        if(c == '-') { nombreSinGuion += ' '; }
+        else { nombreSinGuion += c; }
+      }
       var Localidades = _db.Localidades.Select(x => new Localidad(x.nombre,x.provincia)).ToList();
       List<Localidad> localidadesEnProvincia = new List<Localidad>();
       foreach(Localidad l in Localidades)
       {
-        if(l.nombre.Equals("San Miguel")){
+        if(l.provincia.nombre.Equals(nombreSinGuion)){
           localidadesEnProvincia.Add(l);
         }
       }
