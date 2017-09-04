@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,6 +12,10 @@ namespace PPS.Models
         public String nombre { get; set; }
         public Provincia provincia { get; set; }
 
+        public Localidad()
+        {
+
+         }
         public Localidad(String nombre, Provincia provincia)
         {
             this.nombre = nombre;

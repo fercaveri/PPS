@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,8 +12,13 @@ namespace PPS.Data
         public static void Initialize(ConectorDB context)
         {
 
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
+            /*context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();*/
+
+            if (context.Provincias.Any()||context.Partidos.Any())
+            {
+              return;
+            }
             
             Provincia provinciaBsAs = new Provincia("Buenos Aires");
             Provincia provinciaCba = new Provincia("Cordoba");

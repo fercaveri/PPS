@@ -26,13 +26,6 @@ namespace PPS.Controllers
       return Partidos;
     }
 
-    // GET api/values/5
-    [HttpGet("{id}")]
-    public string Get(int id)
-    {
-      return "value";
-    }
-
     // POST api/values
     [HttpPost]
     public void Post([FromBody]PartidoPolitico partido)
