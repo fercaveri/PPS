@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -8,7 +8,7 @@ namespace PPS.Models
 {
     public enum Cargo
     {
-        Concejal, DiputadoProvincial , DiputadoNacional, SenadorProvincial, SenadorNacional
+        Concejal, DiputadoProvincial , DiputadoNacional, SenadorNacional
     }
 
     public class Candidato : Persona

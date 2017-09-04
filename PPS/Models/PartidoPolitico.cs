@@ -28,6 +28,8 @@ namespace PPS.Models
       this.candidatos = new List<Candidato>();
     }
 
+    public PartidoPolitico() { }
+
     public void addCandidato(Candidato c)
     {
       candidatos.Add(c);

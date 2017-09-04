@@ -5,12 +5,14 @@ import { PartidoComponent } from './partido/partido.component';
 import { LocalidadComponent } from './partido/Localidad.component';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { CandidatoComponent } from './candidato/candidato.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         PartidoComponent,
-        LocalidadComponent
+        LocalidadComponent,
+        CandidatoComponent
     ],
     imports: [
         BrowserModule,
