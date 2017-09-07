@@ -159,7 +159,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/candidato/candidato.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Formulario alta candidato</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #candidatoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-nombre\">Nombre:</label>\r\n    <input type=\"text\" class=\"form-control\" id=\"candidato-nombre\" required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-apellido\">Apellido:</label>\r\n    <input type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-edad\">Edad:</label>\r\n    <input type=\"number\" class=\"form-control\" id=\"candidato-edad\" required>\r\n  </div>\r\n\r\n  <label for=\"candidato-cargo\">Cargo:</label>\r\n  <select class=\"form-control\" id=\"candidato-cargo\" required>\r\n    <option *ngFor=\"let cargo of cargos\" [value]=\"cargo\">{{cargo}}</option>\r\n  </select>\r\n\r\n  <button type=\"submit\" class=\"btn btn-success\"\r\n          [disabled]=\"!candidatoForm.form.valid\">\r\n    Submit\r\n  </button>\r\n\r\n  <div *ngIf=submitted>Se envio la info</div>\r\n</form>\r\n\n"
+module.exports = "<h1>Formulario alta candidato</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #candidatoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-nombre\">Nombre:</label>\r\n    <input type=\"text\" class=\"form-control\" id=\"candidato-nombre\"required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-apellido\">Apellido:</label>\r\n    <input type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-edad\">Edad:</label>\r\n    <input type=\"number\" class=\"form-control\" id=\"candidato-edad\" required>\r\n  </div>\r\n\r\n  <label for=\"candidato-cargo\">Cargo:</label>\r\n  <select class=\"form-control\" id=\"candidato-cargo\" required>\r\n    <option *ngFor=\"let cargo of cargos\" [value]=\"cargo\">{{cargo}}</option>\r\n  </select>\r\n\r\n  <button type=\"submit\" class=\"btn btn-success\"\r\n          [disabled]=\"!candidatoForm.form.valid\">\r\n    Submit\r\n  </button>\r\n\r\n  <div *ngIf=submitted>Se envio la info</div>\r\n</form>\r\n\r\n\r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -183,6 +183,10 @@ var CandidatoComponent = (function () {
     function CandidatoComponent() {
         this.submitted = false;
         this.cargos = ['Concejal', 'DiputadoProvincial', 'DiputadoNacional', 'SenadorNacional'];
+        this.nombre = "";
+        this.apellido = "";
+        this.edad = "";
+        this.cargo = "";
     }
     CandidatoComponent.prototype.onSubmit = function () {
         this.submitted = true;
@@ -224,12 +228,25 @@ var LocalidadComponent = (function () {
     function LocalidadComponent(_httpService) {
         this._httpService = _httpService;
         this.apiValues = [];
+        this.provincias = [];
+        this.nombreProvincia = "";
+        this.nombreLocalidad = "";
     }
     LocalidadComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._httpService.get('/api/localidad?nombreProvincia=Buenos-Aires').subscribe(function (values) {
+        this._httpService.get('/api/provincia').subscribe(function (values) {
+            _this.provincias = values.json();
+        });
+        //No se porque pija me tira error 404 not found
+        this._httpService.get('/api/localidad/All').subscribe(function (values) {
             _this.apiValues = values.json();
         });
+    };
+    LocalidadComponent.prototype.onSubmit = function (f) {
+        //Si funciona
+        console.log(f.value); // { first: '', last: '' }
+        //No funciona
+        this._httpService.post('/api/localidad/add', f.value).subscribe;
     };
     return LocalidadComponent;
 }());
@@ -250,7 +267,7 @@ var _a;
 /***/ "../../../../../src/app/partido/localidad.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>Listado de localidades</p>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value.nombre}}</li>\r\n</ul>\r\n"
+module.exports = "<p>Listado de localidades</p>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value.nombre}}</li>\r\n</ul>\r\n\r\n<p class=\"app-menu-wrapper\">Alta de localidad</p>\r\n  <form #f=\"ngForm\" (ngSubmit)=\"onSubmit(f)\" novalidate>\r\n    <label>Nombre de la localidad:</label>\r\n    <input name=\"nombre\" ngModel required>>br>\r\n    <label>Provincia</label>\r\n    <select class=\"form-control\" id=\"provincia\"\r\n            required\r\n            ngModel name=\"provincia\">\r\n      <option *ngFor=\"let cargo of provincias\" [value]=\"cargo\">{{cargo.nombre}}</option>\r\n    </select>\r\n  <button type=\"submit\" class=\"btn btn-success\" >Submit</button>\r\n</form>\r\n"
 
 /***/ }),
 

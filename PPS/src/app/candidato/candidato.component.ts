@@ -15,4 +15,8 @@ export class CandidatoComponent{
       this.submitted = true;
   }
 
+  nombre: String = "";
+  apellido: String = "";
+  edad: String = "";
+  cargo: String = "";
 }

@@ -2,3 +2,16 @@
 <ul>
   <li *ngFor="let value of apiValues">{{value.nombre}}</li>
 </ul>
+
+<p>Alta de localidad</p>
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+    <label>Nombre de la localidad:</label>
+    <input name="nombre" ngModel required><br>
+    <label>Provincia</label>
+    <select class="form-control" id="provincia"
+            required
+            ngModel name="provincia">
+      <option *ngFor="let cargo of provincias" [value]="cargo">{{cargo.nombre}}</option>
+    </select>
+  <button type="submit" class="btn btn-success" >Submit</button>
+</form>
