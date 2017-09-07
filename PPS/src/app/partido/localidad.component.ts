@@ -25,8 +25,7 @@ export class LocalidadComponent implements OnInit {
     onSubmit(f: NgForm) {
         //Si funciona
         console.log(f.value);  // { first: '', last: '' }
-
-        //No funciona
-        this._httpService.post('/api/localidad/add', f.value).subscribe;
+        
+        this._httpService.post('/api/localidad/add', f.value).subscribe();
     }
 }

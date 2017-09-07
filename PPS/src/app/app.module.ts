@@ -6,6 +6,7 @@ import { LocalidadComponent } from './partido/Localidad.component';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { CandidatoComponent } from './candidato/candidato.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [
@@ -17,7 +18,8 @@ import { CandidatoComponent } from './candidato/candidato.component';
     imports: [
         BrowserModule,
         FormsModule,
-        HttpModule
+        HttpModule,
+        HttpClientModule
     ],
     providers: [],
     bootstrap: [AppComponent]

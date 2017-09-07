@@ -97,12 +97,14 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__candidato_candidato_component__ = __webpack_require__("../../../../../src/app/candidato/candidato.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -127,7 +129,8 @@ AppModule = __decorate([
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
             __WEBPACK_IMPORTED_MODULE_5__angular_forms__["a" /* FormsModule */],
-            __WEBPACK_IMPORTED_MODULE_6__angular_http__["b" /* HttpModule */]
+            __WEBPACK_IMPORTED_MODULE_6__angular_http__["b" /* HttpModule */],
+            __WEBPACK_IMPORTED_MODULE_8__angular_common_http__["a" /* HttpClientModule */]
         ],
         providers: [],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */]]
@@ -246,7 +249,7 @@ var LocalidadComponent = (function () {
         //Si funciona
         console.log(f.value); // { first: '', last: '' }
         //No funciona
-        this._httpService.post('/api/localidad/add', f.value).subscribe;
+        this._httpService.post('/api/localidad/add', f.value).subscribe();
     };
     return LocalidadComponent;
 }());
@@ -267,7 +270,7 @@ var _a;
 /***/ "../../../../../src/app/partido/localidad.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>Listado de localidades</p>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value.nombre}}</li>\r\n</ul>\r\n\r\n<p class=\"app-menu-wrapper\">Alta de localidad</p>\r\n  <form #f=\"ngForm\" (ngSubmit)=\"onSubmit(f)\" novalidate>\r\n    <label>Nombre de la localidad:</label>\r\n    <input name=\"nombre\" ngModel required>>br>\r\n    <label>Provincia</label>\r\n    <select class=\"form-control\" id=\"provincia\"\r\n            required\r\n            ngModel name=\"provincia\">\r\n      <option *ngFor=\"let cargo of provincias\" [value]=\"cargo\">{{cargo.nombre}}</option>\r\n    </select>\r\n  <button type=\"submit\" class=\"btn btn-success\" >Submit</button>\r\n</form>\r\n"
+module.exports = "<p>Listado de localidades</p>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value.nombre}}</li>\r\n</ul>\r\n\r\n<p>Alta de localidad</p>\r\n  <form #f=\"ngForm\" (ngSubmit)=\"onSubmit(f)\" novalidate>\r\n    <label>Nombre de la localidad:</label>\r\n    <input name=\"nombre\" ngModel required><br>\r\n    <label>Provincia</label>\r\n    <select class=\"form-control\" id=\"provincia\"\r\n            required\r\n            ngModel name=\"provincia\">\r\n      <option *ngFor=\"let cargo of provincias\" [value]=\"cargo\">{{cargo.nombre}}</option>\r\n    </select>\r\n  <button type=\"submit\" class=\"btn btn-success\" >Submit</button>\r\n</form>\r\n"
 
 /***/ }),
 
