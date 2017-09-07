@@ -9,8 +9,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace PPS.Controllers
-{
-
+{ 
   [Route("api/[controller]")]
   public class LocalidadController : Controller
   {
@@ -23,18 +22,17 @@ namespace PPS.Controllers
     }
 
     // GET api/localidad
-    [HttpGet]
+    /*[HttpGet]
     public IEnumerable<Localidad> All()
     {
       var Localidades= _db.Localidades.Select(x => new Localidad(x.nombre,x.provincia)).ToList();
       return Localidades;
-    }
+    }*/
 
     // GET api/localidad?[nombreProvincia]
     [HttpGet]
     public IEnumerable<Localidad> Get(String nombreProvincia)
     {
-      Console.WriteLine(nombreProvincia);
       String nombreSinGuion = "";
       foreach (Char c in nombreProvincia)
       {
@@ -54,7 +52,7 @@ namespace PPS.Controllers
     }
 
     [HttpPost]
-    public HttpResponseMessage Add(Localidad localidad)
+    public HttpResponseMessage Add([Bind("nombre,provincia")] Localidad localidad)
     {
       _db.Localidades.Add(localidad);
       _db.SaveChanges();

@@ -241,15 +241,17 @@ var LocalidadComponent = (function () {
             _this.provincias = values.json();
         });
         //No se porque pija me tira error 404 not found
-        this._httpService.get('/api/localidad/All').subscribe(function (values) {
+        /*this._httpService.get('/api/localidad/All').subscribe(values => {
+            this.apiValues = values.json() as object[];
+        });*/
+        //No se porque pija me tira error 404 not found
+        this._httpService.get('/api/localidad?nombreProvincia=Buenos-Aires').subscribe(function (values) {
             _this.apiValues = values.json();
         });
     };
     LocalidadComponent.prototype.onSubmit = function (f) {
-        //Si funciona
-        console.log(f.value); // { first: '', last: '' }
-        //No funciona
-        this._httpService.post('/api/localidad/add', f.value).subscribe();
+        console.log(f.value); // { nombre: '', provincia: '' }
+        this._httpService.post('/api/localidad', f.value).subscribe();
     };
     return LocalidadComponent;
 }());
