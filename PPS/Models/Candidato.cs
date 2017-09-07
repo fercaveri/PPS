@@ -6,20 +6,26 @@ using System.Threading.Tasks;
 
 namespace PPS.Models
 {
-    public enum Cargo
+  public enum Cargo
+  {
+    Concejal = 0, DiputadoProvincial = 1, DiputadoNacional = 2, SenadorNacional = 3
+  }
+
+  public class Candidato : Persona
+  {
+    public Cargo cargo { get; set; }
+    public String urlFoto { get; set; }
+
+    public Candidato(String nombre, String apellido, Cargo cargo) : base(nombre, apellido)
     {
-        Concejal, DiputadoProvincial , DiputadoNacional, SenadorNacional
+      this.cargo = cargo;
+      this.urlFoto = "";
     }
 
-    public class Candidato : Persona
+    public Candidato(String nombre, String apellido, Cargo cargo, String urlFoto) : base(nombre, apellido)
     {
-        public PartidoPolitico partidoPolitico { get; set; }
-        public Cargo? cargo { get; set; }
-        //public Localidad localidad { get; set; }
-
-        public Candidato(String nombre, String apellido, int DNI, int numeroLista, Cargo cargo) : base(nombre, apellido, DNI)
-        {
-            //this.partidoPolitico = API_PartidosPoliticos.GetPartidoPorLista(nombrePartido);
-        }
+      this.cargo = cargo;
+      this.urlFoto = urlFoto;
     }
+  }
 }

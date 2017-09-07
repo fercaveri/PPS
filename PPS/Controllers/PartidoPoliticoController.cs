@@ -36,7 +36,7 @@ namespace PPS.Controllers
       }
       catch(Exception ex)
       {
-
+        Console.WriteLine(ex);
       }
     }
 

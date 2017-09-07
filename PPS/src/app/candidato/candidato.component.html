@@ -2,22 +2,17 @@
 <form (ngSubmit)="onSubmit()" #candidatoForm="ngForm">
   <div class="form-group">
     <label for="candidato-nombre">Nombre:</label>
-    <input type="text" class="form-control" id="candidato-nombre"required>
+    <input [(ngModel)]="nombre" name="nombre" type="text" class="form-control" id="candidato-nombre"required>
   </div>
 
   <div class="form-group">
     <label for="candidato-apellido">Apellido:</label>
-    <input type="text" class="form-control" id="candidato-apellido" required>
-  </div>
-
-  <div class="form-group">
-    <label for="candidato-edad">Edad:</label>
-    <input type="number" class="form-control" id="candidato-edad" required>
+    <input [(ngModel)]="apellido" name="apellido" type="text" class="form-control" id="candidato-apellido" required>
   </div>
 
   <label for="candidato-cargo">Cargo:</label>
-  <select class="form-control" id="candidato-cargo" required>
-    <option *ngFor="let cargo of cargos" [value]="cargo">{{cargo}}</option>
+  <select [(ngModel)]="cargo" name="cargo" class="form-control" id="candidato-cargo" required>
+    <option *ngFor="let cargo of cargos; let i = index" [attr.data-index]="i" [value]="i">{{cargo}}</option>
   </select>
 
   <button type="submit" class="btn btn-success"

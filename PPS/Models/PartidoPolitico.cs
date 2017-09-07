@@ -37,13 +37,13 @@ namespace PPS.Models
 
     public void removeCandidato(int dni)
     {
-      foreach (Candidato c in candidatos)
-      {
-        if (c.DNI == dni)
-        {
-          candidatos.Remove(c);
-        }
-      }
+      //foreach (Candidato c in candidatos)
+      //{
+      //  if (c.DNI == dni)
+      //  {
+      //    candidatos.Remove(c);
+      //  }
+      //}
     }
   }
 }
