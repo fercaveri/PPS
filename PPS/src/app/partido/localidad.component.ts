@@ -17,17 +17,14 @@ export class LocalidadComponent implements OnInit {
         this._httpService.get('/api/provincia').subscribe(values => {
             this.provincias = values.json() as object[];
         });
-        //No se porque pija me tira error 404 not found
-        /*this._httpService.get('/api/localidad/All').subscribe(values => {
-            this.apiValues = values.json() as object[];
-        });*/
-        //No se porque pija me tira error 404 not found
         this._httpService.get('/api/localidad').subscribe(values => {
             this.apiValues = values.json() as object[];
         });
     }
-    onSubmit(f: NgForm) {
-        console.log(f.value);  // { nombre: '', provincia: '' }
-        this._httpService.post('/api/localidad', f.value).subscribe();
+    onSubmit() {
+        const c = { nombre: this.nombreLocalidad , provincia: this.nombreProvincia };
+        this._httpService.post('/api/localidad', c).subscribe(response => {
+            console.log(response);
+        });
     }
 }

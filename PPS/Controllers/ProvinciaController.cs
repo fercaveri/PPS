@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PPS.Data;
 using PPS.Models;
-using System.Net.Http;
 
 namespace PPS.Controllers
 {
@@ -23,7 +22,7 @@ namespace PPS.Controllers
     [HttpGet]
     public IEnumerable<Provincia> Get()
     {
-      var Provincias = _db.Provincias.Select(x => new Provincia(x.nombre)).ToList();
+      var Provincias = _db.Provincias.Select(x => new Provincia(x.nombreProvincia)).ToList();
       return Provincias;
     }
 
@@ -35,12 +34,10 @@ namespace PPS.Controllers
     }
 
     // POST api/values
-    [HttpPost]
-    public HttpResponseMessage Post([FromBody]Provincia provincia)
+    [HttpPost("{nombreProvincia}")]
+    public void Post([FromBody]string nombreProvincia)
     {
-      _db.Provincias.Add(provincia);
-      _db.SaveChanges();
-      return new HttpResponseMessage();
+
     }
 
     // PUT api/values/5
