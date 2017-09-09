@@ -9,16 +9,16 @@ namespace PPS.Models
     public class Localidad
     {
         [Key]
-        public String nombre { get; set; }
+        public String nombreLocalidad { get; set; }
         public Provincia provincia { get; set; }
 
         public Localidad()
         {
 
-         }
+        }
         public Localidad(String nombre, Provincia provincia)
         {
-            this.nombre = nombre;
+            this.nombreLocalidad = nombre;
             this.provincia = provincia;
         }
     }

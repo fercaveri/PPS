@@ -11,36 +11,29 @@ namespace PPS.Data
 
         public static void Initialize(ConectorDB context)
         {
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            if (context.Provincias.Any()||context.Partidos.Any())
+            /*if (context.Provincias.Any()||context.Partidos.Any())
             {
               return;
-            }
+            }*/
             
             Provincia provinciaBsAs = new Provincia("Buenos Aires");
             Provincia provinciaCba = new Provincia("Cordoba");
+            Provincia provinciaSalta = new Provincia("Salta");
+            Provincia provinciaCorrientes = new Provincia("Corrientes");
 
-            var provincias = new Provincia[] { provinciaBsAs, provinciaCba };
+            var provincias = new Provincia[] { provinciaBsAs, provinciaCba, provinciaSalta , provinciaCorrientes};
             foreach (Provincia p in provincias)
             {
                 context.Provincias.Add(p);
             }
-
-            var localidades = new Localidad[]
-            {
-            new Localidad("San Miguel",provinciaBsAs),
-            new Localidad("Jose C. Paz",provinciaBsAs),
-            new Localidad("Malvinas Argentinas",provinciaBsAs),
-            new Localidad("Rio Tercero", provinciaCba),
-            new Localidad("Tanti", provinciaCba),
-            new Localidad("Pilar", provinciaBsAs)
-            };
-            foreach (Localidad l in localidades )
-            {
-                context.Localidades.Add(l);
-            }
             context.SaveChanges();
+            context.Localidades.Add(new Localidad("Jose C. Paz", provinciaBsAs));
+            context.SaveChanges();
+
+            
         }
     }
 }

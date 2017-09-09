@@ -22,7 +22,7 @@ namespace PPS.Controllers
     [HttpGet]
     public IEnumerable<Provincia> Get()
     {
-      var Provincias = _db.Provincias.Select(x => new Provincia(x.nombre)).ToList();
+      var Provincias = _db.Provincias.Select(x => new Provincia(x.nombreProvincia)).ToList();
       return Provincias;
     }
 
@@ -34,9 +34,10 @@ namespace PPS.Controllers
     }
 
     // POST api/values
-    [HttpPost]
-    public void Post([FromBody]string value)
+    [HttpPost("{nombreProvincia}")]
+    public void Post([FromBody]string nombreProvincia)
     {
+
     }
 
     // PUT api/values/5

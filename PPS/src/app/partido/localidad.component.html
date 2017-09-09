@@ -1,17 +1,18 @@
 <p>Listado de localidades</p>
 <ul>
-  <li *ngFor="let value of apiValues">{{value.nombre}}</li>
+  <li *ngFor="let value of apiValues">{{value.nombreLocalidad}}</li>
 </ul>
 
 <p>Alta de localidad</p>
-  <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
     <label>Nombre de la localidad:</label>
-    <input name="nombre" ngModel required><br>
+    <input name="nombre" [(ngModel)]="nombreLocalidad" required><br>
     <label>Provincia</label>
-    <select class="form-control" id="provincia"
+    <select class="form-control" id="power"
             required
-            ngModel name="provincia">
-      <option *ngFor="let cargo of provincias" [value]="cargo">{{cargo.nombre}}</option>
+            [(ngModel)]="nombreProvincia" name="power">
+      <option *ngFor="let cargo of provincias" [value]="cargo.nombreProvincia">{{cargo.nombreProvincia}}</option>
     </select>
-  <button type="submit" class="btn btn-success" >Submit</button>
-</form>
+  <button (click)="onSubmit()" type="submit" class="btn btn-success" >Submit</button>
+
+{{nombreProvincia}} Prov <br>
+{{nombreLocalidad}} lcoalidad

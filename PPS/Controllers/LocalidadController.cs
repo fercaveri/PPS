@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using PPS.Data;
 using PPS.Models;
+using PPS.Models_Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +9,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace PPS.Controllers
-{ 
-  [Route("api/[controller]")]
+{
+  [Route("api/localidad")]
   public class LocalidadController : Controller
   {
 
@@ -21,16 +21,16 @@ namespace PPS.Controllers
       _db = db;
     }
 
-    // GET api/localidad
-    /*[HttpGet]
-    public IEnumerable<Localidad> All()
+    // GET api/localidad/get
+    [HttpGet]
+    public IEnumerable<Localidad> Get()
     {
-      var Localidades= _db.Localidades.Select(x => new Localidad(x.nombre,x.provincia)).ToList();
+      var Localidades = _db.Localidades.Select(x => new Localidad(x.nombreLocalidad, x.provincia)).ToList();
       return Localidades;
-    }*/
+    }
 
     // GET api/localidad?[nombreProvincia]
-    [HttpGet]
+    [HttpGet("{nombreProvincia}")]
     public IEnumerable<Localidad> Get(String nombreProvincia)
     {
       String nombreSinGuion = "";
@@ -39,22 +39,29 @@ namespace PPS.Controllers
         if (c == '-') { nombreSinGuion += ' '; }
         else { nombreSinGuion += c; }
       }
-      var Localidades = _db.Localidades.Select(x => new Localidad(x.nombre, x.provincia)).ToList();
+      var Localidades = _db.Localidades.Select(x => new Localidad(x.nombreLocalidad, x.provincia)).ToList();
       List<Localidad> localidadesEnProvincia = new List<Localidad>();
       foreach (Localidad l in Localidades)
       {
-        if (l.provincia.nombre.Equals(nombreSinGuion))
+        if(l.provincia != null)
         {
-          localidadesEnProvincia.Add(l);
+
+          if (l.provincia.nombreProvincia.Equals(nombreSinGuion))
+          {
+            localidadesEnProvincia.Add(l);
+          }
         }
       }
       return localidadesEnProvincia;
     }
 
     [HttpPost]
-    public HttpResponseMessage Add([Bind("nombre,provincia")] Localidad localidad)
+    public HttpResponseMessage Add([FromBody] LocalidadWeb localidad)
     {
-      _db.Localidades.Add(localidad);
+      Console.WriteLine(localidad.nombre);
+      Console.WriteLine(localidad.provincia);
+      Provincia prov = _db.Provincias.Find(localidad.provincia);
+      _db.Add(new Localidad(localidad.nombre, prov));
       _db.SaveChanges();
       return new HttpResponseMessage();
     }

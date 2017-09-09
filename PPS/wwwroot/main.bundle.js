@@ -34,7 +34,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Bienvenido al Recuento del Escrutinio</h1>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value.nombre}}</li>\r\n</ul>\r\n<div class=\"app-menu-wrapper\">\r\n  <div>\r\n    <button (click)=\"(show='consulta')\"> Consultar Localidades </button>\r\n    <button (click)=\"(show='altaPartido')\"> Alta Partido Politico </button>\r\n    <button (click)=\"(show='altaCandidato')\"> Alta Candidato </button>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaPartido'\">\r\n    <partido-politico>\r\n    </partido-politico>\r\n  </div>\r\n  <div *ngIf=\"show == 'consulta'\">\r\n    <localidad>\r\n    </localidad>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaCandidato'\">\r\n    <candidato>\r\n    </candidato>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<h1>Bienvenido al Recuento del Escrutinio</h1>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value.nombreProvincia}}</li>\r\n</ul>\r\n<div class=\"app-menu-wrapper\">\r\n  <div>\r\n    <button (click)=\"(show='consulta')\"> Consultar Localidades </button>\r\n    <button (click)=\"(show='altaPartido')\"> Alta Partido Politico </button>\r\n    <button (click)=\"(show='altaCandidato')\"> Alta Candidato </button>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaPartido'\">\r\n    <partido-politico>\r\n    </partido-politico>\r\n  </div>\r\n  <div *ngIf=\"show == 'consulta'\">\r\n    <localidad>\r\n    </localidad>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaCandidato'\">\r\n    <candidato>\r\n    </candidato>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -76,7 +76,7 @@ AppComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/app.component.html"),
         styles: [__webpack_require__("../../../../../src/app/app.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], AppComponent);
 
 var _a;
@@ -129,7 +129,7 @@ AppModule = __decorate([
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
             __WEBPACK_IMPORTED_MODULE_5__angular_forms__["a" /* FormsModule */],
-            __WEBPACK_IMPORTED_MODULE_6__angular_http__["b" /* HttpModule */],
+            __WEBPACK_IMPORTED_MODULE_6__angular_http__["c" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_8__angular_common_http__["a" /* HttpClientModule */]
         ],
         providers: [],
@@ -162,7 +162,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/candidato/candidato.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Formulario alta candidato</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #candidatoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-nombre\">Nombre:</label>\r\n    <input type=\"text\" class=\"form-control\" id=\"candidato-nombre\"required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-apellido\">Apellido:</label>\r\n    <input type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-edad\">Edad:</label>\r\n    <input type=\"number\" class=\"form-control\" id=\"candidato-edad\" required>\r\n  </div>\r\n\r\n  <label for=\"candidato-cargo\">Cargo:</label>\r\n  <select class=\"form-control\" id=\"candidato-cargo\" required>\r\n    <option *ngFor=\"let cargo of cargos\" [value]=\"cargo\">{{cargo}}</option>\r\n  </select>\r\n\r\n  <button type=\"submit\" class=\"btn btn-success\"\r\n          [disabled]=\"!candidatoForm.form.valid\">\r\n    Submit\r\n  </button>\r\n\r\n  <div *ngIf=submitted>Se envio la info</div>\r\n</form>\r\n\r\n\r\n\r\n\r\n\r\n"
+module.exports = "<h1>Formulario alta candidato</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #candidatoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-nombre\">Nombre:</label>\r\n    <input [(ngModel)]=\"nombre\" name=\"nombre\" type=\"text\" class=\"form-control\" id=\"candidato-nombre\"required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-apellido\">Apellido:</label>\r\n    <input [(ngModel)]=\"apellido\" name=\"apellido\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required>\r\n  </div>\r\n\r\n  <label for=\"candidato-cargo\">Cargo:</label>\r\n  <select [(ngModel)]=\"cargo\" name=\"cargo\" class=\"form-control\" id=\"candidato-cargo\" required>\r\n    <option *ngFor=\"let cargo of cargos; let i = index\" [attr.data-index]=\"i\" [value]=\"i\">{{cargo}}</option>\r\n  </select>\r\n\r\n  <button type=\"submit\" class=\"btn btn-success\"\r\n          [disabled]=\"!candidatoForm.form.valid\">\r\n    Submit\r\n  </button>\r\n\r\n  <div *ngIf=submitted>Se envio la info</div>\r\n</form>\r\n\r\n\r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -172,6 +172,7 @@ module.exports = "<h1>Formulario alta candidato</h1>\r\n<form (ngSubmit)=\"onSub
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CandidatoComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -182,17 +183,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var CandidatoComponent = (function () {
-    function CandidatoComponent() {
+    function CandidatoComponent(_httpService) {
+        this._httpService = _httpService;
         this.submitted = false;
-        this.cargos = ['Concejal', 'DiputadoProvincial', 'DiputadoNacional', 'SenadorNacional'];
+        this.cargos = ['Concejal', 'Diputado Provincial', 'Diputado Nacional', 'Senador Nacional'];
         this.nombre = "";
         this.apellido = "";
-        this.edad = "";
-        this.cargo = "";
+        this.cargo = -1;
     }
     CandidatoComponent.prototype.onSubmit = function () {
         this.submitted = true;
+        var body = JSON.stringify({ "nombre": this.nombre, "apellido": this.apellido, "cargo": this.cargo });
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        this._httpService.post('/api/candidato', body, options).subscribe(function (response) {
+            console.log(response);
+        });
     };
     return CandidatoComponent;
 }());
@@ -202,9 +210,10 @@ CandidatoComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/candidato/candidato.component.html"),
         styles: [__webpack_require__("../../../../../src/app/candidato/candidato.component.css")]
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], CandidatoComponent);
 
+var _a;
 //# sourceMappingURL=candidato.component.js.map
 
 /***/ }),
@@ -240,18 +249,15 @@ var LocalidadComponent = (function () {
         this._httpService.get('/api/provincia').subscribe(function (values) {
             _this.provincias = values.json();
         });
-        //No se porque pija me tira error 404 not found
-        /*this._httpService.get('/api/localidad/All').subscribe(values => {
-            this.apiValues = values.json() as object[];
-        });*/
-        //No se porque pija me tira error 404 not found
-        this._httpService.get('/api/localidad?nombreProvincia=Buenos-Aires').subscribe(function (values) {
+        this._httpService.get('/api/localidad').subscribe(function (values) {
             _this.apiValues = values.json();
         });
     };
-    LocalidadComponent.prototype.onSubmit = function (f) {
-        console.log(f.value); // { nombre: '', provincia: '' }
-        this._httpService.post('/api/localidad', f.value).subscribe();
+    LocalidadComponent.prototype.onSubmit = function () {
+        var c = { nombre: this.nombreLocalidad, provincia: this.nombreProvincia };
+        this._httpService.post('/api/localidad', c).subscribe(function (response) {
+            console.log(response);
+        });
     };
     return LocalidadComponent;
 }());
@@ -261,7 +267,7 @@ LocalidadComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/partido/localidad.component.html"),
         styles: [__webpack_require__("../../../../../src/app/partido/partido.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], LocalidadComponent);
 
 var _a;
@@ -272,7 +278,7 @@ var _a;
 /***/ "../../../../../src/app/partido/localidad.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>Listado de localidades</p>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value.nombre}}</li>\r\n</ul>\r\n\r\n<p>Alta de localidad</p>\r\n  <form #f=\"ngForm\" (ngSubmit)=\"onSubmit(f)\" novalidate>\r\n    <label>Nombre de la localidad:</label>\r\n    <input name=\"nombre\" ngModel required><br>\r\n    <label>Provincia</label>\r\n    <select class=\"form-control\" id=\"provincia\"\r\n            required\r\n            ngModel name=\"provincia\">\r\n      <option *ngFor=\"let cargo of provincias\" [value]=\"cargo\">{{cargo.nombre}}</option>\r\n    </select>\r\n  <button type=\"submit\" class=\"btn btn-success\" >Submit</button>\r\n</form>\r\n"
+module.exports = "<p>Listado de localidades</p>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value.nombreLocalidad}}</li>\r\n</ul>\r\n\r\n<p>Alta de localidad</p>\r\n    <label>Nombre de la localidad:</label>\r\n    <input name=\"nombre\" [(ngModel)]=\"nombreLocalidad\" required><br>\r\n    <label>Provincia</label>\r\n    <select class=\"form-control\" id=\"power\"\r\n            required\r\n            [(ngModel)]=\"nombreProvincia\" name=\"power\">\r\n      <option *ngFor=\"let cargo of provincias\" [value]=\"cargo.nombreProvincia\">{{cargo.nombreProvincia}}</option>\r\n    </select>\r\n  <button (click)=\"onSubmit()\" type=\"submit\" class=\"btn btn-success\" >Submit</button>\r\n\r\n{{nombreProvincia}} Prov <br>\r\n{{nombreLocalidad}} lcoalidad\r\n"
 
 /***/ }),
 
@@ -297,7 +303,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/partido/partido.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Formulario alta partido</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #altaPartidoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"partido-nombre\">Nombre del partido:</label>\r\n    <input type=\"text\" class=\"form-control\" id=\"partido-nombre\" required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"partido-lista\">Numero de lista del partido:</label>\r\n    <input type=\"number\" class=\"form-control\" id=\"partido-lista\" required>\r\n  </div>\r\n\r\n  <label for=\"partido-Provincia\">Provincia del partido:</label>\r\n  <select class=\"form-control\" id=\"partido-provincia\" required>\r\n    <option *ngFor=\"let provincia of provincias\" [value]=\"provincia\">{{provincia.nombre}}</option>\r\n  </select>\r\n\r\n  <button type=\"submit\" class=\"btn btn-success\"\r\n          [disabled]=\"!altaPartidoForm.form.valid\">Submit</button>\r\n\r\n  <div *ngIf= submitted>Se envio la info</div>\r\n</form>\r\n"
+module.exports = "<h1>Formulario alta partido</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #altaPartidoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"partido-nombre\">Nombre del partido:</label>\r\n    <input type=\"text\" class=\"form-control\" id=\"partido-nombre\" required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"partido-lista\">Numero de lista del partido:</label>\r\n    <input type=\"number\" class=\"form-control\" id=\"partido-lista\" required>\r\n  </div>\r\n\r\n  <label for=\"partido-Provincia\">Provincia del partido:</label>\r\n  <select class=\"form-control\" id=\"partido-provincia\" required>\r\n    <option *ngFor=\"let provincia of provincias\" [value]=\"provincia\">{{provincia.nombreProvincia}}</option>\r\n  </select>\r\n\r\n  <button type=\"submit\" class=\"btn btn-success\"\r\n          [disabled]=\"!altaPartidoForm.form.valid\">Submit</button>\r\n\r\n  <div *ngIf= submitted>Se envio la info</div>\r\n</form>\r\n"
 
 /***/ }),
 
@@ -347,7 +353,7 @@ PartidoComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/partido/partido.component.html"),
         styles: [__webpack_require__("../../../../../src/app/partido/partido.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], PartidoComponent);
 
 var _a;

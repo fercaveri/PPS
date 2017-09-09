@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PPS.Models;
 
 namespace PPS.Data
@@ -17,11 +17,12 @@ namespace PPS.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<Provincia>().ToTable("Provincias");
+            modelBuilder.Entity<Localidad>().ToTable("Localidades");
             modelBuilder.Entity<Persona>().ToTable("Personas");
             modelBuilder.Entity<Candidato>().ToTable("Candidatos");
             modelBuilder.Entity<PartidoPolitico>().ToTable("Partidos");
-            modelBuilder.Entity<Localidad>().ToTable("Localidades");
-            modelBuilder.Entity<Provincia>().ToTable("Provincias");
         }
     }
 }
