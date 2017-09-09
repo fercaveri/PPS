@@ -22,7 +22,7 @@ export class LocalidadComponent implements OnInit {
             this.apiValues = values.json() as object[];
         });*/
         //No se porque pija me tira error 404 not found
-        this._httpService.get('/api/localidad?nombreProvincia=Buenos-Aires').subscribe(values => {
+        this._httpService.get('/api/localidad').subscribe(values => {
             this.apiValues = values.json() as object[];
         });
     }

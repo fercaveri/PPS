@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PPS.Data;
 using PPS.Models;
+using System.Net.Http;
 
 namespace PPS.Controllers
 {
@@ -35,8 +36,11 @@ namespace PPS.Controllers
 
     // POST api/values
     [HttpPost]
-    public void Post([FromBody]string value)
+    public HttpResponseMessage Post([FromBody]Provincia provincia)
     {
+      _db.Provincias.Add(provincia);
+      _db.SaveChanges();
+      return new HttpResponseMessage();
     }
 
     // PUT api/values/5

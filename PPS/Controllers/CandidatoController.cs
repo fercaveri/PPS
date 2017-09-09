@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PPS.Data;
 using PPS.Models;
+using PPS.WebModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace PPS.Controllers
     [HttpGet]
     public IEnumerable<Candidato> Get()
     {
-      var Candidatos = _db.Candidatos.Select(x => new Candidato(x.nombre, x.apellido, x.cargo)).ToList();
+      var Candidatos = _db.Candidatos.Select(x => new Candidato(x.nombre, x.apellido, x.localidad, x.cargo, x.urlFoto)).ToList();
       return Candidatos;
     }
 
@@ -33,15 +34,18 @@ namespace PPS.Controllers
     [HttpGet]
     public IEnumerable<Candidato> Get(String nombre, String apellido)
     {
-      var Candidatos = _db.Candidatos.Select(x => new Candidato(x.nombre, x.apellido, x.cargo))
+      var Candidatos = _db.Candidatos.Select(x => new Candidato(x.nombre, x.apellido, x.localidad, x.cargo, x.urlFoto))
                           .Where(x => x.nombre.ToLower() == nombre.ToLower() &&
                                  x.apellido.ToLower() == apellido.ToLower()).ToList();
       return Candidatos;
     }
 
     [HttpPost]
-    public HttpResponseMessage Add([FromBody] Candidato candidato)
+    public HttpResponseMessage Post([FromBody] CandidatoWEB obj)
     {
+      Cargo cargo = (Cargo)obj.cargo;
+      Localidad localidad = new Localidad(obj.localidad.nombre, new Provincia(obj.localidad.provincia));
+      Candidato candidato = new Candidato(obj.nombre, obj.apellido, localidad, cargo, obj.urlFoto);
       _db.Candidatos.Add(candidato);
       _db.SaveChanges();
       return new HttpResponseMessage();

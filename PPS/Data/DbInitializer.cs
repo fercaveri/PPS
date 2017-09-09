@@ -6,41 +6,42 @@ using PPS.Models;
 
 namespace PPS.Data
 {
-    public class DbInitializer
+  public class DbInitializer
+  {
+
+    public static void Initialize(ConectorDB context)
     {
+      context.Database.EnsureDeleted();
+      context.Database.EnsureCreated();
 
-        public static void Initialize(ConectorDB context)
-        {
-            context.Database.EnsureCreated();
+      if (context.Provincias.Any() || context.Partidos.Any())
+      {
+        return;
+      }
 
-            if (context.Provincias.Any()||context.Partidos.Any())
-            {
-              return;
-            }
-            
-            Provincia provinciaBsAs = new Provincia("Buenos Aires");
-            Provincia provinciaCba = new Provincia("Cordoba");
+      Provincia provinciaBsAs = new Provincia("Buenos Aires");
+      Provincia provinciaCba = new Provincia("Cordoba");
 
-            var provincias = new Provincia[] { provinciaBsAs, provinciaCba };
-            foreach (Provincia p in provincias)
-            {
-                context.Provincias.Add(p);
-            }
+      var provincias = new Provincia[] { provinciaBsAs, provinciaCba };
+      foreach (Provincia p in provincias)
+      {
+        context.Provincias.Add(p);
+      }
 
-            var localidades = new Localidad[]
-            {
+      var localidades = new Localidad[]
+      {
             new Localidad("San Miguel",provinciaBsAs),
             new Localidad("Jose C. Paz",provinciaBsAs),
             new Localidad("Malvinas Argentinas",provinciaBsAs),
             new Localidad("Rio Tercero", provinciaCba),
             new Localidad("Tanti", provinciaCba),
             new Localidad("Pilar", provinciaBsAs)
-            };
-            foreach (Localidad l in localidades )
-            {
-                context.Localidades.Add(l);
-            }
-            context.SaveChanges();
-        }
+      };
+      foreach (Localidad l in localidades)
+      {
+        context.Localidades.Add(l);
+      }
+      context.SaveChanges();
     }
+  }
 }

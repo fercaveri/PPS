@@ -11,8 +11,12 @@ export class CandidatoComponent{
   cargos = [ 'Concejal', 'Diputado Provincial', 'Diputado Nacional', 'Senador Nacional' ]
 
   onSubmit() {
+
       this.submitted = true;
-      let body = JSON.stringify({ "nombre": this.nombre, "apellido": this.apellido, "cargo": this.cargo });
+      let body = {
+              "nombre": this.nombre,
+              "apellido": this.apellido
+      };
       let headers = new Headers({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
       let options = new RequestOptions({ headers: headers });
       this._httpService.post('/api/candidato', body, options).subscribe(response => {
