@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PPS.Data;
 using PPS.Models;
-using PPS.Models_Web;
+using PPS.WebModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +43,7 @@ namespace PPS.Controllers
       List<Localidad> localidadesEnProvincia = new List<Localidad>();
       foreach (Localidad l in Localidades)
       {
-        if(l.provincia != null)
+        if (l.provincia != null)
         {
 
           if (l.provincia.nombreProvincia.Equals(nombreSinGuion))
@@ -56,15 +56,16 @@ namespace PPS.Controllers
     }
 
     [HttpPost]
-    public HttpResponseMessage Add([FromBody] LocalidadWeb localidad)
+    public HttpResponseMessage Add([FromBody] LocalidadWEB localidad)
     {
-      Console.WriteLine(localidad.nombre);
-      Console.WriteLine(localidad.provincia);
-      Provincia prov = _db.Provincias.Find(localidad.provincia);
-      _db.Add(new Localidad(localidad.nombre, prov));
-      _db.SaveChanges();
+      if (_db.Localidades.Find(localidad.nombre) != null)
+      {
+        Provincia prov = _db.Provincias.Find(localidad.provincia);
+        _db.Add(new Localidad(localidad.nombre, prov));
+        _db.SaveChanges();
+        return new HttpResponseMessage();
+      }
       return new HttpResponseMessage();
     }
-
   }
 }

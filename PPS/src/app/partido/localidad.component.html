@@ -16,3 +16,12 @@
 
 {{nombreProvincia}} Prov <br>
 {{nombreLocalidad}} lcoalidad
+
+<p>Baja de localidad</p>
+<label>Nombre de la localidad:</label>
+<select class="form-control" id="power"
+        required
+        [(ngModel)]="nombreLocalidad" name="power">
+  <option *ngFor="let cargo of apiValues" [value]="cargo.nombreLocalidad">{{cargo.nombreLocalidad}}</option>
+</select>
+<button (click)="delete()" type="submit" class="btn btn-success">Borrar</button>

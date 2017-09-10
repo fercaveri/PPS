@@ -30,6 +30,7 @@ namespace PPS.Data
                 context.Provincias.Add(p);
             }
             context.SaveChanges();
+
             context.Localidades.Add(new Localidad("Jose C. Paz", provinciaBsAs));
             context.SaveChanges();
 

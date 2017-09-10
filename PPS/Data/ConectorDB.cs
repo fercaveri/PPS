@@ -18,6 +18,8 @@ namespace PPS.Data
         {
             modelBuilder.Entity<Candidato>().ToTable("Candidatos");
             modelBuilder.Entity<PartidoPolitico>().ToTable("Partidos");
-        }
+            modelBuilder.Entity<PartidoPolitico>().ToTable("Partidos");
+            modelBuilder.Entity<Localidad>().ToTable("Localidades");
+    }
     }
 }

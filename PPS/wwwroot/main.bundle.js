@@ -162,7 +162,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/candidato/candidato.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Formulario alta candidato</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #candidatoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-nombre\">Nombre:</label>\r\n    <input [(ngModel)]=\"nombre\" name=\"nombre\" type=\"text\" class=\"form-control\" id=\"candidato-nombre\"required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-apellido\">Apellido:</label>\r\n    <input [(ngModel)]=\"apellido\" name=\"apellido\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required>\r\n  </div>\r\n\r\n  <label for=\"candidato-cargo\">Cargo:</label>\r\n  <select [(ngModel)]=\"cargo\" name=\"cargo\" class=\"form-control\" id=\"candidato-cargo\" required>\r\n    <option *ngFor=\"let cargo of cargos; let i = index\" [attr.data-index]=\"i\" [value]=\"i\">{{cargo}}</option>\r\n  </select>\r\n\r\n  <button type=\"submit\" class=\"btn btn-success\"\r\n          [disabled]=\"!candidatoForm.form.valid\">\r\n    Submit\r\n  </button>\r\n\r\n  <div *ngIf=submitted>Se envio la info</div>\r\n</form>\r\n\r\n\r\n\r\n\r\n\r\n"
+module.exports = "<h1>Formulario alta candidato</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #candidatoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-nombre\">Nombre:</label>\r\n    <input [(ngModel)]=\"nombre\" name=\"nombre\" type=\"text\" class=\"form-control\" id=\"candidato-nombre\"required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-apellido\">Apellido:</label>\r\n    <input [(ngModel)]=\"apellido\" name=\"apellido\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required>\r\n  </div>\r\n\r\n  <label for=\"candidato-cargo\">Cargo:</label>\r\n  <select [(ngModel)]=\"cargo\" name=\"cargo\" class=\"form-control\" id=\"candidato-cargo\" required>\r\n    <option *ngFor=\"let cargo of cargos; let i = index\" [attr.data-index]=\"i\" [value]=\"i\">{{cargo}}</option>\r\n  </select>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-foto\">URL Foto:</label>\r\n    <input [(ngModel)]=\"foto\" name=\"foto\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required>\r\n  </div>\r\n\r\n  <button type=\"submit\" class=\"btn btn-success\"\r\n          [disabled]=\"!candidatoForm.form.valid\">\r\n    Submit\r\n  </button>\r\n\r\n  <div *ngIf=submitted>Se envio la info</div>\r\n</form>\r\n\r\n\r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -188,14 +188,25 @@ var CandidatoComponent = (function () {
     function CandidatoComponent(_httpService) {
         this._httpService = _httpService;
         this.submitted = false;
-        this.cargos = ['Concejal', 'Diputado Provincial', 'Diputado Nacional', 'Senador Nacional'];
         this.nombre = "";
         this.apellido = "";
         this.cargo = -1;
+        this.foto = "";
+        this.cargos = ['Concejal', 'Diputado Provincial', 'Diputado Nacional', 'Senador Nacional'];
+        this.localidades = [];
+        this.provincias = [];
     }
+    CandidatoComponent.prototype.ngOnInit = function () {
+        this._httpService.get('/api/localidad').subscribe(function (response) {
+            console.log(response);
+        });
+    };
     CandidatoComponent.prototype.onSubmit = function () {
         this.submitted = true;
-        var body = JSON.stringify({ "nombre": this.nombre, "apellido": this.apellido, "cargo": this.cargo });
+        var body = {
+            "nombre": this.nombre,
+            "apellido": this.apellido
+        };
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
         this._httpService.post('/api/candidato', body, options).subscribe(function (response) {
@@ -259,6 +270,12 @@ var LocalidadComponent = (function () {
             console.log(response);
         });
     };
+    LocalidadComponent.prototype.delete = function () {
+        var c = { localidadNombre: this.nombreLocalidad };
+        this._httpService.delete('/api/localidad', c).subscribe(function (response) {
+            console.log(response);
+        });
+    };
     return LocalidadComponent;
 }());
 LocalidadComponent = __decorate([
@@ -278,7 +295,7 @@ var _a;
 /***/ "../../../../../src/app/partido/localidad.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>Listado de localidades</p>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value.nombreLocalidad}}</li>\r\n</ul>\r\n\r\n<p>Alta de localidad</p>\r\n    <label>Nombre de la localidad:</label>\r\n    <input name=\"nombre\" [(ngModel)]=\"nombreLocalidad\" required><br>\r\n    <label>Provincia</label>\r\n    <select class=\"form-control\" id=\"power\"\r\n            required\r\n            [(ngModel)]=\"nombreProvincia\" name=\"power\">\r\n      <option *ngFor=\"let cargo of provincias\" [value]=\"cargo.nombreProvincia\">{{cargo.nombreProvincia}}</option>\r\n    </select>\r\n  <button (click)=\"onSubmit()\" type=\"submit\" class=\"btn btn-success\" >Submit</button>\r\n\r\n{{nombreProvincia}} Prov <br>\r\n{{nombreLocalidad}} lcoalidad\r\n"
+module.exports = "<p>Listado de localidades</p>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value.nombreLocalidad}}</li>\r\n</ul>\r\n\r\n<p>Alta de localidad</p>\r\n    <label>Nombre de la localidad:</label>\r\n    <input name=\"nombre\" [(ngModel)]=\"nombreLocalidad\" required><br>\r\n    <label>Provincia</label>\r\n    <select class=\"form-control\" id=\"power\"\r\n            required\r\n            [(ngModel)]=\"nombreProvincia\" name=\"power\">\r\n      <option *ngFor=\"let cargo of provincias\" [value]=\"cargo.nombreProvincia\">{{cargo.nombreProvincia}}</option>\r\n    </select>\r\n  <button (click)=\"onSubmit()\" type=\"submit\" class=\"btn btn-success\" >Submit</button>\r\n\r\n{{nombreProvincia}} Prov <br>\r\n{{nombreLocalidad}} lcoalidad\r\n\r\n<p>Baja de localidad</p>\r\n<label>Nombre de la localidad:</label>\r\n<select class=\"form-control\" id=\"power\"\r\n        required\r\n        [(ngModel)]=\"nombreLocalidad\" name=\"power\">\r\n  <option *ngFor=\"let cargo of apiValues\" [value]=\"cargo.nombreLocalidad\">{{cargo.nombreLocalidad}}</option>\r\n</select>\r\n<button (click)=\"delete()\" type=\"submit\" class=\"btn btn-success\">Borrar</button>\r\n"
 
 /***/ }),
 

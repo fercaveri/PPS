@@ -27,4 +27,10 @@ export class LocalidadComponent implements OnInit {
             console.log(response);
         });
     }
+    delete() {
+        const c = { localidadNombre: this.nombreLocalidad};
+        this._httpService.delete('/api/localidad', c).subscribe(response => {
+            console.log(response);
+        });
+    }
 }
