@@ -10,7 +10,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace PPS.Controllers
-{ 
+{
   [Route("api/[controller]")]
   public class CandidatoController : Controller
   {
@@ -44,7 +44,18 @@ namespace PPS.Controllers
     public HttpResponseMessage Post([FromBody] CandidatoWEB obj)
     {
       Cargo cargo = (Cargo)obj.cargo;
-      Localidad localidad = new Localidad(obj.localidad.nombre, new Provincia(obj.localidad.provincia));
+
+      Localidad localidad = _db.Localidades.Find(obj.localidad.nombre);
+      if (localidad == null)
+      {
+        Provincia pcia = _db.Provincias.Find(obj.localidad.provincia);
+        if (pcia == null)
+        {
+          pcia = new Provincia(obj.localidad.provincia);
+        }
+        localidad = new Localidad(obj.localidad.nombre, pcia);
+      }
+
       Candidato candidato = new Candidato(obj.nombre, obj.apellido, localidad, cargo, obj.urlFoto);
       _db.Candidatos.Add(candidato);
       _db.SaveChanges();

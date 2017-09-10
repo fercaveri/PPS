@@ -15,6 +15,11 @@
     <option *ngFor="let cargo of cargos; let i = index" [attr.data-index]="i" [value]="i">{{cargo}}</option>
   </select>
 
+  <div class="form-group">
+    <label for="candidato-foto">URL Foto:</label>
+    <input [(ngModel)]="foto" name="foto" type="text" class="form-control" id="candidato-apellido" required>
+  </div>
+
   <button type="submit" class="btn btn-success"
           [disabled]="!candidatoForm.form.valid">
     Submit
