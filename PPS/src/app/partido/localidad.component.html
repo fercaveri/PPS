@@ -1,9 +1,9 @@
-<p>Listado de localidades</p>
+<p><strong>Listado de localidades</strong></p>
 <ul>
   <li *ngFor="let value of apiValues">{{value.nombreLocalidad}}</li>
 </ul>
 
-<p>Alta de localidad</p>
+<p><strong>Alta de localidad</strong></p>
     <label>Nombre de la localidad:</label>
     <input name="nombre" [(ngModel)]="nombreLocalidad" required><br>
     <label>Provincia</label>
@@ -13,11 +13,14 @@
       <option *ngFor="let cargo of provincias" [value]="cargo.nombreProvincia">{{cargo.nombreProvincia}}</option>
     </select>
   <button (click)="onSubmit()" type="submit" class="btn btn-success" >Submit</button>
+<div class="alert alert-success" *ngIf="seAgrego">
+  <strong>Se ha agregado correctamente la localidad</strong>
+</div>
+<div class="alert alert-warning" *ngIf="error">
+  <strong>La localidad que desea agregar ya existe</strong>
+</div>
 
-{{nombreProvincia}} Prov <br>
-{{nombreLocalidad}} lcoalidad
-
-<p>Baja de localidad</p>
+<p><strong>Baja de localidad</strong></p>
 <label>Nombre de la localidad:</label>
 <select class="form-control" id="power"
         required
@@ -25,3 +28,7 @@
   <option *ngFor="let cargo of apiValues" [value]="cargo.nombreLocalidad">{{cargo.nombreLocalidad}}</option>
 </select>
 <button (click)="delete()" type="submit" class="btn btn-success">Borrar</button>
+
+<div class="alert alert-success" *ngIf="seBorro">
+  <strong>Se ha eliminado correctamente la localidad</strong>
+</div>

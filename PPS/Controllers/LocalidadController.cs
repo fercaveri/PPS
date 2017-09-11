@@ -5,8 +5,10 @@ using PPS.WebModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+
 
 namespace PPS.Controllers
 {
@@ -58,14 +60,27 @@ namespace PPS.Controllers
     [HttpPost]
     public HttpResponseMessage Add([FromBody] LocalidadWEB localidad)
     {
-      if (_db.Localidades.Find(localidad.nombre) != null)
+      if (_db.Localidades.Find(localidad.nombre) == null)
       {
         Provincia prov = _db.Provincias.Find(localidad.provincia);
         _db.Add(new Localidad(localidad.nombre, prov));
         _db.SaveChanges();
-        return new HttpResponseMessage();
+        return new HttpResponseMessage(HttpStatusCode.OK);
       }
-      return new HttpResponseMessage();
+      return new HttpResponseMessage(HttpStatusCode.NotModified);
+    }
+
+    [HttpDelete]
+    public HttpResponseMessage Delete(String nombre)
+    {
+      Localidad localidad = _db.Localidades.Find(nombre);
+      if ( localidad != null)
+      {
+        _db.Localidades.Remove(localidad);
+        _db.SaveChanges();
+        return new HttpResponseMessage(HttpStatusCode.OK);
+      }
+      return new HttpResponseMessage(HttpStatusCode.NotAcceptable);
     }
   }
 }

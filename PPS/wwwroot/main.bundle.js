@@ -254,6 +254,9 @@ var LocalidadComponent = (function () {
         this.provincias = [];
         this.nombreProvincia = "";
         this.nombreLocalidad = "";
+        this.seBorro = false;
+        this.error = false;
+        this.seAgrego = false;
     }
     LocalidadComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -265,15 +268,26 @@ var LocalidadComponent = (function () {
         });
     };
     LocalidadComponent.prototype.onSubmit = function () {
+        var _this = this;
         var c = { nombre: this.nombreLocalidad, provincia: this.nombreProvincia };
         this._httpService.post('/api/localidad', c).subscribe(function (response) {
+            console.log(response.arrayBuffer);
             console.log(response);
+            if (response.ok) {
+                _this.seAgrego = true;
+            }
+            else {
+                _this.error = true;
+            }
         });
     };
     LocalidadComponent.prototype.delete = function () {
-        var c = { localidadNombre: this.nombreLocalidad };
-        this._httpService.delete('/api/localidad', c).subscribe(function (response) {
-            console.log(response);
+        var _this = this;
+        this._httpService.delete('/api/localidad/?nombre=' + this.nombreLocalidad).subscribe(function (response) {
+            console.log(response.status);
+            if (response.status == 200) {
+                _this.seBorro = true;
+            }
         });
     };
     return LocalidadComponent;
@@ -295,7 +309,7 @@ var _a;
 /***/ "../../../../../src/app/partido/localidad.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>Listado de localidades</p>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value.nombreLocalidad}}</li>\r\n</ul>\r\n\r\n<p>Alta de localidad</p>\r\n    <label>Nombre de la localidad:</label>\r\n    <input name=\"nombre\" [(ngModel)]=\"nombreLocalidad\" required><br>\r\n    <label>Provincia</label>\r\n    <select class=\"form-control\" id=\"power\"\r\n            required\r\n            [(ngModel)]=\"nombreProvincia\" name=\"power\">\r\n      <option *ngFor=\"let cargo of provincias\" [value]=\"cargo.nombreProvincia\">{{cargo.nombreProvincia}}</option>\r\n    </select>\r\n  <button (click)=\"onSubmit()\" type=\"submit\" class=\"btn btn-success\" >Submit</button>\r\n\r\n{{nombreProvincia}} Prov <br>\r\n{{nombreLocalidad}} lcoalidad\r\n\r\n<p>Baja de localidad</p>\r\n<label>Nombre de la localidad:</label>\r\n<select class=\"form-control\" id=\"power\"\r\n        required\r\n        [(ngModel)]=\"nombreLocalidad\" name=\"power\">\r\n  <option *ngFor=\"let cargo of apiValues\" [value]=\"cargo.nombreLocalidad\">{{cargo.nombreLocalidad}}</option>\r\n</select>\r\n<button (click)=\"delete()\" type=\"submit\" class=\"btn btn-success\">Borrar</button>\r\n"
+module.exports = "<p><strong>Listado de localidades</strong></p>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value.nombreLocalidad}}</li>\r\n</ul>\r\n\r\n<p><strong>Alta de localidad</strong></p>\r\n    <label>Nombre de la localidad:</label>\r\n    <input name=\"nombre\" [(ngModel)]=\"nombreLocalidad\" required><br>\r\n    <label>Provincia</label>\r\n    <select class=\"form-control\" id=\"power\"\r\n            required\r\n            [(ngModel)]=\"nombreProvincia\" name=\"power\">\r\n      <option *ngFor=\"let cargo of provincias\" [value]=\"cargo.nombreProvincia\">{{cargo.nombreProvincia}}</option>\r\n    </select>\r\n  <button (click)=\"onSubmit()\" type=\"submit\" class=\"btn btn-success\" >Submit</button>\r\n<div class=\"alert alert-success\" *ngIf=\"seAgrego\">\r\n  <strong>Se ha agregado correctamente la localidad</strong>\r\n</div>\r\n<div class=\"alert alert-warning\" *ngIf=\"error\">\r\n  <strong>La localidad que desea agregar ya existe</strong>\r\n</div>\r\n\r\n<p><strong>Baja de localidad</strong></p>\r\n<label>Nombre de la localidad:</label>\r\n<select class=\"form-control\" id=\"power\"\r\n        required\r\n        [(ngModel)]=\"nombreLocalidad\" name=\"power\">\r\n  <option *ngFor=\"let cargo of apiValues\" [value]=\"cargo.nombreLocalidad\">{{cargo.nombreLocalidad}}</option>\r\n</select>\r\n<button (click)=\"delete()\" type=\"submit\" class=\"btn btn-success\">Borrar</button>\r\n\r\n<div class=\"alert alert-success\" *ngIf=\"seBorro\">\r\n  <strong>Se ha eliminado correctamente la localidad</strong>\r\n</div>\r\n"
 
 /***/ }),
 

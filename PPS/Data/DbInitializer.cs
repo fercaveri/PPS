@@ -11,13 +11,12 @@ namespace PPS.Data
 
         public static void Initialize(ConectorDB context)
         {
-            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            /*if (context.Provincias.Any()||context.Partidos.Any())
+            if (context.Provincias.Any()||context.Partidos.Any())
             {
               return;
-            }*/
+            }
             
             Provincia provinciaBsAs = new Provincia("Buenos Aires");
             Provincia provinciaCba = new Provincia("Cordoba");

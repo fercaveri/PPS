@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http'
-import { HttpModule } from '@angular/http'
+import { HttpModule, RequestOptions, Headers } from '@angular/http'
 import { NgForm } from '@angular/forms';
 @Component({
     selector: 'localidad',
@@ -13,6 +13,9 @@ export class LocalidadComponent implements OnInit {
     provincias : object[] = [];
     nombreProvincia: String = "";
     nombreLocalidad: String = "";
+    seBorro: boolean = false;
+    error: boolean = false;
+    seAgrego: boolean = false;
     ngOnInit() {
         this._httpService.get('/api/provincia').subscribe(values => {
             this.provincias = values.json() as object[];
@@ -24,13 +27,15 @@ export class LocalidadComponent implements OnInit {
     onSubmit() {
         const c = { nombre: this.nombreLocalidad , provincia: this.nombreProvincia };
         this._httpService.post('/api/localidad', c).subscribe(response => {
-            console.log(response);
+            console.log(response.status);
+            if (response) { this.seAgrego = true; }
+            else { this.error = true; }
         });
     }
     delete() {
-        const c = { localidadNombre: this.nombreLocalidad};
-        this._httpService.delete('/api/localidad', c).subscribe(response => {
-            console.log(response);
+        this._httpService.delete('/api/localidad/?nombre=' + this.nombreLocalidad).subscribe(response => {
+            console.log(response.status);
+            if (response.status == 200) { this.seBorro = true; }
         });
     }
 }
