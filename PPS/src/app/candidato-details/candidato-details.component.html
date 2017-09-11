@@ -1,0 +1,23 @@
+<h1><strong>Detalle de candidato</strong></h1>
+<label>Seleccione un candidato</label>
+<select class="form-control" id="candidato"
+        required
+         [(ngModel)]="candidatoElegido" name="candidato">
+  <option *ngFor="let cand of candidatos" [value]="cand.id">{{cand.nombreCompleto}}</option>
+</select>
+<button (click)="details()" type="submit" class="btn btn-success">Ver detalle</button>
+
+Candidato= {{candidatoElegido}}
+<div *ngFor="let cand of candidatos">
+  <div *ngIf="eligioCandidato">
+    <div *ngIf="cand.id == candidatoElegido">
+      <label>Nombre: </label><input value="{{cand.nombre}}"><br>
+      <label>Apellido: </label><input value="{{cand.apellido}}"><br>
+      <label>Localidad: </label><input value="{{cand.localidad.nombreLocalidad}}"><br>
+      <label>Cargo: </label><input value="{{cand.cargo}}"><br>
+      <label>Foto:</label><input value="{{cand.urlFoto}}"><br>
+      <button type="submit" class="btn btn-success">Editar</button>
+      <button type="submit" class="btn btn-warning">Borrar</button>
+    </div>      
+  </div>
+</div>

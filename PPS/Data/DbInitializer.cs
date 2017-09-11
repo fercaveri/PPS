@@ -12,7 +12,10 @@ namespace PPS.Data
         public static void Initialize(ConectorDB context)
         {
             context.Database.EnsureCreated();
-
+            if (context.Candidatos.Any()) { return; }
+            Candidato presidente = new Candidato("Gaston", "Sturla", context.Localidades.Find("San Miguel"), Cargo.Concejal, "https://image.freepik.com/vector-gratis/hombre-de-la-cara-de-dibujos-animados_17-1006085726.jpg");
+            context.Candidatos.Add(presidente);
+            context.SaveChanges();
             if (context.Provincias.Any()||context.Partidos.Any())
             {
               return;
@@ -31,9 +34,7 @@ namespace PPS.Data
             context.SaveChanges();
 
             context.Localidades.Add(new Localidad("Jose C. Paz", provinciaBsAs));
-            context.SaveChanges();
-
-            
+            context.SaveChanges();            
         }
     }
 }

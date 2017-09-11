@@ -34,7 +34,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Bienvenido al Recuento del Escrutinio</h1>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value.nombreProvincia}}</li>\r\n</ul>\r\n<div class=\"app-menu-wrapper\">\r\n  <div>\r\n    <button (click)=\"(show='consulta')\"> Consultar Localidades </button>\r\n    <button (click)=\"(show='altaPartido')\"> Alta Partido Politico </button>\r\n    <button (click)=\"(show='altaCandidato')\"> Alta Candidato </button>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaPartido'\">\r\n    <partido-politico>\r\n    </partido-politico>\r\n  </div>\r\n  <div *ngIf=\"show == 'consulta'\">\r\n    <localidad>\r\n    </localidad>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaCandidato'\">\r\n    <candidato>\r\n    </candidato>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<h1>Bienvenido al Recuento del Escrutinio</h1>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value.nombreProvincia}}</li>\r\n</ul>\r\n<div class=\"app-menu-wrapper\">\r\n  <div>\r\n    <button (click)=\"(show='localidades')\"> Localidades </button>\r\n    <button (click)=\"(show='altaPartido')\"> Alta Partido Politico </button>\r\n    <button (click)=\"(show='altaCandidato')\"> Alta Candidato </button>\r\n    <button (click)=\"(show='consultaCandidato')\"> Consulta Candidato </button>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaPartido'\">\r\n    <partido-politico>\r\n    </partido-politico>\r\n  </div>\r\n  <div *ngIf=\"show == 'localidades'\">\r\n    <localidad>\r\n    </localidad>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaCandidato'\">\r\n    <candidato>\r\n    </candidato>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaCandidato'\">\r\n    <candidato-details>\r\n    </candidato-details>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -98,12 +98,14 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__candidato_candidato_component__ = __webpack_require__("../../../../../src/app/candidato/candidato.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__candidato_details_candidato_details_component__ = __webpack_require__("../../../../../src/app/candidato-details/candidato-details.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -124,7 +126,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */],
             __WEBPACK_IMPORTED_MODULE_3__partido_partido_component__["a" /* PartidoComponent */],
             __WEBPACK_IMPORTED_MODULE_4__partido_Localidad_component__["a" /* LocalidadComponent */],
-            __WEBPACK_IMPORTED_MODULE_7__candidato_candidato_component__["a" /* CandidatoComponent */]
+            __WEBPACK_IMPORTED_MODULE_7__candidato_candidato_component__["a" /* CandidatoComponent */],
+            __WEBPACK_IMPORTED_MODULE_9__candidato_details_candidato_details_component__["a" /* CandidatoDetailsComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -138,6 +141,83 @@ AppModule = __decorate([
 ], AppModule);
 
 //# sourceMappingURL=app.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/candidato-details/candidato-details.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/candidato-details/candidato-details.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<h1><strong>Detalle de candidato</strong></h1>\n<label>Seleccione un candidato</label>\r\n<select class=\"form-control\" id=\"candidato\"\r\n        required\r\n         [(ngModel)]=\"candidatoElegido\" name=\"candidato\">\r\n  <option *ngFor=\"let cand of candidatos\" [value]=\"cand.id\">{{cand.nombreCompleto}}</option>\r\n</select>\n<button (click)=\"details()\" type=\"submit\" class=\"btn btn-success\">Ver detalle</button>\n\nCandidato= {{candidatoElegido}}\n<div *ngFor=\"let cand of candidatos\">\r\n  <div *ngIf=\"eligioCandidato\">\r\n    <div *ngIf=\"cand.id == candidatoElegido\">\r\n      <label>Nombre: </label><input value=\"{{cand.nombre}}\"><br>\r\n      <label>Apellido: </label><input value=\"{{cand.apellido}}\"><br>\r\n      <label>Localidad: </label><input value=\"{{cand.localidad.nombreLocalidad}}\"><br>\r\n      <label>Cargo: </label><input value=\"{{cand.cargo}}\"><br>\r\n      <label>Foto:</label><input value=\"{{cand.urlFoto}}\"><br>\r\n      <button type=\"submit\" class=\"btn btn-success\">Editar</button>\r\n      <button type=\"submit\" class=\"btn btn-warning\">Borrar</button>\r\n    </div>      \r\n  </div>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/candidato-details/candidato-details.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CandidatoDetailsComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var CandidatoDetailsComponent = (function () {
+    function CandidatoDetailsComponent(_httpService) {
+        this._httpService = _httpService;
+        this.candidatos = [];
+        this.eligioCandidato = false;
+        this.candidatoElegido = -1;
+    }
+    CandidatoDetailsComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this._httpService.get('/api/candidato?nombre=gaston&apellido=sturla').subscribe(function (values) {
+            _this.candidatos = values.json();
+        });
+    };
+    CandidatoDetailsComponent.prototype.details = function () {
+        this.eligioCandidato = true;
+    };
+    CandidatoDetailsComponent.prototype.edit = function () {
+    };
+    return CandidatoDetailsComponent;
+}());
+CandidatoDetailsComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'candidato-details',
+        template: __webpack_require__("../../../../../src/app/candidato-details/candidato-details.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/candidato-details/candidato-details.component.css")]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+], CandidatoDetailsComponent);
+
+var _a;
+//# sourceMappingURL=candidato-details.component.js.map
 
 /***/ }),
 
@@ -271,9 +351,8 @@ var LocalidadComponent = (function () {
         var _this = this;
         var c = { nombre: this.nombreLocalidad, provincia: this.nombreProvincia };
         this._httpService.post('/api/localidad', c).subscribe(function (response) {
-            console.log(response.arrayBuffer);
-            console.log(response);
-            if (response.ok) {
+            console.log(response.status);
+            if (response) {
                 _this.seAgrego = true;
             }
             else {

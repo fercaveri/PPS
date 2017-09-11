@@ -31,7 +31,7 @@ namespace PPS.Controllers
     }
 
     // GET api/candidato?[nombre&apellido]
-    [HttpGet]
+    [HttpGet("{nombre,apellido}")]
     public IEnumerable<Candidato> Get(String nombre, String apellido)
     {
       var Candidatos = _db.Candidatos.Select(x => new Candidato(x.nombre, x.apellido, x.localidad, x.cargo, x.urlFoto))

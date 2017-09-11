@@ -4,20 +4,25 @@
 </ul>
 <div class="app-menu-wrapper">
   <div>
-    <button (click)="(show='consulta')"> Consultar Localidades </button>
+    <button (click)="(show='localidades')"> Localidades </button>
     <button (click)="(show='altaPartido')"> Alta Partido Politico </button>
     <button (click)="(show='altaCandidato')"> Alta Candidato </button>
+    <button (click)="(show='consultaCandidato')"> Consulta Candidato </button>
   </div>
   <div *ngIf="show == 'altaPartido'">
     <partido-politico>
     </partido-politico>
   </div>
-  <div *ngIf="show == 'consulta'">
+  <div *ngIf="show == 'localidades'">
     <localidad>
     </localidad>
   </div>
   <div *ngIf="show == 'altaCandidato'">
     <candidato>
     </candidato>
+  </div>
+  <div *ngIf="show == 'consultaCandidato'">
+    <candidato-details>
+    </candidato-details>
   </div>
 </div>

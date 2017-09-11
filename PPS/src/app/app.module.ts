@@ -7,13 +7,15 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { CandidatoComponent } from './candidato/candidato.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CandidatoDetailsComponent } from './candidato-details/candidato-details.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         PartidoComponent,
         LocalidadComponent,
-        CandidatoComponent
+        CandidatoComponent,
+        CandidatoDetailsComponent
     ],
     imports: [
         BrowserModule,
