@@ -27,7 +27,7 @@ namespace PPS.Controllers
     [HttpGet]
     public IEnumerable<Candidato> Get()
     {
-      var Candidatos = _db.Candidatos.Select(x => new Candidato(x.nombre, x.apellido, x.localidad, x.cargo, x.urlFoto)).ToList();
+      var Candidatos = _db.Candidatos.Select(x => new Candidato(x.id, x.nombre, x.apellido, x.localidad, x.cargo, x.urlFoto)).ToList();
       return Candidatos;
     }
 
@@ -35,7 +35,7 @@ namespace PPS.Controllers
     [HttpGet("{nombre,apellido}")]
     public IEnumerable<Candidato> Get(String nombre, String apellido)
     {
-      var Candidatos = _db.Candidatos.Select(x => new Candidato(x.nombre, x.apellido, x.localidad, x.cargo, x.urlFoto))
+      var Candidatos = _db.Candidatos.Select(x => new Candidato(x.id, x.nombre, x.apellido, x.localidad, x.cargo, x.urlFoto))
                           .Where(x => x.nombre.ToLower() == nombre.ToLower() &&
                                  x.apellido.ToLower() == apellido.ToLower()).ToList();
       return Candidatos;

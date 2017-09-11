@@ -23,6 +23,11 @@ namespace PPS.Models
     public String nombreCompleto { get; set; }
     public Localidad localidad { get; set; }
 
+    public Candidato()
+    {
+
+    }
+
     public Candidato(String nombre, String apellido, Localidad localidad)
     {
       this.urlFoto = "";
