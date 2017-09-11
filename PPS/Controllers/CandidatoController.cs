@@ -6,6 +6,7 @@ using PPS.WebModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -60,6 +61,19 @@ namespace PPS.Controllers
       _db.Candidatos.Add(candidato);
       _db.SaveChanges();
       return new HttpResponseMessage();
+    }
+
+    [HttpDelete]
+    public HttpResponseMessage Delete(int id)
+    {
+      Candidato candidato = _db.Candidatos.Find(id);
+      if (candidato != null)
+      {
+        _db.Candidatos.Remove(candidato);
+        _db.SaveChanges();
+        return new HttpResponseMessage(HttpStatusCode.OK);
+      }
+      return new HttpResponseMessage(HttpStatusCode.NotAcceptable);
     }
   }
 }

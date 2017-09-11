@@ -52,5 +52,16 @@ namespace PPS.Models
       this.nombreCompleto = apellido + ", " + nombre;
       this.localidad = localidad;
     }
+
+    public Candidato(int id, String nombre, String apellido, Localidad localidad, Cargo cargo, String urlFoto)
+    {
+      this.id = id;
+      this.cargo = cargo;
+      this.urlFoto = urlFoto;
+      this.nombre = nombre;
+      this.apellido = apellido;
+      this.nombreCompleto = apellido + ", " + nombre;
+      this.localidad = localidad;
+    }
   }
 }

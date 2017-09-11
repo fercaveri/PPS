@@ -16,8 +16,8 @@ Candidato= {{candidatoElegido}}
       <label>Localidad: </label><input value="{{cand.localidad.nombreLocalidad}}"><br>
       <label>Cargo: </label><input value="{{cand.cargo}}"><br>
       <label>Foto:</label><input value="{{cand.urlFoto}}"><br>
-      <button type="submit" class="btn btn-success">Editar</button>
-      <button type="submit" class="btn btn-warning">Borrar</button>
+      <button (click)="edit()" type="submit" class="btn btn-success">Editar</button>
+      <button (click)="delete()" type="submit" class="btn btn-warning">Borrar</button>
     </div>      
   </div>
 </div>

@@ -165,7 +165,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/candidato-details/candidato-details.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1><strong>Detalle de candidato</strong></h1>\n<label>Seleccione un candidato</label>\r\n<select class=\"form-control\" id=\"candidato\"\r\n        required\r\n         [(ngModel)]=\"candidatoElegido\" name=\"candidato\">\r\n  <option *ngFor=\"let cand of candidatos\" [value]=\"cand.id\">{{cand.nombreCompleto}}</option>\r\n</select>\n<button (click)=\"details()\" type=\"submit\" class=\"btn btn-success\">Ver detalle</button>\n\nCandidato= {{candidatoElegido}}\n<div *ngFor=\"let cand of candidatos\">\r\n  <div *ngIf=\"eligioCandidato\">\r\n    <div *ngIf=\"cand.id == candidatoElegido\">\r\n      <label>Nombre: </label><input value=\"{{cand.nombre}}\"><br>\r\n      <label>Apellido: </label><input value=\"{{cand.apellido}}\"><br>\r\n      <label>Localidad: </label><input value=\"{{cand.localidad.nombreLocalidad}}\"><br>\r\n      <label>Cargo: </label><input value=\"{{cand.cargo}}\"><br>\r\n      <label>Foto:</label><input value=\"{{cand.urlFoto}}\"><br>\r\n      <button type=\"submit\" class=\"btn btn-success\">Editar</button>\r\n      <button type=\"submit\" class=\"btn btn-warning\">Borrar</button>\r\n    </div>      \r\n  </div>\r\n</div>\r\n"
+module.exports = "<h1><strong>Detalle de candidato</strong></h1>\n<label>Seleccione un candidato</label>\r\n<select class=\"form-control\" id=\"candidato\"\r\n        required\r\n         [(ngModel)]=\"candidatoElegido\" name=\"candidato\">\r\n  <option *ngFor=\"let cand of candidatos\" [value]=\"cand.id\">{{cand.nombreCompleto}}</option>\r\n</select>\n<button (click)=\"details()\" type=\"submit\" class=\"btn btn-success\">Ver detalle</button>\n\nCandidato= {{candidatoElegido}}\n<div *ngFor=\"let cand of candidatos\">\r\n  <div *ngIf=\"eligioCandidato\">\r\n    <div *ngIf=\"cand.id == candidatoElegido\">\r\n      <label>Nombre: </label><input value=\"{{cand.nombre}}\"><br>\r\n      <label>Apellido: </label><input value=\"{{cand.apellido}}\"><br>\r\n      <label>Localidad: </label><input value=\"{{cand.localidad.nombreLocalidad}}\"><br>\r\n      <label>Cargo: </label><input value=\"{{cand.cargo}}\"><br>\r\n      <label>Foto:</label><input value=\"{{cand.urlFoto}}\"><br>\r\n      <button (click)=\"edit()\" type=\"submit\" class=\"btn btn-success\">Editar</button>\r\n      <button (click)=\"delete()\" type=\"submit\" class=\"btn btn-warning\">Borrar</button>\r\n    </div>      \r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -196,7 +196,7 @@ var CandidatoDetailsComponent = (function () {
     }
     CandidatoDetailsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._httpService.get('/api/candidato?nombre=gaston&apellido=sturla').subscribe(function (values) {
+        this._httpService.get('/api/candidato').subscribe(function (values) {
             _this.candidatos = values.json();
         });
     };
@@ -204,6 +204,11 @@ var CandidatoDetailsComponent = (function () {
         this.eligioCandidato = true;
     };
     CandidatoDetailsComponent.prototype.edit = function () {
+    };
+    CandidatoDetailsComponent.prototype.delete = function () {
+        this._httpService.delete('/api/candidato/?id=' + this.candidatoElegido).subscribe(function (response) {
+            console.log(response);
+        });
     };
     return CandidatoDetailsComponent;
 }());
@@ -242,7 +247,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/candidato/candidato.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Formulario alta candidato</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #candidatoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-nombre\">Nombre:</label>\r\n    <input [(ngModel)]=\"nombre\" name=\"nombre\" type=\"text\" class=\"form-control\" id=\"candidato-nombre\"required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-apellido\">Apellido:</label>\r\n    <input [(ngModel)]=\"apellido\" name=\"apellido\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required>\r\n  </div>\r\n\r\n  <label for=\"candidato-cargo\">Cargo:</label>\r\n  <select [(ngModel)]=\"cargo\" name=\"cargo\" class=\"form-control\" id=\"candidato-cargo\" required>\r\n    <option *ngFor=\"let cargo of cargos; let i = index\" [attr.data-index]=\"i\" [value]=\"i\">{{cargo}}</option>\r\n  </select>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-foto\">URL Foto:</label>\r\n    <input [(ngModel)]=\"foto\" name=\"foto\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required>\r\n  </div>\r\n\r\n  <button type=\"submit\" class=\"btn btn-success\"\r\n          [disabled]=\"!candidatoForm.form.valid\">\r\n    Submit\r\n  </button>\r\n\r\n  <div *ngIf=submitted>Se envio la info</div>\r\n</form>\r\n\r\n\r\n\r\n\r\n\r\n"
+module.exports = "<h1>Formulario alta candidato</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #candidatoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-nombre\">Nombre:</label>\r\n    <input [(ngModel)]=\"nombre\" name=\"nombre\" type=\"text\" class=\"form-control\" id=\"candidato-nombre\"required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-apellido\">Apellido:</label>\r\n    <input [(ngModel)]=\"apellido\" name=\"apellido\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required>\r\n  </div>\r\n\r\n  <label for=\"candidato-cargo\">Cargo:</label>\r\n  <select [(ngModel)]=\"cargo\" name=\"cargo\" class=\"form-control\" id=\"candidato-cargo\" required>\r\n    <option *ngFor=\"let cargo of cargos; let i = index\" [attr.data-index]=\"i\" [value]=\"i\">{{cargo}}</option>\r\n  </select>\r\n\r\n  <label for=\"candidato-localidad\">Localidad:</label>\r\n  <select [(ngModel)]=\"localidadId\" name=\"localidadId\" class=\"form-control\" id=\"candidato-localidad\" required>\r\n    <option *ngFor=\"let loc of localidades\" [value]=\"loc.id\">{{loc.nombreLocalidad + \" - \" + loc.provincia.nombreProvincia}}</option>\r\n  </select>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-foto\">URL Foto:</label>\r\n    <input [(ngModel)]=\"foto\" name=\"foto\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\">\r\n  </div>\r\n\r\n  <button type=\"submit\" class=\"btn btn-success\"\r\n          [disabled]=\"!candidatoForm.form.valid\">\r\n    Submit\r\n  </button>\r\n\r\n  <div *ngIf=submitted>Se envio la info</div>\r\n</form>\r\n\r\n\r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -272,21 +277,32 @@ var CandidatoComponent = (function () {
         this.apellido = "";
         this.cargo = -1;
         this.foto = "";
+        this.localidadId = -1;
         this.cargos = ['Concejal', 'Diputado Provincial', 'Diputado Nacional', 'Senador Nacional'];
         this.localidades = [];
         this.provincias = [];
     }
     CandidatoComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this._httpService.get('/api/localidad').subscribe(function (response) {
-            console.log(response);
+            _this.localidades = response.json();
+            console.log(_this.localidades);
         });
     };
     CandidatoComponent.prototype.onSubmit = function () {
+        var _this = this;
         this.submitted = true;
+        var loc = this.localidades.filter(function (x) { return x.id == _this.localidadId; })[0];
+        var localidad = { id: loc.id, nombre: loc.nombreLocalidad, provincia: loc.provincia.nombreProvincia };
+        console.log(loc);
         var body = {
-            "nombre": this.nombre,
-            "apellido": this.apellido
+            nombre: this.nombre,
+            apellido: this.apellido,
+            cargo: this.cargo,
+            urlFoto: this.foto,
+            localidad: localidad
         };
+        console.log(body);
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
         this._httpService.post('/api/candidato', body, options).subscribe(function (response) {

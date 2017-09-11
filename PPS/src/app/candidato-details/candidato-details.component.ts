@@ -13,7 +13,7 @@ export class CandidatoDetailsComponent implements OnInit {
   eligioCandidato: boolean = false;
   candidatoElegido: number = -1;
   ngOnInit() {
-      this._httpService.get('/api/candidato?nombre=gaston&apellido=sturla').subscribe(values => {
+      this._httpService.get('/api/candidato').subscribe(values => {
           this.candidatos = values.json() as object[];
       });
   }
@@ -22,5 +22,10 @@ export class CandidatoDetailsComponent implements OnInit {
   }
   edit() {
 
+  }
+  delete() {
+      this._httpService.delete('/api/candidato/?id=' + this.candidatoElegido).subscribe(response => {
+          console.log(response);
+      });
   }
 }

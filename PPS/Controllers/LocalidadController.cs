@@ -73,7 +73,14 @@ namespace PPS.Controllers
     [HttpDelete]
     public HttpResponseMessage Delete(String nombre)
     {
-      Localidad localidad = _db.Localidades.Find(nombre);
+      Localidad localidad = null;
+      foreach (Localidad l in _db.Localidades)
+      {
+        if(l.nombreLocalidad == nombre)
+        {
+          localidad = l;
+        }
+      }
       if ( localidad != null)
       {
         _db.Localidades.Remove(localidad);
