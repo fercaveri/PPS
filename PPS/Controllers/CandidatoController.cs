@@ -45,7 +45,7 @@ namespace PPS.Controllers
     {
       Cargo cargo = (Cargo)obj.cargo;
 
-      Localidad localidad = _db.Localidades.Find(obj.localidad.nombre);
+      Localidad localidad = _db.Localidades.Find(obj.localidad.id);
       if (localidad == null)
       {
         Provincia pcia = _db.Provincias.Find(obj.localidad.provincia);

@@ -8,6 +8,7 @@ namespace PPS.WebModels
 {
   public class LocalidadWEB
   {
+    public int id { get; set; }
     public String nombre { get; set; }
     public String provincia { get; set; }
   }
