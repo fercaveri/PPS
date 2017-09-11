@@ -6,8 +6,8 @@ using PPS.Models;
 
 namespace PPS.Data
 {
-    public class DbInitializer
-    {
+  public class DbInitializer
+  {
 
         public static void Initialize(ConectorDB context)
         {
@@ -26,15 +26,19 @@ namespace PPS.Data
             Provincia provinciaSalta = new Provincia("Salta");
             Provincia provinciaCorrientes = new Provincia("Corrientes");
 
-            var provincias = new Provincia[] { provinciaBsAs, provinciaCba, provinciaSalta , provinciaCorrientes};
-            foreach (Provincia p in provincias)
-            {
-                context.Provincias.Add(p);
-            }
-            context.SaveChanges();
+      var provincias = new Provincia[] { provinciaBsAs, provinciaCba, provinciaSalta, provinciaCorrientes };
+      foreach (Provincia p in provincias)
+      {
+        context.Provincias.Add(p);
+      }
+      context.SaveChanges();
 
-            context.Localidades.Add(new Localidad("Jose C. Paz", provinciaBsAs));
-            context.SaveChanges();            
-        }
+      context.Localidades.Add(new Localidad("Jose C. Paz", provinciaBsAs));
+      context.Localidades.Add(new Localidad("Merlo", provinciaBsAs));
+      context.Localidades.Add(new Localidad("Rio Cuarto", provinciaCba));
+      context.SaveChanges();
+
+
     }
+  }
 }
