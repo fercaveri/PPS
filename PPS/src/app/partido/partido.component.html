@@ -1,22 +1,13 @@
 <h1>Formulario alta partido</h1>
-<form (ngSubmit)="onSubmit()" #altaPartidoForm="ngForm">
-  <div class="form-group">
-    <label for="partido-nombre">Nombre del partido:</label>
-    <input type="text" class="form-control" id="partido-nombre" required>
-  </div>
-
-  <div class="form-group">
-    <label for="partido-lista">Numero de lista del partido:</label>
-    <input type="number" class="form-control" id="partido-lista" required>
-  </div>
-
+<div class="form-group">
+  <label for="partido-nombre">Nombre del partido:</label>
+  <input type="text" class="form-control" id="partido-nombre" [(ngModel)]="nombrePartido" required>
   <label for="partido-Provincia">Provincia del partido:</label>
-  <select class="form-control" id="partido-provincia" required>
-    <option *ngFor="let provincia of provincias" [value]="provincia">{{provincia.nombreProvincia}}</option>
+  <select class="form-control" id="partido-provincia" [(ngModel)]="provincia" required>
+    <option *ngFor="let provincia of provincias" [value]="provincia.nombreProvincia">{{provincia.nombreProvincia}}</option>
   </select>
+</div>
+<button type="submit" class="btn btn-success" (click)="onSubmit()"> Submit </button>
 
-  <button type="submit" class="btn btn-success"
-          [disabled]="!altaPartidoForm.form.valid">Submit</button>
+<div *ngIf=submitted>Se envio la info</div>
 
-  <div *ngIf= submitted>Se envio la info</div>
-</form>

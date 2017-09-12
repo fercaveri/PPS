@@ -11,6 +11,8 @@ export class PartidoComponent implements OnInit {
     apiValues: object[] = [];
     provincias: object[] = [];
     submitted: boolean = false;
+    nombrePartido: String = "";
+    provincia: String = "";
     ngOnInit() {
         this._httpService.get('/api/partidopolitico').subscribe(values => {
             this.apiValues = values.json() as object[];
@@ -21,7 +23,10 @@ export class PartidoComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        //TODO: guardar el nuevo partido
+        const c = { nombrePartido: this.nombrePartido, nombreProvincia: this.provincia };
+        this._httpService.post('/api/partidopolitico', c).subscribe(response => {
+            console.log(response);
+        });
     }
 }
 

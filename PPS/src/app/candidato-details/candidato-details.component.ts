@@ -11,6 +11,12 @@ export class Localidad {
     provincia: Provincia;
 }
 
+export class Partido {
+    numeroLista : number;
+    nombre: String;
+    provincia: Provincia;
+}
+
 export class Candidato {
     id: number;
     nombre: number;
@@ -18,6 +24,7 @@ export class Candidato {
     localidad: Localidad;
     cargo: number;
     urlFoto: string;
+    partido: Partido;
 }
 
 @Component({
