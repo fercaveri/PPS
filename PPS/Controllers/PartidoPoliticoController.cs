@@ -36,7 +36,7 @@ namespace PPS.Controllers
       if (_db.Partidos.Find(partido.numeroLista) == null)
       {
         Provincia prov = _db.Provincias.Find(partido.nombreProvincia);
-        _db.Add(new PartidoPolitico(partido.numeroLista,partido.nombrePartido, prov));
+        _db.Add(new PartidoPolitico(partido.nombrePartido, prov));
         _db.SaveChanges();
         return new HttpResponseMessage(HttpStatusCode.OK);
       }

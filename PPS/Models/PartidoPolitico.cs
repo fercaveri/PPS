@@ -14,10 +14,17 @@ namespace PPS.Models
     public String nombre { get; set; }
     public Provincia provincia { get; set; }
 
-    public PartidoPolitico(int numLista, String nombre, Provincia provincia)
+    public PartidoPolitico(String nombre, Provincia provincia)
     {
-      this.numeroLista = numLista;
       this.nombre = nombre;
+      this.provincia = provincia;
+    }
+
+    public PartidoPolitico(int numeroLista, String nombre, Provincia provincia)
+    {
+      this.numeroLista = numeroLista;
+      this.nombre = nombre;
+      this.provincia = provincia;
     }
 
     public PartidoPolitico() { }

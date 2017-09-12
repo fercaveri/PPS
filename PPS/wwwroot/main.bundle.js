@@ -173,6 +173,9 @@ module.exports = "<h1><strong>Detalle de candidato</strong></h1>\n<label>Selecci
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export Provincia */
+/* unused harmony export Localidad */
+/* unused harmony export Candidato */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CandidatoDetailsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
@@ -187,6 +190,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+var Provincia = (function () {
+    function Provincia() {
+    }
+    return Provincia;
+}());
+
+var Localidad = (function () {
+    function Localidad() {
+    }
+    return Localidad;
+}());
+
+var Candidato = (function () {
+    function Candidato() {
+    }
+    return Candidato;
+}());
+
 var CandidatoDetailsComponent = (function () {
     function CandidatoDetailsComponent(_httpService) {
         this._httpService = _httpService;
@@ -198,6 +219,7 @@ var CandidatoDetailsComponent = (function () {
         var _this = this;
         this._httpService.get('/api/candidato').subscribe(function (values) {
             _this.candidatos = values.json();
+            console.log(_this.candidatos);
         });
     };
     CandidatoDetailsComponent.prototype.details = function () {
@@ -206,8 +228,12 @@ var CandidatoDetailsComponent = (function () {
     CandidatoDetailsComponent.prototype.edit = function () {
     };
     CandidatoDetailsComponent.prototype.delete = function () {
+        var _this = this;
         this._httpService.delete('/api/candidato/?id=' + this.candidatoElegido).subscribe(function (response) {
-            console.log(response);
+            if (response.ok) {
+                _this.candidatos = _this.candidatos.filter(function (cand) { return cand.id !== _this.candidatoElegido; });
+                console.log(response);
+            }
         });
     };
     return CandidatoDetailsComponent;
@@ -247,7 +273,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/candidato/candidato.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Formulario alta candidato</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #candidatoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-nombre\">Nombre:</label>\r\n    <input [(ngModel)]=\"nombre\" name=\"nombre\" type=\"text\" class=\"form-control\" id=\"candidato-nombre\"required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-apellido\">Apellido:</label>\r\n    <input [(ngModel)]=\"apellido\" name=\"apellido\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required>\r\n  </div>\r\n\r\n  <label for=\"candidato-cargo\">Cargo:</label>\r\n  <select [(ngModel)]=\"cargo\" name=\"cargo\" class=\"form-control\" id=\"candidato-cargo\" required>\r\n    <option *ngFor=\"let cargo of cargos; let i = index\" [attr.data-index]=\"i\" [value]=\"i\">{{cargo}}</option>\r\n  </select>\r\n\r\n  <label for=\"candidato-localidad\">Localidad:</label>\r\n  <select [(ngModel)]=\"localidadId\" name=\"localidadId\" class=\"form-control\" id=\"candidato-localidad\" required>\r\n    <option *ngFor=\"let loc of localidades\" [value]=\"loc.id\">{{loc.nombreLocalidad + \" - \" + loc.provincia.nombreProvincia}}</option>\r\n  </select>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-foto\">URL Foto:</label>\r\n    <input [(ngModel)]=\"foto\" name=\"foto\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\">\r\n  </div>\r\n\r\n  <button type=\"submit\" class=\"btn btn-success\"\r\n          [disabled]=\"!candidatoForm.form.valid\">\r\n    Submit\r\n  </button>\r\n\r\n  <div *ngIf=submitted>Se envio la info</div>\r\n</form>\r\n\r\n\r\n\r\n\r\n\r\n"
+module.exports = "<h1>Formulario alta candidato</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #candidatoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-nombre\">Nombre:</label>\r\n    <input [(ngModel)]=\"nombre\" name=\"nombre\" type=\"text\" class=\"form-control\" id=\"candidato-nombre\"required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-apellido\">Apellido:</label>\r\n    <input [(ngModel)]=\"apellido\" name=\"apellido\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required>\r\n  </div>\r\n\r\n  <label for=\"candidato-cargo\">Cargo:</label>\r\n  <select [(ngModel)]=\"cargo\" name=\"cargo\" class=\"form-control\" id=\"candidato-cargo\" required>\r\n    <option *ngFor=\"let cargo of cargos; let i = index\" [attr.data-index]=\"i\" [value]=\"i\">{{cargo}}</option>\r\n  </select>\r\n\r\n  <label for=\"candidato-localidad\">Localidad:</label>\r\n  <select [(ngModel)]=\"localidadId\" name=\"localidadId\" class=\"form-control\" id=\"candidato-localidad\" required>\r\n    <option *ngFor=\"let loc of localidades\" [value]=\"loc.id\">{{loc.nombreLocalidad + \" - \" + loc.provincia.nombreProvincia}}</option>\r\n  </select>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-foto\">URL Foto:</label>\r\n    <input [(ngModel)]=\"foto\" name=\"foto\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\">\r\n  </div>\r\n\r\n  <label for=\"candidato-partido\">Partido Politico:</label>\r\n  <select [(ngModel)]=\"partidoId\" name=\"localidadId\" class=\"form-control\" id=\"candidato-localidad\" required>\r\n    <option *ngFor=\"let loc of localidades\" [value]=\"loc.id\">{{loc.nombreLocalidad + \" - \" + loc.provincia.nombreProvincia}}</option>\r\n  </select>\r\n\r\n  <button type=\"submit\" class=\"btn btn-success\"\r\n          [disabled]=\"!candidatoForm.form.valid\">\r\n    Submit\r\n  </button>\r\n\r\n  <div *ngIf=submitted>Se envio la info</div>\r\n</form>\r\n\r\n\r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -278,6 +304,7 @@ var CandidatoComponent = (function () {
         this.cargo = -1;
         this.foto = "";
         this.localidadId = -1;
+        this.partidoId = -1;
         this.cargos = ['Concejal', 'Diputado Provincial', 'Diputado Nacional', 'Senador Nacional'];
         this.localidades = [];
         this.provincias = [];
@@ -300,7 +327,8 @@ var CandidatoComponent = (function () {
             apellido: this.apellido,
             cargo: this.cargo,
             urlFoto: this.foto,
-            localidad: localidad
+            localidad: localidad,
+            partido: this.partidoId
         };
         console.log(body);
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });

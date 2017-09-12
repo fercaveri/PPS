@@ -19,6 +19,8 @@ namespace PPS.Data
             Provincia provinciaSalta = new Provincia("Salta");
             Provincia provinciaCorrientes = new Provincia("Corrientes");
 
+            PartidoPolitico pro = new PartidoPolitico("Pro", provinciaBsAs);
+
             var provincias = new Provincia[] { provinciaBsAs, provinciaCba, provinciaSalta, provinciaCorrientes };
             if (!context.Provincias.Any())
             {
@@ -39,14 +41,14 @@ namespace PPS.Data
               context.SaveChanges();
             }
             if (!context.Partidos.Any())
-            {
-              context.Partidos.Add(new PartidoPolitico(69, "Pro", provinciaBsAs));
+            { 
+              context.Partidos.Add(pro);
               context.SaveChanges();
             }
             if (!context.Candidatos.Any())
             {
-              Candidato presidente = new Candidato("Gaston", "Sturla", context.Localidades.Find(3), Cargo.Concejal, "https://image.freepik.com/vector-gratis/hombre-de-la-cara-de-dibujos-animados_17-1006085726.jpg");
-              Candidato vice = new Candidato("Fernando", "Caveri", context.Localidades.Find(1), Cargo.SenadorNacional, "https://image.freepik.com/vector-gratis/hombre-de-la-cara-de-dibujos-animados_17-1006085726.jpg");
+              Candidato presidente = new Candidato("Gaston", "Sturla", context.Localidades.Find(3), Cargo.Concejal, "https://image.freepik.com/vector-gratis/hombre-de-la-cara-de-dibujos-animados_17-1006085726.jpg",pro);
+              Candidato vice = new Candidato("Fernando", "Caveri", context.Localidades.Find(1), Cargo.SenadorNacional, "https://image.freepik.com/vector-gratis/hombre-de-la-cara-de-dibujos-animados_17-1006085726.jpg",pro);
               context.Candidatos.Add(presidente);
               context.Candidatos.Add(vice);
               context.SaveChanges();

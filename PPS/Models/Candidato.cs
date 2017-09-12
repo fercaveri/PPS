@@ -74,7 +74,7 @@ namespace PPS.Models
       this.partido = null;
     }
 
-    public Candidato(int id, String nombre, String apellido, Localidad localidad, Cargo cargo, String urlFoto, PartidoPolitico partido)
+    public Candidato(String nombre, String apellido, Localidad localidad, Cargo cargo, String urlFoto, PartidoPolitico partido)
     {
       this.id = id;
       this.cargo = cargo;

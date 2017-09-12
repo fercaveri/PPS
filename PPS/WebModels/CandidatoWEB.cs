@@ -13,5 +13,6 @@ namespace PPS.WebModels
     public String nombre { get; set; }
     public String apellido { get; set; }
     public LocalidadWEB localidad { get; set; }
+    public String partido { get; set; }
   }
 }

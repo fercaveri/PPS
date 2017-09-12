@@ -60,7 +60,7 @@ namespace PPS.Controllers
     [HttpPost]
     public HttpResponseMessage Add([FromBody] LocalidadWEB localidad)
     {
-      if (_db.Localidades.Find(localidad.nombre) == null)
+      if (_db.Localidades.Find(localidad.id) == null)
       {
         Provincia prov = _db.Provincias.Find(localidad.provincia);
         _db.Add(new Localidad(localidad.nombre, prov));

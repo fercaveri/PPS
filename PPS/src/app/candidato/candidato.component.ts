@@ -13,6 +13,7 @@ export class CandidatoComponent {
     cargo: Number = -1;
     foto: String = "";
     localidadId: number = -1;
+    partidoId: number = -1;
     cargos = ['Concejal', 'Diputado Provincial', 'Diputado Nacional', 'Senador Nacional']
     localidades = [];
     provincias = [];
@@ -35,7 +36,8 @@ export class CandidatoComponent {
             apellido: this.apellido,
             cargo: this.cargo,
             urlFoto: this.foto,
-            localidad: localidad
+            localidad: localidad,
+            partido: this.partidoId
         };
         console.log(body);
         let headers = new Headers({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
