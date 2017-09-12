@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PPS.Data;
 using PPS.Models;
+using PPS.WebModels;
+using System.Net.Http;
+using System.Net;
 
 namespace PPS.Controllers
 {
@@ -26,18 +29,18 @@ namespace PPS.Controllers
       return Partidos;
     }
 
-    // POST api/values
+    // POST api/partidopolitico
     [HttpPost]
-    public void Post([FromBody]PartidoPolitico partido)
+    public HttpResponseMessage Add([FromBody]PartidoWEB partido)
     {
-      try
+      if (_db.Partidos.Find(partido.numeroLista) == null)
       {
-        _db.Partidos.Add(partido);
+        Provincia prov = _db.Provincias.Find(partido.nombreProvincia);
+        _db.Add(new PartidoPolitico(partido.numeroLista,partido.nombrePartido, prov));
+        _db.SaveChanges();
+        return new HttpResponseMessage(HttpStatusCode.OK);
       }
-      catch(Exception ex)
-      {
-        Console.WriteLine(ex);
-      }
+      return new HttpResponseMessage(HttpStatusCode.NotModified);
     }
 
     // PUT api/values/5

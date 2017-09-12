@@ -38,6 +38,11 @@ namespace PPS.Data
               context.Localidades.Add(new Localidad("San Miguel", provinciaBsAs));
               context.SaveChanges();
             }
+            if (!context.Partidos.Any())
+            {
+              context.Partidos.Add(new PartidoPolitico(69, "Pro", provinciaBsAs));
+              context.SaveChanges();
+            }
             if (!context.Candidatos.Any())
             {
               Candidato presidente = new Candidato("Gaston", "Sturla", context.Localidades.Find(3), Cargo.Concejal, "https://image.freepik.com/vector-gratis/hombre-de-la-cara-de-dibujos-animados_17-1006085726.jpg");
@@ -45,8 +50,6 @@ namespace PPS.Data
               context.Candidatos.Add(presidente);
               context.Candidatos.Add(vice);
               context.SaveChanges();
-
-
             }
 
 

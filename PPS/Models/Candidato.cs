@@ -22,6 +22,7 @@ namespace PPS.Models
     public String apellido { get; set; }
     public String nombreCompleto { get; set; }
     public Localidad localidad { get; set; }
+    public PartidoPolitico partido { get; set; }
 
     public Candidato()
     {
@@ -36,6 +37,7 @@ namespace PPS.Models
       this.apellido = apellido;
       this.nombreCompleto = apellido + ", " + nombre;
       this.localidad = localidad;
+      this.partido = null;
     }
 
     public Candidato(String nombre, String apellido, Localidad localidad, Cargo cargo)
@@ -46,6 +48,7 @@ namespace PPS.Models
       this.apellido = apellido;
       this.nombreCompleto = apellido + ", " + nombre;
       this.localidad = localidad;
+      this.partido = null;
     }
 
     public Candidato(String nombre, String apellido, Localidad localidad, Cargo cargo, String urlFoto)
@@ -56,6 +59,7 @@ namespace PPS.Models
       this.apellido = apellido;
       this.nombreCompleto = apellido + ", " + nombre;
       this.localidad = localidad;
+      this.partido = null;
     }
 
     public Candidato(int id, String nombre, String apellido, Localidad localidad, Cargo cargo, String urlFoto)
@@ -67,6 +71,19 @@ namespace PPS.Models
       this.apellido = apellido;
       this.nombreCompleto = apellido + ", " + nombre;
       this.localidad = localidad;
+      this.partido = null;
+    }
+
+    public Candidato(int id, String nombre, String apellido, Localidad localidad, Cargo cargo, String urlFoto, PartidoPolitico partido)
+    {
+      this.id = id;
+      this.cargo = cargo;
+      this.urlFoto = urlFoto;
+      this.nombre = nombre;
+      this.apellido = apellido;
+      this.nombreCompleto = apellido + ", " + nombre;
+      this.localidad = localidad;
+      this.partido = partido;
     }
   }
 }
