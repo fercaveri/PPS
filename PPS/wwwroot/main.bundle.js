@@ -273,7 +273,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/candidato/candidato.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Formulario alta candidato</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #candidatoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-nombre\">Nombre:</label>\r\n    <input [(ngModel)]=\"nombre\" name=\"nombre\" type=\"text\" class=\"form-control\" id=\"candidato-nombre\"required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-apellido\">Apellido:</label>\r\n    <input [(ngModel)]=\"apellido\" name=\"apellido\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required>\r\n  </div>\r\n\r\n  <label for=\"candidato-cargo\">Cargo:</label>\r\n  <select [(ngModel)]=\"cargo\" name=\"cargo\" class=\"form-control\" id=\"candidato-cargo\" required>\r\n    <option *ngFor=\"let cargo of cargos; let i = index\" [attr.data-index]=\"i\" [value]=\"i\">{{cargo}}</option>\r\n  </select>\r\n\r\n  <label for=\"candidato-localidad\">Localidad:</label>\r\n  <select [(ngModel)]=\"localidadId\" name=\"localidadId\" class=\"form-control\" id=\"candidato-localidad\" required>\r\n    <option *ngFor=\"let loc of localidades\" [value]=\"loc.id\">{{loc.nombreLocalidad + \" - \" + loc.provincia.nombreProvincia}}</option>\r\n  </select>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-foto\">URL Foto:</label>\r\n    <input [(ngModel)]=\"foto\" name=\"foto\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\">\r\n  </div>\r\n\r\n  <label for=\"candidato-partido\">Partido Politico:</label>\r\n  <select [(ngModel)]=\"partidoId\" name=\"localidadId\" class=\"form-control\" id=\"candidato-localidad\" required>\r\n    <option *ngFor=\"let loc of localidades\" [value]=\"loc.id\">{{loc.nombreLocalidad + \" - \" + loc.provincia.nombreProvincia}}</option>\r\n  </select>\r\n\r\n  <button type=\"submit\" class=\"btn btn-success\"\r\n          [disabled]=\"!candidatoForm.form.valid\">\r\n    Submit\r\n  </button>\r\n\r\n  <div *ngIf=submitted>Se envio la info</div>\r\n</form>\r\n\r\n\r\n\r\n\r\n\r\n"
+module.exports = "<h1>Formulario alta candidato</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #candidatoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-nombre\">Nombre:</label>\r\n    <input [(ngModel)]=\"nombre\" name=\"nombre\" type=\"text\" class=\"form-control\" id=\"candidato-nombre\"required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-apellido\">Apellido:</label>\r\n    <input [(ngModel)]=\"apellido\" name=\"apellido\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required>\r\n  </div>\r\n\r\n  <label for=\"candidato-cargo\">Cargo:</label>\r\n  <select [(ngModel)]=\"cargo\" name=\"cargo\" class=\"form-control\" id=\"candidato-cargo\" required>\r\n    <option *ngFor=\"let cargo of cargos; let i = index\" [attr.data-index]=\"i\" [value]=\"i\">{{cargo}}</option>\r\n  </select>\r\n\r\n  <label for=\"candidato-localidad\">Localidad:</label>\r\n  <select [(ngModel)]=\"localidadId\" name=\"localidadId\" class=\"form-control\" id=\"candidato-localidad\" required>\r\n    <option *ngFor=\"let loc of localidades\" [value]=\"loc.id\">{{loc.nombreLocalidad + \" - \" + loc.provincia.nombreProvincia}}</option>\r\n  </select>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-foto\">URL Foto:</label>\r\n    <input [(ngModel)]=\"foto\" name=\"foto\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\">\r\n  </div>\r\n\r\n  <label for=\"candidato-partido\">Partido Politico:</label>\r\n  <select [(ngModel)]=\"partidoId\" name=\"partidoId\" class=\"form-control\" id=\"candidato-partido\" required>\r\n    <option *ngFor=\"let part of partidos\" [value]=\"part.numeroLista\">{{part.nombre}}</option>\r\n  </select>\r\n\r\n  <button type=\"submit\" class=\"btn btn-success\"\r\n          [disabled]=\"!candidatoForm.form.valid\">\r\n    Submit\r\n  </button>\r\n\r\n  <div *ngIf=submitted>Se envio la info</div>\r\n</form>\r\n\r\n\r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -308,12 +308,17 @@ var CandidatoComponent = (function () {
         this.cargos = ['Concejal', 'Diputado Provincial', 'Diputado Nacional', 'Senador Nacional'];
         this.localidades = [];
         this.provincias = [];
+        this.partidos = [];
     }
     CandidatoComponent.prototype.ngOnInit = function () {
         var _this = this;
         this._httpService.get('/api/localidad').subscribe(function (response) {
             _this.localidades = response.json();
             console.log(_this.localidades);
+        });
+        this._httpService.get('/api/partidopolitico').subscribe(function (response) {
+            _this.partidos = response.json();
+            console.log(_this.partidos);
         });
     };
     CandidatoComponent.prototype.onSubmit = function () {

@@ -26,8 +26,8 @@
   </div>
 
   <label for="candidato-partido">Partido Politico:</label>
-  <select [(ngModel)]="partidoId" name="localidadId" class="form-control" id="candidato-localidad" required>
-    <option *ngFor="let loc of localidades" [value]="loc.id">{{loc.nombreLocalidad + " - " + loc.provincia.nombreProvincia}}</option>
+  <select [(ngModel)]="partidoId" name="partidoId" class="form-control" id="candidato-partido" required>
+    <option *ngFor="let part of partidos" [value]="part.numeroLista">{{part.nombre}}</option>
   </select>
 
   <button type="submit" class="btn btn-success"

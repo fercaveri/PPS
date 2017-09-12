@@ -17,11 +17,16 @@ export class CandidatoComponent {
     cargos = ['Concejal', 'Diputado Provincial', 'Diputado Nacional', 'Senador Nacional']
     localidades = [];
     provincias = [];
+    partidos = [];
 
     ngOnInit() {
         this._httpService.get('/api/localidad').subscribe(response => {
             this.localidades = response.json() as object[];
             console.log(this.localidades);
+        });
+        this._httpService.get('/api/partidopolitico').subscribe(response => {
+            this.partidos = response.json() as object[];
+            console.log(this.partidos);
         });
     }
 
