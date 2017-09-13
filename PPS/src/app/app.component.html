@@ -1,14 +1,11 @@
 <h1>Bienvenido al Recuento del Escrutinio</h1>
-<ul>
-  <li *ngFor="let value of apiValues">{{value.nombreProvincia}}</li>
-</ul>
 <div class="app-menu-wrapper">
   <div>
     <button (click)="(show='localidades')"> Localidades </button>
     <button (click)="(show='altaPartido')"> Alta Partido Politico </button>
+    <button (click)="(show='consultaPartido')"> Consulta Partido Politico </button>
     <button (click)="(show='altaCandidato')"> Alta Candidato </button>
     <button (click)="(show='consultaCandidato')"> Consulta Candidato </button>
-    <button (click)="(show='consultaPartido')"> Consulta Partidos </button>
   </div>
   <div *ngIf="show == 'altaPartido'">
     <partido-politico>
