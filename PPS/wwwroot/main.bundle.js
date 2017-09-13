@@ -165,7 +165,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/candidato-details/candidato-details.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1><strong>Detalle de candidato</strong></h1>\n<label>Seleccione un candidato</label>\r\n<select class=\"form-control\" id=\"candidato\"\r\n        required\r\n         [(ngModel)]=\"candidatoElegido\" name=\"candidato\">\r\n  <option *ngFor=\"let cand of candidatos\" [value]=\"cand.id\">{{cand.nombreCompleto}}</option>\r\n</select>\n<button (click)=\"details()\" type=\"submit\" class=\"btn btn-success\">Ver detalle</button>\n\nCandidato= {{candidatoElegido}}\n<div *ngFor=\"let cand of candidatos\">\r\n  <div *ngIf=\"eligioCandidato\">\r\n    <div *ngIf=\"cand.id == candidatoElegido\">\r\n      <label>Nombre: </label><input value=\"{{cand.nombre}}\"><br>\r\n      <label>Apellido: </label><input value=\"{{cand.apellido}}\"><br>\r\n      <label>Localidad: </label><input value=\"{{cand.localidad.nombreLocalidad}}\"><br>\r\n      <label>Cargo: </label><input value=\"{{cand.cargo}}\"><br>\r\n      <label>Foto:</label><input value=\"{{cand.urlFoto}}\"><br>\r\n      <label>Partido:</label><input value=\"{{cand.partido.nombre}}\"><br>\r\n      <button (click)=\"edit()\" type=\"submit\" class=\"btn btn-success\">Editar</button>\r\n      <button (click)=\"delete()\" type=\"submit\" class=\"btn btn-warning\">Borrar</button>\r\n    </div>      \r\n  </div>\r\n</div>\r\n"
+module.exports = "<h1><strong>Detalle de candidato</strong></h1>\n<label>Seleccione un candidato</label>\r\n<select class=\"form-control\" id=\"candidato\"\r\n        required\r\n         [(ngModel)]=\"candidatoElegido\">\r\n  <option *ngFor=\"let cand of candidatos\" [value]=\"cand.id\">{{cand.nombreCompleto}}</option>\r\n</select>\n<button (click)=\"details()\" type=\"submit\" class=\"btn btn-success\">Ver detalle</button>\n\nCandidato= {{candidatoElegido}}\n<div *ngFor=\"let cand of candidatos\">\r\n  <div *ngIf=\"eligioCandidato\">\r\n    <div *ngIf=\"cand.id == candidatoElegido\">\r\n        <label>Nombre: </label><input [(ngModel)]=\"candidatoEditado.nombre\"><br>\r\n        <label>Apellido: </label><input [(ngModel)]=\"candidatoEditado.apellido\"><br>\r\n        <label>Localidad: </label><input [(ngModel)]=\"candidatoEditado.localidad.nombreLocalidad\"><br>\r\n        <label>Cargo: </label><input [(ngModel)]=\"candidatoEditado.cargo\"><br>\r\n        <label>Foto:</label><input [(ngModel)]=\"candidatoEditado.urlFoto\"><br>\r\n        <label>Partido:</label><input [(ngModel)]=\"candidatoEditado.partido.nombre\"><br>\r\n        <button (click)=\"edit()\" type=\"submit\" class=\"btn btn-success\">Editar</button>\r\n        <button (click)=\"delete()\" type=\"submit\" class=\"btn btn-warning\">Borrar</button>\r\n    </div>      \r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -230,9 +230,23 @@ var CandidatoDetailsComponent = (function () {
         });
     };
     CandidatoDetailsComponent.prototype.details = function () {
+        var _this = this;
         this.eligioCandidato = true;
+        console.log(this.candidatoElegido);
+        this.candidatoEditado = this.candidatos.find(function (x) { return x.id == _this.candidatoElegido; });
+        console.log(this.candidatoEditado);
     };
     CandidatoDetailsComponent.prototype.edit = function () {
+        var body = {
+            nombre: this.candidatoEditado.nombre,
+            apellido: this.candidatoEditado.apellido,
+            cargo: this.candidatoEditado.cargo,
+            urlFoto: this.candidatoEditado.urlFoto,
+            localidad: this.candidatoEditado.localidad,
+            partido: this.candidatoEditado.partido.numeroLista
+        };
+        console.log(body);
+        this._httpService.patch('/api/candidato/?id=' + this.candidatoElegido, body).subscribe();
     };
     CandidatoDetailsComponent.prototype.delete = function () {
         var _this = this;
@@ -469,7 +483,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/partido/partido.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Formulario alta partido</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #partidoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"partido-nombre\">Nombre del partido:</label>\r\n    <input type=\"text\" class=\"form-control\" id=\"partido-nombre\" [(ngModel)]=\"nombrePartido\" name=\"partido-nombre\"required>\r\n    <label for=\"partido-Provincia\">Provincia del partido:</label>\r\n    <select id=\"partido-provincia\" [(ngModel)]=\"provincia\" name=\"partido-provincia\" required>\r\n      <option *ngFor=\"let provincia of provincias\" [value]=\"provincia.nombreProvincia\">{{provincia.nombreProvincia}}</option>\r\n    </select>\r\n  </div>\r\n  <button type=\"submit\" class=\"btn btn-success\" [disabled]=\"!candidatoForm.form.valid\"> Submit </button>\r\n\r\n  <div *ngIf=submitted>Se envio la info</div>\r\n</form>\r\n"
+module.exports = "<h1>Formulario alta partido</h1>\r\n<div class=\"form-group\">\r\n  <label for=\"partido-nombre\">Nombre del partido:</label>\r\n  <input type=\"text\" class=\"form-control\" id=\"partido-nombre\" [(ngModel)]=\"nombrePartido\" required>\r\n  <label for=\"partido-Provincia\">Provincia del partido:</label>\r\n  <select class=\"form-control\" id=\"partido-provincia\" [(ngModel)]=\"provincia\" required>\r\n    <option *ngFor=\"let provincia of provincias\" [value]=\"provincia.nombreProvincia\">{{provincia.nombreProvincia}}</option>\r\n  </select>\r\n</div>\r\n<button type=\"submit\" class=\"btn btn-success\" (click)=\"onSubmit()\"> Submit </button>\r\n\r\n<div *ngIf=submitted>Se envio la info</div>\r\n\r\n"
 
 /***/ }),
 

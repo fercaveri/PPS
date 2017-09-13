@@ -39,6 +39,14 @@ export class CandidatoDetailsComponent implements OnInit {
   candidatos: Candidato[] = [];
   eligioCandidato: boolean = false;
   candidatoElegido: number = -1;
+  candidatoEditado: Candidato;
+  nombre: number;
+  apellido: string;
+  localidad: Localidad;
+  cargo: number;
+  urlFoto: string;
+  partido: Partido;
+  
   ngOnInit() {
       this._httpService.get('/api/candidato').subscribe(values => {
           this.candidatos = values.json() as Candidato[];
@@ -47,9 +55,21 @@ export class CandidatoDetailsComponent implements OnInit {
   }
   details() {
       this.eligioCandidato = true;
+      console.log(this.candidatoElegido);
+      this.candidatoEditado = this.candidatos.find(x => x.id == this.candidatoElegido);
+      console.log(this.candidatoEditado);
   }
   edit() {
-
+      let body = {
+          nombre: this.candidatoEditado.nombre,
+          apellido: this.candidatoEditado.apellido,
+          cargo: this.candidatoEditado.cargo,
+          urlFoto: this.candidatoEditado.urlFoto,
+          localidad: this.candidatoEditado.localidad,
+          partido: this.candidatoEditado.partido.numeroLista
+      };
+      console.log(body);
+      this._httpService.patch('/api/candidato/?id=' + this.candidatoElegido , body).subscribe();
   }
   delete() {
       this._httpService.delete('/api/candidato/?id=' + this.candidatoElegido).subscribe(response => {

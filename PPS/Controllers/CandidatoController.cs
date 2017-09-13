@@ -63,6 +63,28 @@ namespace PPS.Controllers
       return new HttpResponseMessage();
     }
 
+    [HttpPatch]
+    public HttpResponseMessage Edit(int id, [FromBody] CandidatoWEB cand)
+    {
+      Candidato candidato = _db.Candidatos.Find(id);
+      if(candidato != null)
+      {
+        candidato.nombre = cand.nombre;
+        candidato.apellido = cand.apellido;
+        Cargo c;
+        if (cand.cargo == 0) { c = Cargo.Concejal; }
+        else if (cand.cargo == 1) { c = Cargo.DiputadoProvincial; }
+        else if (cand.cargo == 2) { c = Cargo.DiputadoNacional; }
+        else { c = Cargo.SenadorNacional; }
+        candidato.cargo = c;
+        candidato.urlFoto = cand.urlFoto;
+        _db.Update(candidato);
+        _db.SaveChanges();
+        return new HttpResponseMessage(HttpStatusCode.OK);
+      }
+      return new HttpResponseMessage(HttpStatusCode.NotFound);
+    }
+
     [HttpDelete]
     public HttpResponseMessage Delete(int id)
     {
