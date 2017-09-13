@@ -29,6 +29,13 @@ namespace PPS.Controllers
       return Partidos;
     }
 
+    // GET api/candidato
+    [HttpGet("{partido}")]
+    public IEnumerable<Candidato> Lista(String partido)
+    {
+      return _db.Candidatos.Where(x => x.partido.nombre == partido).ToList();
+    }
+
     // POST api/partidopolitico
     [HttpPost]
     public HttpResponseMessage Add([FromBody]PartidoWEB partido)

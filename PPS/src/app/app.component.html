@@ -8,6 +8,7 @@
     <button (click)="(show='altaPartido')"> Alta Partido Politico </button>
     <button (click)="(show='altaCandidato')"> Alta Candidato </button>
     <button (click)="(show='consultaCandidato')"> Consulta Candidato </button>
+    <button (click)="(show='consultaPartido')"> Consulta Partidos </button>
   </div>
   <div *ngIf="show == 'altaPartido'">
     <partido-politico>
@@ -24,5 +25,9 @@
   <div *ngIf="show == 'consultaCandidato'">
     <candidato-details>
     </candidato-details>
+  </div>
+  <div *ngIf="show == 'consultaPartido'">
+    <partido-details>
+    </partido-details>
   </div>
 </div>

@@ -8,6 +8,7 @@ import { HttpModule } from '@angular/http';
 import { CandidatoComponent } from './candidato/candidato.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CandidatoDetailsComponent } from './candidato-details/candidato-details.component';
+import { PartidoDetailsComponent } from './partido-details/partido-details.component';
 
 @NgModule({
     declarations: [
@@ -15,7 +16,8 @@ import { CandidatoDetailsComponent } from './candidato-details/candidato-details
         PartidoComponent,
         LocalidadComponent,
         CandidatoComponent,
-        CandidatoDetailsComponent
+        CandidatoDetailsComponent,
+        PartidoDetailsComponent
     ],
     imports: [
         BrowserModule,

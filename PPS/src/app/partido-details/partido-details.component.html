@@ -1,0 +1,14 @@
+<p>
+  Lista de candidatos
+</p>
+
+<select class="form-control" id="partido"
+        required
+        [(ngModel)]="partido" name="partido">
+  <option *ngFor="let part of partidos" [value]="part.nombre">{{part.nombre}}</option>
+</select>
+<button (click)="onSubmit()" type="submit" class="btn btn-success">Ver Lista</button>
+
+<ul>
+  <li *ngFor="let value of candidatos">Nombre = {{value.nombre}} Apellido = {{value.apellido}} Cargo = {{value.cargo}}</li>
+</ul>
