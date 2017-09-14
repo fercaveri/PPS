@@ -6,16 +6,22 @@ using System.Threading.Tasks;
 
 namespace PPS.Models
 {
-    public class Mesa
+  public class Mesa
+  {
+    public int numero { get; set; }
+    public Localidad localidad { get; set; }
+
+    public Mesa(int numero, Localidad l)
     {
-        [Key]
-        public int numero { get; set; }
-        public Localidad localidad { get; set; }
+      this.numero = numero;
+      this.localidad = l;
+    }
 
-        public Mesa(Localidad l) {
-          this.localidad = l;
-        }
+    public Mesa(Localidad l)
+    {
+      this.localidad = l;
+    }
 
-        public Mesa() { }
+    public Mesa() { }
   }
 }

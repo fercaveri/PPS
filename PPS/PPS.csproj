@@ -34,6 +34,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <TypeScriptCompile Include="src\app\mesa\mesa.component.ts" />
     <TypeScriptCompile Include="src\app\partido\partido.component.ts" />
     <TypeScriptCompile Include="src\app\partido\localidad.component.ts" />
   </ItemGroup>
