@@ -46,6 +46,8 @@ export class CandidatoDetailsComponent implements OnInit {
   cargo: number;
   urlFoto: string;
   partido: Partido;
+  partidos: object[] = [];
+  localidades: object[] = [];
   
   ngOnInit() {
       this._httpService.get('/api/candidato').subscribe(values => {
@@ -58,6 +60,12 @@ export class CandidatoDetailsComponent implements OnInit {
       console.log(this.candidatoElegido);
       this.candidatoEditado = this.candidatos.find(x => x.id == this.candidatoElegido);
       console.log(this.candidatoEditado);
+      this._httpService.get('/api/partidopolitico').subscribe(values => {
+          this.partidos = values.json() as object[];
+      });
+      this._httpService.get('/api/localidad').subscribe(values => {
+          this.localidades = values.json() as object[];
+      });
   }
   edit() {
       let body = {

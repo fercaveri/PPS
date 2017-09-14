@@ -16,7 +16,11 @@ Candidato= {{candidatoElegido}}
         <label>Localidad: </label><input [(ngModel)]="candidatoEditado.localidad.nombreLocalidad"><br>
         <label>Cargo: </label><input [(ngModel)]="candidatoEditado.cargo"><br>
         <label>Foto:</label><input [(ngModel)]="candidatoEditado.urlFoto"><br>
-        <label>Partido:</label><input [(ngModel)]="candidatoEditado.partido.nombre"><br>
+        <label>Partido:</label><select class="form-control" id="candidato"
+                required
+                [(ngModel)]="candidatoEditado.partido.numeroLista">
+          <option *ngFor="let part of partidos" [value]="part.numeroLista">{{part.nombre}}</option>
+        </select>
         <button (click)="edit()" type="submit" class="btn btn-success">Editar</button>
         <button (click)="delete()" type="submit" class="btn btn-warning">Borrar</button>
     </div>      

@@ -77,7 +77,9 @@ namespace PPS.Controllers
         else if (cand.cargo == 2) { c = Cargo.DiputadoNacional; }
         else { c = Cargo.SenadorNacional; }
         candidato.cargo = c;
+        //candidato.localidad = _db.Localidades.Find(cand.localidad.id);
         candidato.urlFoto = cand.urlFoto;
+        candidato.partido = _db.Partidos.Find(cand.partido);
         _db.Update(candidato);
         _db.SaveChanges();
         return new HttpResponseMessage(HttpStatusCode.OK);

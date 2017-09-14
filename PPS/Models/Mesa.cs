@@ -8,6 +8,7 @@ namespace PPS.Models
 {
   public class Mesa
   {
+    [Key]
     public int numero { get; set; }
     public Localidad localidad { get; set; }
 

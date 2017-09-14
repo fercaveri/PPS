@@ -24,8 +24,8 @@ namespace PPS.Data
       modelBuilder.Entity<Localidad>().ToTable("Localidades");
       modelBuilder.Entity<Mesa>().ToTable("Mesas");
 
-      modelBuilder.Entity<Mesa>()
-            .HasKey(a => new { a.numero, a.localidad }); // PKey mixta
+      //modelBuilder.Entity<Mesa>()
+            //.HasKey(a => new { a.numero, a.localidad.id }); // PKey mixta
     }
   }
 }
