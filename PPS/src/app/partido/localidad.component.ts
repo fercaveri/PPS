@@ -27,14 +27,16 @@ export class LocalidadComponent implements OnInit {
     onSubmit() {
         const c = { nombre: this.nombreLocalidad , provincia: this.nombreProvincia };
         this._httpService.post('/api/localidad', c).subscribe(response => {
-            console.log(response.status);
+            console.log(response.text);
+            console.log(response.statusText);
             if (response) { this.seAgrego = true; }
             else { this.error = true; }
         });
     }
     delete() {
         this._httpService.delete('/api/localidad/?nombre=' + this.nombreLocalidad).subscribe(response => {
-            console.log(response.status);
+            console.log(response.text);
+            console.log(response.statusText);
             if (response.status == 200) { this.seBorro = true; }
         });
     }

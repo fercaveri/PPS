@@ -60,12 +60,13 @@ namespace PPS.Controllers
     [HttpPost]
     public HttpResponseMessage Add([FromBody] LocalidadWEB localidad)
     {
-      if (_db.Localidades.Find(localidad.id) == null)
+      Localidad loc = _db.Localidades.Select(x => new Localidad(x.nombreLocalidad, x.provincia)).Where(x => x.nombreLocalidad == localidad.nombre).FirstOrDefault();
+      if (loc == null)
       {
         Provincia prov = _db.Provincias.Find(localidad.provincia);
         _db.Add(new Localidad(localidad.nombre, prov));
         _db.SaveChanges();
-        return new HttpResponseMessage(HttpStatusCode.OK);
+        return new HttpResponseMessage(HttpStatusCode.NotFound);
       }
       return new HttpResponseMessage(HttpStatusCode.NotModified);
     }
