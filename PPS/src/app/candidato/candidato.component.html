@@ -15,10 +15,20 @@
     <option *ngFor="let cargo of cargos; let i = index" [attr.data-index]="i" [value]="i">{{cargo}}</option>
   </select>
 
-  <label for="candidato-localidad">Localidad:</label>
-  <select [(ngModel)]="localidadId" name="localidadId" class="form-control" id="candidato-localidad" required>
-    <option *ngFor="let loc of localidades" [value]="loc.id">{{loc.nombreLocalidad + " - " + loc.provincia.nombreProvincia}}</option>
-  </select>
+  <div *ngIf="cargo==0">
+    <label for="candidato-localidad">Localidad:</label>
+    <select [(ngModel)]="localidadId" name="localidadId" class="form-control" id="candidato-localidad" required>
+      <option *ngFor="let loc of localidades" [value]="loc.id">{{loc.nombreLocalidad + " - " + loc.provincia.nombreProvincia}}</option>
+    </select>
+  </div>
+  <div *ngIf="cargo==1">
+    <label for="candidato-localidad">Provincia:</label>
+    <select [(ngModel)]="provincia" name="provinciaId" class="form-control" id="candidato-provincia" required>
+      <option *ngFor="let prov of provincias" [value]="prov.nombreProvincia">{{prov.nombreProvincia}}</option>
+    </select>
+  </div>
+
+  
 
   <div class="form-group">
     <label for="candidato-foto">URL Foto:</label>

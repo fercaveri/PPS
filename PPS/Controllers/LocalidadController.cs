@@ -27,7 +27,7 @@ namespace PPS.Controllers
     [HttpGet]
     public IEnumerable<Localidad> Get()
     {
-      var Localidades = _db.Localidades.Select(x => new Localidad(x.id, x.nombreLocalidad, x.provincia)).ToList();
+      var Localidades = _db.Localidades.Select(x => new Localidad(x.id, x.nombreLocalidad, x.provincia))/*.Where( x => x.nombreLocalidad!="")*/.ToList();
       return Localidades;
     }
 

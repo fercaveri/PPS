@@ -305,7 +305,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/candidato/candidato.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Formulario alta candidato</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #candidatoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-nombre\">Nombre:</label>\r\n    <input [(ngModel)]=\"nombre\" name=\"nombre\" type=\"text\" class=\"form-control\" id=\"candidato-nombre\"required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-apellido\">Apellido:</label>\r\n    <input [(ngModel)]=\"apellido\" name=\"apellido\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required>\r\n  </div>\r\n\r\n  <label for=\"candidato-cargo\">Cargo:</label>\r\n  <select [(ngModel)]=\"cargo\" name=\"cargo\" class=\"form-control\" id=\"candidato-cargo\" required>\r\n    <option *ngFor=\"let cargo of cargos; let i = index\" [attr.data-index]=\"i\" [value]=\"i\">{{cargo}}</option>\r\n  </select>\r\n\r\n  <label for=\"candidato-localidad\">Localidad:</label>\r\n  <select [(ngModel)]=\"localidadId\" name=\"localidadId\" class=\"form-control\" id=\"candidato-localidad\" required>\r\n    <option *ngFor=\"let loc of localidades\" [value]=\"loc.id\">{{loc.nombreLocalidad + \" - \" + loc.provincia.nombreProvincia}}</option>\r\n  </select>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-foto\">URL Foto:</label>\r\n    <input [(ngModel)]=\"foto\" name=\"foto\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\">\r\n  </div>\r\n\r\n  <label for=\"candidato-partido\">Partido Politico:</label>\r\n  <select [(ngModel)]=\"partidoId\" name=\"partidoId\" class=\"form-control\" id=\"candidato-partido\" required>\r\n    <option *ngFor=\"let part of partidos\" [value]=\"part.numeroLista\">{{part.nombre}}</option>\r\n  </select>\r\n\r\n  <button type=\"submit\" class=\"btn btn-success\"\r\n          [disabled]=\"!candidatoForm.form.valid\">\r\n    Submit\r\n  </button>\r\n\r\n  <div class=\"alert alert-success\" *ngIf=\"submitted\">\r\n    <strong>Se ha agregado correctamente el candidato</strong>\r\n  </div>\r\n  <div class=\"alert alert-warning\" *ngIf=\"error\">\r\n    <strong>Ya existe un candidato en ese cargo dentro del partido seleccionado</strong>\r\n  </div>\r\n</form>\r\n\r\n\r\n\r\n\r\n\r\n"
+module.exports = "<h1>Formulario alta candidato</h1>\r\n<form (ngSubmit)=\"onSubmit()\" #candidatoForm=\"ngForm\">\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-nombre\">Nombre:</label>\r\n    <input [(ngModel)]=\"nombre\" name=\"nombre\" type=\"text\" class=\"form-control\" id=\"candidato-nombre\"required>\r\n  </div>\r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-apellido\">Apellido:</label>\r\n    <input [(ngModel)]=\"apellido\" name=\"apellido\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required>\r\n  </div>\r\n\r\n  <label for=\"candidato-cargo\">Cargo:</label>\r\n  <select [(ngModel)]=\"cargo\" name=\"cargo\" class=\"form-control\" id=\"candidato-cargo\" required>\r\n    <option *ngFor=\"let cargo of cargos; let i = index\" [attr.data-index]=\"i\" [value]=\"i\">{{cargo}}</option>\r\n  </select>\r\n\r\n  <div *ngIf=\"cargo==0\">\r\n    <label for=\"candidato-localidad\">Localidad:</label>\r\n    <select [(ngModel)]=\"localidadId\" name=\"localidadId\" class=\"form-control\" id=\"candidato-localidad\" required>\r\n      <option *ngFor=\"let loc of localidades\" [value]=\"loc.id\">{{loc.nombreLocalidad + \" - \" + loc.provincia.nombreProvincia}}</option>\r\n    </select>\r\n  </div>\r\n  <div *ngIf=\"cargo==1\">\r\n    <label for=\"candidato-localidad\">Provincia:</label>\r\n    <select [(ngModel)]=\"provincia\" name=\"provinciaId\" class=\"form-control\" id=\"candidato-provincia\" required>\r\n      <option *ngFor=\"let prov of provincias\" [value]=\"prov.nombreProvincia\">{{prov.nombreProvincia}}</option>\r\n    </select>\r\n  </div>\r\n\r\n  \r\n\r\n  <div class=\"form-group\">\r\n    <label for=\"candidato-foto\">URL Foto:</label>\r\n    <input [(ngModel)]=\"foto\" name=\"foto\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\">\r\n  </div>\r\n\r\n  <label for=\"candidato-partido\">Partido Politico:</label>\r\n  <select [(ngModel)]=\"partidoId\" name=\"partidoId\" class=\"form-control\" id=\"candidato-partido\" required>\r\n    <option *ngFor=\"let part of partidos\" [value]=\"part.numeroLista\">{{part.nombre}}</option>\r\n  </select>\r\n\r\n  <button type=\"submit\" class=\"btn btn-success\"\r\n          [disabled]=\"!candidatoForm.form.valid\">\r\n    Submit\r\n  </button>\r\n\r\n  <div class=\"alert alert-success\" *ngIf=\"submitted\">\r\n    <strong>Se ha agregado correctamente el candidato</strong>\r\n  </div>\r\n  <div class=\"alert alert-warning\" *ngIf=\"error\">\r\n    <strong>Ya existe un candidato en ese cargo dentro del partido seleccionado</strong>\r\n  </div>\r\n</form>\r\n\r\n\r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -338,6 +338,7 @@ var CandidatoComponent = (function () {
         this.foto = "";
         this.localidadId = -1;
         this.partidoId = -1;
+        this.provincia = "";
         this.cargos = ['Concejal', 'Diputado Provincial', 'Diputado Nacional', 'Senador Nacional'];
         this.localidades = [];
         this.provincias = [];
@@ -353,12 +354,26 @@ var CandidatoComponent = (function () {
             _this.partidos = response.json();
             console.log(_this.partidos);
         });
+        this._httpService.get('/api/provincia').subscribe(function (response) {
+            _this.provincias = response.json();
+            console.log(_this.provincias);
+        });
     };
     CandidatoComponent.prototype.onSubmit = function () {
         var _this = this;
-        var loc = this.localidades.filter(function (x) { return x.id == _this.localidadId; })[0];
-        var localidad = { id: loc.id, nombre: loc.nombreLocalidad, provincia: loc.provincia.nombreProvincia };
+        var localidad;
+        var loc;
+        if (this.cargo == 0) {
+            loc = this.localidades.filter(function (x) { return x.id == _this.localidadId; })[0];
+        }
+        else if (this.cargo == 1) {
+            loc = this.localidades.filter(function (x) { return x.nombreLocalidad == "" && x.provincia.nombreProvincia == _this.provincia; })[0];
+        }
+        else {
+            loc = this.localidades.filter(function (x) { return x.nombreLocalidad == "" && x.provincia.nombreProvincia == "Nacional"; })[0];
+        }
         console.log(loc);
+        localidad = { id: loc.id, nombre: loc.nombreLocalidad, provincia: loc.provincia.nombreProvincia };
         var body = {
             nombre: this.nombre,
             apellido: this.apellido,

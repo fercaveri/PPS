@@ -15,6 +15,7 @@ export class CandidatoComponent {
     foto: String = "";
     localidadId: number = -1;
     partidoId: number = -1;
+    provincia: String = "";
     cargos = ['Concejal', 'Diputado Provincial', 'Diputado Nacional', 'Senador Nacional']
     localidades = [];
     provincias = [];
@@ -29,13 +30,26 @@ export class CandidatoComponent {
             this.partidos = response.json() as object[];
             console.log(this.partidos);
         });
+        this._httpService.get('/api/provincia').subscribe(response => {
+            this.provincias = response.json() as object[];
+            console.log(this.provincias);
+        });
     }
 
     onSubmit() {
-
-        let loc = this.localidades.filter(x => x.id == this.localidadId)[0];
-        let localidad = { id: loc.id, nombre: loc.nombreLocalidad, provincia: loc.provincia.nombreProvincia };
+        let localidad;
+        let loc;
+        if (this.cargo == 0) {
+            loc = this.localidades.filter(x => x.id == this.localidadId)[0];
+        }
+        else if (this.cargo == 1) {
+            loc = this.localidades.filter(x => x.nombreLocalidad == "" && x.provincia.nombreProvincia == this.provincia)[0];
+        }
+        else {
+            loc = this.localidades.filter(x => x.nombreLocalidad == "" && x.provincia.nombreProvincia == "Nacional")[0];
+        }
         console.log(loc);
+        localidad = { id: loc.id, nombre: loc.nombreLocalidad, provincia: loc.provincia.nombreProvincia };
         let body = {
             nombre: this.nombre,
             apellido: this.apellido,
