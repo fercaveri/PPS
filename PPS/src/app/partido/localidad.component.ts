@@ -27,17 +27,17 @@ export class LocalidadComponent implements OnInit {
     onSubmit() {
         const c = { nombre: this.nombreLocalidad , provincia: this.nombreProvincia };
         this._httpService.post('/api/localidad', c).subscribe(response => {
-            console.log(response.text);
-            console.log(response.statusText);
-            if (response) { this.seAgrego = true; }
+            let body = JSON.parse(response.text("legacy"));
+            console.log(body.statusCode);
+            if (body.statusCode == 200) { this.seAgrego = true; }
             else { this.error = true; }
         });
     }
     delete() {
         this._httpService.delete('/api/localidad/?nombre=' + this.nombreLocalidad).subscribe(response => {
-            console.log(response.text);
-            console.log(response.statusText);
-            if (response.status == 200) { this.seBorro = true; }
+            let body = JSON.parse(response.text("legacy"));
+            console.log(body.statusCode);
+            if (body.statusCode == 200) { this.seBorro = true; }
         });
     }
 }

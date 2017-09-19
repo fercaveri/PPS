@@ -66,7 +66,7 @@ namespace PPS.Controllers
         Provincia prov = _db.Provincias.Find(localidad.provincia);
         _db.Add(new Localidad(localidad.nombre, prov));
         _db.SaveChanges();
-        return new HttpResponseMessage(HttpStatusCode.NotFound);
+        return new HttpResponseMessage(HttpStatusCode.OK);
       }
       return new HttpResponseMessage(HttpStatusCode.NotModified);
     }

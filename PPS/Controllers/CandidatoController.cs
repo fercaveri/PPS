@@ -57,10 +57,17 @@ namespace PPS.Controllers
         localidad = new Localidad(obj.localidad.nombre, pcia);
       }
       PartidoPolitico partido = _db.Partidos.Find(obj.partido);
-      Candidato candidato = new Candidato(obj.nombre, obj.apellido, localidad, cargo, obj.urlFoto, partido);
-      _db.Candidatos.Add(candidato);
-      _db.SaveChanges();
-      return new HttpResponseMessage();
+      var Candidatos = _db.Candidatos.Select(x => new Candidato(x.id, x.nombre, x.apellido, x.localidad, x.cargo, x.urlFoto, x.partido))
+                          .Where( x => x.partido.nombre == partido.nombre && x.cargo == cargo).FirstOrDefault();
+      if(Candidatos == null)
+      {
+        Candidato candidato = new Candidato(obj.nombre, obj.apellido, localidad, cargo, obj.urlFoto, partido);
+        _db.Candidatos.Add(candidato);
+        _db.SaveChanges();
+        return new HttpResponseMessage(HttpStatusCode.OK);
+      }
+      return new HttpResponseMessage(HttpStatusCode.NotAcceptable);
+      
     }
 
     [HttpPatch]

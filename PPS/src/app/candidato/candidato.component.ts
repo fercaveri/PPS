@@ -8,6 +8,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 export class CandidatoComponent {
     constructor(private _httpService: Http) { }
     submitted: boolean = false;
+    error: boolean = false;
     nombre: String = "";
     apellido: String = "";
     cargo: Number = -1;
@@ -32,7 +33,6 @@ export class CandidatoComponent {
 
     onSubmit() {
 
-        this.submitted = true;
         let loc = this.localidades.filter(x => x.id == this.localidadId)[0];
         let localidad = { id: loc.id, nombre: loc.nombreLocalidad, provincia: loc.provincia.nombreProvincia };
         console.log(loc);
@@ -48,7 +48,12 @@ export class CandidatoComponent {
         let headers = new Headers({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
         let options = new RequestOptions({ headers: headers });
         this._httpService.post('/api/candidato', body, options).subscribe(response => {
-            console.log(response);
+            let body = JSON.parse(response.text("legacy"));
+            console.log(body.statusCode);
+            if (body.statusCode == 200) {
+                this.submitted = true;
+            }
+            else { this.error = true; }
         });
     }
 }
