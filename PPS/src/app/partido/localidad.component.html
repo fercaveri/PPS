@@ -1,6 +1,8 @@
 <p><strong>Listado de localidades</strong></p>
 <ul>
-  <li *ngFor="let value of apiValues">{{value.nombreLocalidad}}</li>
+  <li *ngFor="let value of localidades">
+      {{value.nombreLocalidad}}
+  </li>
 </ul>
 
 <p><strong>Alta de localidad</strong></p>
@@ -25,7 +27,7 @@
 <select class="form-control" id="power"
         required
         [(ngModel)]="nombreLocalidad" name="power">
-  <option *ngFor="let cargo of apiValues" [value]="cargo.nombreLocalidad">{{cargo.nombreLocalidad}}</option>
+  <option *ngFor="let cargo of localidades" [value]="cargo.nombreLocalidad">{{cargo.nombreLocalidad}}</option>
 </select>
 <button (click)="delete()" type="submit" class="btn btn-success">Borrar</button>
 

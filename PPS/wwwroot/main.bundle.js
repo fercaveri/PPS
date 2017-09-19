@@ -341,22 +341,23 @@ var CandidatoComponent = (function () {
         this.provincia = "";
         this.cargos = ['Concejal', 'Diputado Provincial', 'Diputado Nacional', 'Senador Nacional'];
         this.localidades = [];
+        this.fullLocalidades = [];
         this.provincias = [];
         this.partidos = [];
     }
     CandidatoComponent.prototype.ngOnInit = function () {
         var _this = this;
         this._httpService.get('/api/localidad').subscribe(function (response) {
-            _this.localidades = response.json();
-            console.log(_this.localidades);
+            _this.fullLocalidades = response.json();
         });
         this._httpService.get('/api/partidopolitico').subscribe(function (response) {
             _this.partidos = response.json();
-            console.log(_this.partidos);
         });
         this._httpService.get('/api/provincia').subscribe(function (response) {
             _this.provincias = response.json();
-            console.log(_this.provincias);
+        });
+        this._httpService.get('/api/localidad/true').subscribe(function (values) {
+            _this.localidades = values.json();
         });
     };
     CandidatoComponent.prototype.onSubmit = function () {
@@ -364,13 +365,13 @@ var CandidatoComponent = (function () {
         var localidad;
         var loc;
         if (this.cargo == 0) {
-            loc = this.localidades.filter(function (x) { return x.id == _this.localidadId; })[0];
+            loc = this.fullLocalidades.filter(function (x) { return x.id == _this.localidadId; })[0];
         }
         else if (this.cargo == 1) {
-            loc = this.localidades.filter(function (x) { return x.nombreLocalidad == "" && x.provincia.nombreProvincia == _this.provincia; })[0];
+            loc = this.fullLocalidades.filter(function (x) { return x.nombreLocalidad == "" && x.provincia.nombreProvincia == _this.provincia; })[0];
         }
         else {
-            loc = this.localidades.filter(function (x) { return x.nombreLocalidad == "" && x.provincia.nombreProvincia == "Nacional"; })[0];
+            loc = this.fullLocalidades.filter(function (x) { return x.nombreLocalidad == "" && x.provincia.nombreProvincia == "Nacional"; })[0];
         }
         console.log(loc);
         localidad = { id: loc.id, nombre: loc.nombreLocalidad, provincia: loc.provincia.nombreProvincia };
@@ -517,6 +518,7 @@ var LocalidadComponent = (function () {
         this.provincias = [];
         this.nombreProvincia = "";
         this.nombreLocalidad = "";
+        this.localidades = [];
         this.seBorro = false;
         this.error = false;
         this.seAgrego = false;
@@ -528,6 +530,9 @@ var LocalidadComponent = (function () {
         });
         this._httpService.get('/api/localidad').subscribe(function (values) {
             _this.apiValues = values.json();
+        });
+        this._httpService.get('/api/localidad/true').subscribe(function (values) {
+            _this.localidades = values.json();
         });
     };
     LocalidadComponent.prototype.onSubmit = function () {
@@ -573,7 +578,7 @@ var _a;
 /***/ "../../../../../src/app/partido/localidad.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p><strong>Listado de localidades</strong></p>\r\n<ul>\r\n  <li *ngFor=\"let value of apiValues\">{{value.nombreLocalidad}}</li>\r\n</ul>\r\n\r\n<p><strong>Alta de localidad</strong></p>\r\n    <label>Nombre de la localidad:</label>\r\n    <input name=\"nombre\" [(ngModel)]=\"nombreLocalidad\" required><br>\r\n    <label>Provincia</label>\r\n    <select class=\"form-control\" id=\"power\"\r\n            required\r\n            [(ngModel)]=\"nombreProvincia\" name=\"power\">\r\n      <option *ngFor=\"let cargo of provincias\" [value]=\"cargo.nombreProvincia\">{{cargo.nombreProvincia}}</option>\r\n    </select>\r\n  <button (click)=\"onSubmit()\" type=\"submit\" class=\"btn btn-success\" >Submit</button>\r\n<div class=\"alert alert-success\" *ngIf=\"seAgrego\">\r\n  <strong>Se ha agregado correctamente la localidad</strong>\r\n</div>\r\n<div class=\"alert alert-warning\" *ngIf=\"error\">\r\n  <strong>La localidad que desea agregar ya existe</strong>\r\n</div>\r\n\r\n<p><strong>Baja de localidad</strong></p>\r\n<label>Nombre de la localidad:</label>\r\n<select class=\"form-control\" id=\"power\"\r\n        required\r\n        [(ngModel)]=\"nombreLocalidad\" name=\"power\">\r\n  <option *ngFor=\"let cargo of apiValues\" [value]=\"cargo.nombreLocalidad\">{{cargo.nombreLocalidad}}</option>\r\n</select>\r\n<button (click)=\"delete()\" type=\"submit\" class=\"btn btn-success\">Borrar</button>\r\n\r\n<div class=\"alert alert-success\" *ngIf=\"seBorro\">\r\n  <strong>Se ha eliminado correctamente la localidad</strong>\r\n</div>\r\n"
+module.exports = "<p><strong>Listado de localidades</strong></p>\r\n<ul>\r\n  <li *ngFor=\"let value of localidades\">\r\n      {{value.nombreLocalidad}}\r\n  </li>\r\n</ul>\r\n\r\n<p><strong>Alta de localidad</strong></p>\r\n    <label>Nombre de la localidad:</label>\r\n    <input name=\"nombre\" [(ngModel)]=\"nombreLocalidad\" required><br>\r\n    <label>Provincia</label>\r\n    <select class=\"form-control\" id=\"power\"\r\n            required\r\n            [(ngModel)]=\"nombreProvincia\" name=\"power\">\r\n      <option *ngFor=\"let cargo of provincias\" [value]=\"cargo.nombreProvincia\">{{cargo.nombreProvincia}}</option>\r\n    </select>\r\n  <button (click)=\"onSubmit()\" type=\"submit\" class=\"btn btn-success\" >Submit</button>\r\n<div class=\"alert alert-success\" *ngIf=\"seAgrego\">\r\n  <strong>Se ha agregado correctamente la localidad</strong>\r\n</div>\r\n<div class=\"alert alert-warning\" *ngIf=\"error\">\r\n  <strong>La localidad que desea agregar ya existe</strong>\r\n</div>\r\n\r\n<p><strong>Baja de localidad</strong></p>\r\n<label>Nombre de la localidad:</label>\r\n<select class=\"form-control\" id=\"power\"\r\n        required\r\n        [(ngModel)]=\"nombreLocalidad\" name=\"power\">\r\n  <option *ngFor=\"let cargo of localidades\" [value]=\"cargo.nombreLocalidad\">{{cargo.nombreLocalidad}}</option>\r\n</select>\r\n<button (click)=\"delete()\" type=\"submit\" class=\"btn btn-success\">Borrar</button>\r\n\r\n<div class=\"alert alert-success\" *ngIf=\"seBorro\">\r\n  <strong>Se ha eliminado correctamente la localidad</strong>\r\n</div>\r\n"
 
 /***/ }),
 

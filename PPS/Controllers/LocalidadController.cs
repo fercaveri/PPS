@@ -32,29 +32,12 @@ namespace PPS.Controllers
     }
 
     // GET api/localidad?[nombreProvincia]
-    [HttpGet("{nombreProvincia}")]
-    public IEnumerable<Localidad> Get(String nombreProvincia)
+    [HttpGet("{id}")]
+    public IEnumerable<Localidad> Get(Boolean id)
     {
-      String nombreSinGuion = "";
-      foreach (Char c in nombreProvincia)
-      {
-        if (c == '-') { nombreSinGuion += ' '; }
-        else { nombreSinGuion += c; }
-      }
-      var Localidades = _db.Localidades.Select(x => new Localidad(x.nombreLocalidad, x.provincia)).ToList();
-      List<Localidad> localidadesEnProvincia = new List<Localidad>();
-      foreach (Localidad l in Localidades)
-      {
-        if (l.provincia != null)
-        {
+      var Localidades = _db.Localidades.Select(x => new Localidad(x.id, x.nombreLocalidad, x.provincia)).Where( x => x.nombreLocalidad!="").ToList();
+      return Localidades;
 
-          if (l.provincia.nombreProvincia.Equals(nombreSinGuion))
-          {
-            localidadesEnProvincia.Add(l);
-          }
-        }
-      }
-      return localidadesEnProvincia;
     }
 
     [HttpPost]

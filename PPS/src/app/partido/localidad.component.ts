@@ -13,6 +13,7 @@ export class LocalidadComponent implements OnInit {
     provincias : object[] = [];
     nombreProvincia: String = "";
     nombreLocalidad: String = "";
+    localidades: object[] = [];
     seBorro: boolean = false;
     error: boolean = false;
     seAgrego: boolean = false;
@@ -22,6 +23,9 @@ export class LocalidadComponent implements OnInit {
         });
         this._httpService.get('/api/localidad').subscribe(values => {
             this.apiValues = values.json() as object[];
+        });
+        this._httpService.get('/api/localidad/true').subscribe(values => {
+            this.localidades = values.json() as object[];
         });
     }
     onSubmit() {

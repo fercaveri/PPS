@@ -18,21 +18,22 @@ export class CandidatoComponent {
     provincia: String = "";
     cargos = ['Concejal', 'Diputado Provincial', 'Diputado Nacional', 'Senador Nacional']
     localidades = [];
+    fullLocalidades = [];
     provincias = [];
     partidos = [];
 
     ngOnInit() {
         this._httpService.get('/api/localidad').subscribe(response => {
-            this.localidades = response.json() as object[];
-            console.log(this.localidades);
+            this.fullLocalidades = response.json() as object[];
         });
         this._httpService.get('/api/partidopolitico').subscribe(response => {
             this.partidos = response.json() as object[];
-            console.log(this.partidos);
         });
         this._httpService.get('/api/provincia').subscribe(response => {
             this.provincias = response.json() as object[];
-            console.log(this.provincias);
+        });
+        this._httpService.get('/api/localidad/true').subscribe(values => {
+            this.localidades = values.json() as object[];
         });
     }
 
@@ -40,13 +41,13 @@ export class CandidatoComponent {
         let localidad;
         let loc;
         if (this.cargo == 0) {
-            loc = this.localidades.filter(x => x.id == this.localidadId)[0];
+            loc = this.fullLocalidades.filter(x => x.id == this.localidadId)[0];
         }
         else if (this.cargo == 1) {
-            loc = this.localidades.filter(x => x.nombreLocalidad == "" && x.provincia.nombreProvincia == this.provincia)[0];
+            loc = this.fullLocalidades.filter(x => x.nombreLocalidad == "" && x.provincia.nombreProvincia == this.provincia)[0];
         }
         else {
-            loc = this.localidades.filter(x => x.nombreLocalidad == "" && x.provincia.nombreProvincia == "Nacional")[0];
+            loc = this.fullLocalidades.filter(x => x.nombreLocalidad == "" && x.provincia.nombreProvincia == "Nacional")[0];
         }
         console.log(loc);
         localidad = { id: loc.id, nombre: loc.nombreLocalidad, provincia: loc.provincia.nombreProvincia };
