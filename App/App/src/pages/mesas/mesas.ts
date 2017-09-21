@@ -2,13 +2,11 @@ import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
 
-import { MesasPage } from '../mesas/mesas';
-
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: 'page-mesas',
+  templateUrl: 'mesas.html'
 })
-export class HomePage {
+export class MesasPage {
 
   constructor(public navCtrl: NavController) {
     
@@ -16,9 +14,5 @@ export class HomePage {
   
   onLink(url: string) {
       window.open(url);
-  }
-
-  navToMesas() {
-      this.navCtrl.push(MesasPage);
   }
 }
