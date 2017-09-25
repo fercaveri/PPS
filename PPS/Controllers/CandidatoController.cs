@@ -32,12 +32,11 @@ namespace PPS.Controllers
     }
 
     // GET api/candidato?[nombre&apellido]
-    [HttpGet("{nombre,apellido}")]
-    public IEnumerable<Candidato> Get(String nombre, String apellido)
+    [HttpGet("{localidad}")]
+    public IEnumerable<Candidato> Get(String localidad)
     {
       var Candidatos = _db.Candidatos.Select(x => new Candidato(x.id, x.nombre, x.apellido, x.localidad, x.cargo, x.urlFoto, x.partido))
-                          .Where(x => x.nombre.ToLower() == nombre.ToLower() &&
-                                 x.apellido.ToLower() == apellido.ToLower()).ToList();
+                          .Where(x => x.localidad.nombreLocalidad == localidad || x.cargo != 0).ToList();
       return Candidatos;
     }
 
@@ -59,7 +58,7 @@ namespace PPS.Controllers
       PartidoPolitico partido = _db.Partidos.Find(obj.partido);
       var Candidatos = _db.Candidatos.Select(x => new Candidato(x.id, x.nombre, x.apellido, x.localidad, x.cargo, x.urlFoto, x.partido))
                           .Where( x => x.partido.nombre == partido.nombre && x.cargo == cargo).FirstOrDefault();
-      if(Candidatos == null)
+      if(Candidatos == null || obj.cargo == 0)
       {
         Candidato candidato = new Candidato(obj.nombre, obj.apellido, localidad, cargo, obj.urlFoto, partido);
         _db.Candidatos.Add(candidato);

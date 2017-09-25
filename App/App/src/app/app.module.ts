@@ -4,11 +4,14 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { MesasPage } from '../pages/mesas/mesas';
 
+import { TelegramaPage } from '../pages/telegrama/telegrama';
+
 @NgModule({
     declarations: [
         MyApp,
         HomePage,
-        MesasPage
+        MesasPage,
+        TelegramaPage
     ],
     imports: [
         IonicModule.forRoot(MyApp)
@@ -17,7 +20,8 @@ import { MesasPage } from '../pages/mesas/mesas';
     entryComponents: [
         MyApp,
         HomePage,
-        MesasPage
+        MesasPage,
+        TelegramaPage
     ],
     providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }]
 })

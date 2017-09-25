@@ -34,6 +34,14 @@ namespace PPS.Controllers
     }
 
     // GET api/localidad?[nombreProvincia]
+    [HttpGet("{provincia}")]
+    public IEnumerable<Localidad> Get(String provincia)
+    {
+      var Localidades = _db.Localidades.Select(x => new Localidad(x.id, x.nombreLocalidad, x.provincia)).Where(x => x.provincia.nombreProvincia == provincia && x.nombreLocalidad != "").ToList();
+      return Localidades;
+
+    }
+
     [HttpGet("{id}")]
     public IEnumerable<Localidad> Get(Boolean id)
     {

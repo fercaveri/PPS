@@ -168,7 +168,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/candidato-details/candidato-details.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1><strong>Detalle de candidato</strong></h1>\n<label>Seleccione un candidato</label>\r\n<select class=\"form-control\" id=\"candidato\"\r\n        required\r\n         [(ngModel)]=\"candidatoElegido\">\r\n  <option *ngFor=\"let cand of candidatos\" [value]=\"cand.id\">{{cand.nombreCompleto}}</option>\r\n</select>\n<button (click)=\"details()\" type=\"submit\" class=\"btn btn-success\">Ver detalle</button>\n\nCandidato= {{candidatoElegido}}\n<div *ngFor=\"let cand of candidatos\">\r\n  <div *ngIf=\"eligioCandidato\">\r\n    <div *ngIf=\"cand.id == candidatoElegido\">\r\n        <label>Nombre: </label><input [(ngModel)]=\"candidatoEditado.nombre\"><br>\r\n        <label>Apellido: </label><input [(ngModel)]=\"candidatoEditado.apellido\"><br>\r\n        <label>Cargo: </label><input [(ngModel)]=\"candidatoEditado.cargo\"><br>\r\n        <div *ngIf=\"candidatoEditado.cargo == 0\">\r\n          <label>Localidad: </label><input [(ngModel)]=\"candidatoEditado.localidad.nombreLocalidad\"><br>\r\n        </div>\r\n        <div *ngIf=\"candidatoEditado.cargo == 1\">\r\n          <label>Provincia: </label><input [(ngModel)]=\"candidatoEditado.provincia.nombreProvincia\"><br>\r\n        </div>\r\n        <label>Foto:</label><input [(ngModel)]=\"candidatoEditado.urlFoto\"><br>\r\n        <label>Partido:</label><select class=\"form-control\" id=\"candidato\"\r\n                                       required\r\n                                       [(ngModel)]=\"candidatoEditado.partido.numeroLista\">\r\n          <option *ngFor=\"let part of partidos\" [value]=\"part.numeroLista\">{{part.nombre}}</option>\r\n        </select>\r\n        <button (click)=\"edit()\" type=\"submit\" class=\"btn btn-success\">Editar</button>\r\n        <button (click)=\"delete()\" type=\"submit\" class=\"btn btn-warning\">Borrar</button>\r\n      </div>      \r\n  </div>\r\n</div>\r\n"
+module.exports = "<h1><strong>Detalle de candidato</strong></h1>\r\n<label>Seleccione un candidato</label>\r\n<select class=\"form-control\" id=\"candidato\"\r\n        required\r\n         [(ngModel)]=\"candidatoElegido\">\r\n  <option *ngFor=\"let cand of candidatos\" [value]=\"cand.id\">{{cand.nombreCompleto}}</option>\r\n</select>\r\n<button (click)=\"details()\" type=\"submit\" class=\"btn btn-success\">Ver detalle</button>\r\n\r\nCandidato= {{candidatoElegido}}\r\n<div *ngFor=\"let cand of candidatos\">\r\n  <div *ngIf=\"eligioCandidato\">\r\n    <div *ngIf=\"cand.id == candidatoElegido\">\r\n        <label>Nombre: </label><input [(ngModel)]=\"candidatoEditado.nombre\"><br>\r\n        <label>Apellido: </label><input [(ngModel)]=\"candidatoEditado.apellido\"><br>\r\n        <label>Cargo: </label><input [(ngModel)]=\"candidatoEditado.cargo\"><br>\r\n        <div *ngIf=\"candidatoEditado.cargo == 0\">\r\n          <label>Localidad: </label><input [(ngModel)]=\"candidatoEditado.localidad.nombreLocalidad\"><br>\r\n        </div>\r\n        <div *ngIf=\"candidatoEditado.cargo == 1\">\r\n          <label>Provincia: </label><input [(ngModel)]=\"candidatoEditado.provincia.nombreProvincia\"><br>\r\n        </div>\r\n        <label>Foto:</label><input [(ngModel)]=\"candidatoEditado.urlFoto\"><br>\r\n        <label>Partido:</label><select class=\"form-control\" id=\"candidato\"\r\n                                       required\r\n                                       [(ngModel)]=\"candidatoEditado.partido.numeroLista\">\r\n          <option *ngFor=\"let part of partidos\" [value]=\"part.numeroLista\">{{part.nombre}}</option>\r\n        </select>\r\n        <button (click)=\"edit()\" type=\"submit\" class=\"btn btn-success\">Editar</button>\r\n        <button (click)=\"delete()\" type=\"submit\" class=\"btn btn-warning\">Borrar</button>\r\n      </div>      \r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -434,7 +434,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/partido-details/partido-details.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  Lista de candidatos\n</p>\n\n<select class=\"form-control\" id=\"partido\"\r\n        required\r\n        [(ngModel)]=\"partido\" name=\"partido\">\r\n  <option *ngFor=\"let part of partidos\" [value]=\"part.nombre\">{{part.nombre}}</option>\r\n</select>\r\n<button (click)=\"onSubmit()\" type=\"submit\" class=\"btn btn-success\">Ver Lista</button>\n\n<ul>\r\n  <li *ngFor=\"let value of candidatos\">Nombre = {{value.nombre}} Apellido = {{value.apellido}} Cargo = {{value.cargo}}</li>\r\n</ul>\r\n"
+module.exports = "<p>\r\n  Lista de candidatos\r\n</p>\r\n\r\n<select class=\"form-control\" id=\"partido\"\r\n        required\r\n        [(ngModel)]=\"partido\" name=\"partido\">\r\n  <option *ngFor=\"let part of partidos\" [value]=\"part.nombre\">{{part.nombre}}</option>\r\n</select>\r\n<button (click)=\"onSubmit()\" type=\"submit\" class=\"btn btn-success\">Ver Lista</button>\r\n\r\n<ul>\r\n  <li *ngFor=\"let value of candidatos\">Nombre = {{value.nombre}} Apellido = {{value.apellido}} Cargo = {{value.cargo}}</li>\r\n</ul>\r\n"
 
 /***/ }),
 
@@ -528,10 +528,10 @@ var LocalidadComponent = (function () {
         this._httpService.get('/api/provincia').subscribe(function (values) {
             _this.provincias = values.json();
         });
-        this._httpService.get('/api/localidad').subscribe(function (values) {
-            _this.apiValues = values.json();
-        });
-        this._httpService.get('/api/localidad/true').subscribe(function (values) {
+        /*this._httpService.get('/api/localidad').subscribe(values => {
+            this.apiValues = values.json() as object[];
+        });*/
+        this._httpService.get('/api/localidad/cordoba').subscribe(function (values) {
             _this.localidades = values.json();
         });
     };
