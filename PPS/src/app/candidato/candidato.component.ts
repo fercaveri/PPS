@@ -1,10 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
+
+export class Provincia {
+    nombreProvincia: string;
+}
+
+export class Localidad {
+    id: number;
+    nombreLocalidad: string;
+    provincia: Provincia;
+}
+
 @Component({
     selector: 'candidato',
     templateUrl: './candidato.component.html',
     styleUrls: ['./candidato.component.css']
 })
+
 export class CandidatoComponent {
     constructor(private _httpService: Http) { }
     submitted: boolean = false;
@@ -50,7 +62,7 @@ export class CandidatoComponent {
             loc = this.fullLocalidades.filter(x => x.nombreLocalidad == "" && x.provincia.nombreProvincia == "Nacional")[0];
         }
         console.log(loc);
-        localidad = { id: loc.id, nombre: loc.nombreLocalidad, provincia: loc.provincia.nombreProvincia };
+        localidad = { id: loc.id, nombreLocalidad: loc.nombreLocalidad, provincia: { nombreProvincia: loc.provincia.nombreProvincia }};
         let body = {
             nombre: this.nombre,
             apellido: this.apellido,

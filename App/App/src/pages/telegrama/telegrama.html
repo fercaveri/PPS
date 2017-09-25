@@ -17,10 +17,10 @@
       <ion-list-header>
         {{partido.nombre}}
       </ion-list-header>
-      <ng-container *ngFor="let candidato of candidatos">
+      <ng-container *ngFor="let candidato of candidatos; let in = index">
         <ion-item *ngIf="candidato.partido.nombre == partido.nombre">
           <ion-label>{{candidato.nombre}} {{candidato.apellido}}</ion-label>
-          <ion-input type="number" placeholder="votos" [(ngModel)]="candidato.votos" name="votos"></ion-input>
+          <ion-input type="number" placeholder="votos" [(ngModel)]="candidato.votos" name="votos-{{in}}"></ion-input>
         </ion-item>
       </ng-container>
     </ion-list>
