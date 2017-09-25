@@ -17,6 +17,7 @@ export class TelegramaPage{
     constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
         this.mesa = navParams.get('mesa');
         this.localidad = navParams.get('localidad');
+        console.log(this.localidad);
         this.getPartidos();
         this.getCandidatos();
     }
@@ -40,7 +41,7 @@ export class TelegramaPage{
         });
     }
     getCandidatos() {
-        this.http.get('http://localhost:59473/api/candidato' + this.localidad + '/').map(res => res.json()).subscribe(data => {
+        this.http.get('http://localhost:59473/api/candidato/' + this.localidad + '/').map(res => res.json()).subscribe(data => {
             this.candidatos = data;
             console.log(this.candidatos);
         });
