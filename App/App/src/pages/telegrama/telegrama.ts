@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
@@ -8,14 +8,16 @@ import 'rxjs/add/operator/map';
     selector: 'telegrama',
     templateUrl: 'telegrama.html'
 })
-export class TelegramaPage {
+export class TelegramaPage{
     partidos: Partido[] = [];
     candidatos: Candidato[] = [];
     candidatosPartido: object[] = [];
-    todo = {}
-    constructor(public navCtrl: NavController, public http: Http) {
+    mesa: number = 0;
+    constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
         this.getPartidos();
         this.getCandidatos();
+        this.mesa = navParams.get('mesa');
+        console.log(this.mesa);
     }
     logForm() {
         console.log(this.candidatos)
@@ -26,7 +28,6 @@ export class TelegramaPage {
                 candidato: cand.id
             };
             this.http.post('http://localhost:59473/api/recuento', c).subscribe(response => {
-                //let body = JSON.parse(response.text("legacy"));
                 console.log(response.status);
             });
         }

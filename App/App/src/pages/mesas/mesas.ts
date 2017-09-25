@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
 import { Http } from '@angular/http';
+import { TelegramaPage } from '../telegrama/telegrama';
 import 'rxjs/add/operator/map';
 
 @Component({
@@ -13,6 +14,7 @@ export class MesasPage {
     provincia: String = "";
     localidadesProvincia: object[] = [];
     localidad: String = "";
+    mesa: number = 0;
     mesasLocalidades: object[] = [];
     constructor(public navCtrl: NavController, public http: Http) {
         this.http.get('http://localhost:59473/api/provincia').map(res => res.json()).subscribe(data => {
@@ -36,5 +38,14 @@ export class MesasPage {
             console.log(data);
             this.mesasLocalidades = data;
         });
+    }
+    buscarCandidatos(mesa: number) {
+        this.mesa = mesa;
+        console.log(mesa);
+        console.log(this.mesa);
+    }
+
+    nav() {
+        this.navCtrl.push(TelegramaPage, {mesa : this.mesa});
     }
 }
