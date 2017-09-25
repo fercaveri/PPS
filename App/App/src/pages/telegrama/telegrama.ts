@@ -12,9 +12,13 @@ export class TelegramaPage {
     partidos: object[] = [];
     candidatos: object[] = [];
     candidatosPartido: object[] = [];
+    todo = {}
     constructor(public navCtrl: NavController, public http: Http) {
         this.getPartidos();
         this.getCandidatos();
+    }
+    logForm() {
+        console.log(this.candidatos)
     }
     getPartidos() {
         this.http.get('http://localhost:59473/api/partidopolitico').map(res => res.json()).subscribe(data => {

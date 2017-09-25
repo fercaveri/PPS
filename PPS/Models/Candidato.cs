@@ -23,6 +23,7 @@ namespace PPS.Models
     public String nombreCompleto { get; set; }
     public Localidad localidad { get; set; }
     public PartidoPolitico partido { get; set; }
+    public int votos { get; set; }
 
     public Candidato()
     {

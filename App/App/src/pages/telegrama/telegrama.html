@@ -12,18 +12,20 @@
       Lista de partidos
     </ion-card-header>
   </ion-card>
-  <ion-list *ngFor="let partido of partidos">
-    <ion-list-header>
-      {{partido.nombre}}
-    </ion-list-header>
-    <ng-container *ngFor="let candidato of candidatos">
-      <ion-item *ngIf="candidato.partido.nombre == partido.nombre">
-        <ion-label>{{candidato.nombre}} {{candidato.apellido}}</ion-label>
-        <ion-input type="number" placeholder="votos"></ion-input>
-      </ion-item>
-    </ng-container>
-  </ion-list>
+  <form (ngSubmit)="logForm()">
+    <ion-list *ngFor="let partido of partidos">
+      <ion-list-header>
+        {{partido.nombre}}
+      </ion-list-header>
+      <ng-container *ngFor="let candidato of candidatos">
+        <ion-item *ngIf="candidato.partido.nombre == partido.nombre">
+          <ion-label>{{candidato.nombre}} {{candidato.apellido}}</ion-label>
+          <ion-input type="number" placeholder="votos" [(ngModel)]="candidato.votos" name="votos"></ion-input>
+        </ion-item>
+      </ng-container>
+    </ion-list>
 
-  <button ion-button color="secondary">Submit</button>
+    <button ion-button color="secondary" type="submit">Submit</button>
+    </form>
 </ion-content>
 
