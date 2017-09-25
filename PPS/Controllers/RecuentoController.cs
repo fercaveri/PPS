@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace PPS.Controllers
 {
-    public class RecuentoController : Controller
+  [Route("api/[controller]")]
+  public class RecuentoController : Controller
     {
     private ConectorDB _db;
 
@@ -22,8 +23,17 @@ namespace PPS.Controllers
     [HttpPost]
     public HttpResponseMessage Post([FromBody] RecuentoWEB obj)
     {
-      //_db.Recuentos.Add(new Models.Recuento(obj.mesa, obj.candidato, obj.votos));
-      return new HttpResponseMessage(HttpStatusCode.OK);
+      var candidato = _db.Candidatos.Find(obj.candidato);
+      var mesa = _db.Mesas.Find(obj.mesa);
+      Console.WriteLine(obj.candidato);
+      Console.WriteLine(obj.mesa);
+      if(mesa != null && candidato != null)
+      {
+        _db.Recuentos.Add(new Models.Recuento(candidato, obj.votos, mesa ));
+        _db.SaveChanges();
+        return new HttpResponseMessage(HttpStatusCode.OK);
+      }
+      return new HttpResponseMessage(HttpStatusCode.NotAcceptable);
     }
     }
 }
