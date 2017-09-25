@@ -33,10 +33,10 @@ namespace PPS.Controllers
 
     // GET api/candidato?[nombre&apellido]
     [HttpGet("{localidad}")]
-    public IEnumerable<Mesa> Get(int localidad)
+    public IEnumerable<Mesa> Get(String localidad)
     {
       var Mesas = _db.Mesas.Select(x => new Mesa(x.numero, x.localidad))
-                          .Where(x => x.localidad.id == localidad).ToList();
+                          .Where(x => x.localidad.nombreLocalidad == localidad).ToList();
       return Mesas;
     }
 
