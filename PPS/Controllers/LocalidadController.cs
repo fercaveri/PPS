@@ -40,6 +40,14 @@ namespace PPS.Controllers
 
     }
 
+    [HttpGet("{id}")]
+    public IEnumerable<Localidad> Get(Boolean id)
+    {
+      var Localidades = _db.Localidades.Select(x => new Localidad(x.id, x.nombreLocalidad, x.provincia)).Where(x => x.nombreLocalidad != "").ToList();
+      return Localidades;
+
+    }
+
     [HttpPost]
     public HttpResponseMessage Add([FromBody] LocalidadWEB localidad)
     {

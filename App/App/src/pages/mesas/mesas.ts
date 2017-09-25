@@ -46,6 +46,6 @@ export class MesasPage {
     }
 
     nav() {
-        this.navCtrl.push(TelegramaPage, {mesa : this.mesa});
+        this.navCtrl.push(TelegramaPage, { mesa: this.mesa, localidad: this.localidad });
     }
 }
