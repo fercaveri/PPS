@@ -21,10 +21,10 @@ export class LocalidadComponent implements OnInit {
         this._httpService.get('/api/provincia').subscribe(values => {
             this.provincias = values.json() as object[];
         });
-        this._httpService.get('/api/localidad').subscribe(values => {
+        /*this._httpService.get('/api/localidad').subscribe(values => {
             this.apiValues = values.json() as object[];
-        });
-        this._httpService.get('/api/localidad/true').subscribe(values => {
+        });*/
+        this._httpService.get('/api/localidad/cordoba').subscribe(values => {
             this.localidades = values.json() as object[];
         });
     }

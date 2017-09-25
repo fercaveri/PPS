@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
 	  <TargetFramework>net461</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <ItemGroup>
