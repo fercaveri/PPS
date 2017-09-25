@@ -4,6 +4,8 @@ import { NavController } from 'ionic-angular';
 
 import { MesasPage } from '../mesas/mesas';
 
+import { TelegramaPage } from '../telegrama/telegrama';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -20,5 +22,9 @@ export class HomePage {
 
   navToMesas() {
       this.navCtrl.push(MesasPage);
+  }
+
+  navToGrilla() {
+      this.navCtrl.push(TelegramaPage);
   }
 }
