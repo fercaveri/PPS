@@ -33,11 +33,12 @@ namespace PPS.Controllers
       return Localidades;
     }
 
-    // GET api/localidad?[nombreProvincia]
-    [HttpGet("{provincia}")]
+    // GET api/localidad/getbyprov
+    [HttpGet]
+    [Route("getbyprov")]
     public IEnumerable<Localidad> Get(String provincia)
     {
-      var Localidades = _db.Localidades.Select(x => new Localidad(x.id, x.nombreLocalidad, x.provincia)).Where(x => x.provincia.nombreProvincia == provincia && x.nombreLocalidad != "").ToList();
+      var Localidades = _db.Localidades.Where(x => x.provincia.nombreProvincia == provincia && x.nombreLocalidad != "").Include(x => x.provincia).ToList();
       return Localidades;
 
     }

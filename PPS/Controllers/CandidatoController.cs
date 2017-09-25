@@ -27,7 +27,7 @@ namespace PPS.Controllers
     [HttpGet]
     public IEnumerable<Candidato> Get()
     {
-      var Candidatos = _db.Candidatos.Select(x => new Candidato(x.id, x.nombre, x.apellido, x.localidad, x.cargo, x.urlFoto, x.partido)).ToList();
+      var Candidatos = _db.Candidatos.Include(x => x.localidad).Include(x => x.localidad.provincia).Include(x => x.partido).ToList();
       return Candidatos;
     }
 
@@ -35,9 +35,23 @@ namespace PPS.Controllers
     [HttpGet("{localidad}")]
     public IEnumerable<Candidato> Get(String localidad)
     {
-      var Candidatos = _db.Candidatos.Select(x => new Candidato(x.id, x.nombre, x.apellido, x.localidad, x.cargo, x.urlFoto, x.partido))
-                          .Where(x => x.localidad.nombreLocalidad == localidad || x.cargo != 0).ToList();
+      var Candidatos = _db.Candidatos.Where(x => x.localidad.nombreLocalidad == localidad || x.cargo != 0).Include(x => x.localidad)
+                                     .Include(x => x.localidad.provincia).Include(x => x.partido).ToList();
       return Candidatos;
+    }
+
+    // GET api/candidato/getcargos
+    [HttpGet]
+    [Route("getcargos")]
+    public List<CargoWEB> GetCargos()
+    {
+      var Cargos = Enum.GetValues(typeof(Cargo)).Cast<Cargo>();
+      var Lista = new List<CargoWEB>();
+      foreach (Cargo cargo in Cargos)
+      {
+        Lista.Add(new CargoWEB((int)cargo, cargo.ToString()));
+      }
+      return Lista;
     }
 
     [HttpPost]
@@ -51,9 +65,9 @@ namespace PPS.Controllers
         Provincia pcia = _db.Provincias.Find(obj.localidad.provincia);
         if (pcia == null)
         {
-          pcia = new Provincia(obj.localidad.provincia);
+          pcia = new Provincia(obj.localidad.provincia.nombreProvincia);
         }
-        localidad = new Localidad(obj.localidad.nombre, pcia);
+        localidad = new Localidad(obj.localidad.nombreLocalidad, pcia);
       }
       PartidoPolitico partido = _db.Partidos.Find(obj.partido);
       var Candidatos = _db.Candidatos.Select(x => new Candidato(x.id, x.nombre, x.apellido, x.localidad, x.cargo, x.urlFoto, x.partido))
@@ -83,7 +97,7 @@ namespace PPS.Controllers
         else if (cand.cargo == 2) { c = Cargo.DiputadoNacional; }
         else { c = Cargo.SenadorNacional; }
         candidato.cargo = c;
-        //candidato.localidad = _db.Localidades.Find(cand.localidad.id);
+        candidato.localidad = _db.Localidades.Where(x => x.id == cand.localidad.id).Include(x => x.provincia).FirstOrDefault();
         candidato.urlFoto = cand.urlFoto;
         candidato.partido = _db.Partidos.Find(cand.partido);
         _db.Update(candidato);

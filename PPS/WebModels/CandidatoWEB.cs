@@ -1,3 +1,4 @@
+using PPS.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,7 +13,7 @@ namespace PPS.WebModels
     public String urlFoto { get; set; }
     public String nombre { get; set; }
     public String apellido { get; set; }
-    public LocalidadWEB localidad { get; set; }
+    public Localidad localidad { get; set; }
     public int partido { get; set; }
   }
 }
