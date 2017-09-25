@@ -84,13 +84,15 @@ export class LocalidadComponent implements OnInit {
         });
     }
     delete() {
-        this._httpService.delete('/api/localidad/?nombre=' + this.nombreLocalidad).subscribe(response => {
+        this._httpService.delete('/api/localidad/?id=' + this.locSeleccionada).subscribe(response => {
             let body = JSON.parse(response.text("legacy"));
             console.log(body.statusCode);
             if (body.statusCode == 200) {
                 this.seBorro = true;
                 this._httpService.get('/api/localidad/true').subscribe(values => {
                     this.localidades = values.json() as Localidad[];
+                    this.nombreLocalidadEdit = "";
+                    this.numeroMesasEdit = 0;
                 });
             }
         });

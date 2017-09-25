@@ -125,18 +125,16 @@ namespace PPS.Controllers
     }
 
     [HttpDelete]
-    public HttpResponseMessage Delete(String nombre)
+    public HttpResponseMessage Delete(int id)
     {
-      Localidad localidad = null;
-      foreach (Localidad l in _db.Localidades)
-      {
-        if (l.nombreLocalidad == nombre)
-        {
-          localidad = l;
-        }
-      }
+      Localidad localidad = _db.Localidades.Where(x => x.id == id).FirstOrDefault();
       if (localidad != null)
       {
+        var mesas = _db.Mesas.Where(x => x.localidad.id == id);
+        if (mesas.Any())
+        {
+          _db.Mesas.RemoveRange(mesas);
+        }
         _db.Localidades.Remove(localidad);
         _db.SaveChanges();
         return new HttpResponseMessage(HttpStatusCode.OK);
