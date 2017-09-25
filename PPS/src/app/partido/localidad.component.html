@@ -1,20 +1,22 @@
 <p><strong>Listado de localidades</strong></p>
 <ul>
   <li *ngFor="let value of localidades">
-      {{value.nombreLocalidad}}
+    {{value.nombreLocalidad}}
   </li>
 </ul>
 
 <p><strong>Alta de localidad</strong></p>
-    <label>Nombre de la localidad:</label>
-    <input name="nombre" [(ngModel)]="nombreLocalidad" required><br>
-    <label>Provincia</label>
-    <select class="form-control" id="power"
-            required
-            [(ngModel)]="nombreProvincia" name="power">
-      <option *ngFor="let cargo of provincias" [value]="cargo.nombreProvincia">{{cargo.nombreProvincia}}</option>
-    </select>
-  <button (click)="onSubmit()" type="submit" class="btn btn-success" >Submit</button>
+<label>Nombre de la localidad:</label>
+<input name="nombre" [(ngModel)]="nombreLocalidad" required><br>
+<label>Numero inicial de mesas:</label>
+<input name="mesas" [(ngModel)]="numeroMesas" required><br>
+<label>Provincia</label>
+<select class="form-control" id="power"
+        required
+        [(ngModel)]="nombreProvincia" name="power">
+  <option *ngFor="let cargo of provincias" [value]="cargo.nombreProvincia">{{cargo.nombreProvincia}}</option>
+</select>
+<button (click)="onSubmit()" type="submit" class="btn btn-success">Submit</button>
 <div class="alert alert-success" *ngIf="seAgrego">
   <strong>Se ha agregado correctamente la localidad</strong>
 </div>
@@ -22,14 +24,23 @@
   <strong>La localidad que desea agregar ya existe</strong>
 </div>
 
-<p><strong>Baja de localidad</strong></p>
+<p><strong>Editar y Baja de localidad</strong></p>
 <label>Nombre de la localidad:</label>
-<select class="form-control" id="power"
-        required
-        [(ngModel)]="nombreLocalidad" name="power">
-  <option *ngFor="let cargo of localidades" [value]="cargo.nombreLocalidad">{{cargo.nombreLocalidad}}</option>
+<select class="form-control" id="edit-select"
+        required (change)="cambiarLoc($event)"
+        [(ngModel)]="locSeleccionada" name="edit-select">
+  <option *ngFor="let cargo of localidades" [value]="cargo.id">{{cargo.nombreLocalidad}}</option>
 </select>
-<button (click)="delete()" type="submit" class="btn btn-success">Borrar</button>
+<label>Nombre localidad:</label>
+<input name="nombre-edit" [(ngModel)]="nombreLocalidadEdit" required><br>
+<label>Numero de mesas disponibles:</label>
+<input name="mesas-edit" [(ngModel)]="numeroMesasEdit" required><br>
+<button (click)="edit()" type="submit" class="btn btn-success">Guardar Cambios</button>
+<button (click)="delete()" type="submit" class="btn btn-error btn-danger">Borrar</button>
+
+<div class="alert alert-success" *ngIf="seEdito">
+  <strong>Se ha editado correctamente la localidad</strong>
+</div>
 
 <div class="alert alert-success" *ngIf="seBorro">
   <strong>Se ha eliminado correctamente la localidad</strong>

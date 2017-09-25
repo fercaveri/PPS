@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PPS.Data;
 using PPS.Models;
 using PPS.WebModels;
@@ -35,8 +37,18 @@ namespace PPS.Controllers
     [HttpGet("{id}")]
     public IEnumerable<Localidad> Get(Boolean id)
     {
-      var Localidades = _db.Localidades.Select(x => new Localidad(x.id, x.nombreLocalidad, x.provincia)).Where( x => x.nombreLocalidad!="").ToList();
+      var Localidades = _db.Localidades.Select(x => new Localidad(x.id, x.nombreLocalidad, x.provincia)).Where(x => x.nombreLocalidad != "").ToList();
       return Localidades;
+
+    }
+
+    // GET api/localidad/getmesas?[idLocalidad]
+    [HttpGet]
+    [Route("getmesas")]
+    public int GetMesas(int id)
+    {
+      int numeroMesas = _db.Mesas.Count(x => x.localidad.id == id);
+      return numeroMesas;
 
     }
 
@@ -47,11 +59,61 @@ namespace PPS.Controllers
       if (loc == null)
       {
         Provincia prov = _db.Provincias.Find(localidad.provincia);
-        _db.Add(new Localidad(localidad.nombre, prov));
+        Localidad nuevaLoc = new Localidad(localidad.nombre, prov);
+        _db.Add(nuevaLoc);
+        for (int i = 1; i < localidad.numeroMesas + 1; i++)
+        {
+          _db.Add(new Mesa(i, nuevaLoc));
+        }
         _db.SaveChanges();
         return new HttpResponseMessage(HttpStatusCode.OK);
       }
       return new HttpResponseMessage(HttpStatusCode.NotModified);
+    }
+
+    [HttpPatch]
+    public HttpResponseMessage Patch(int id, [FromBody] LocalidadWEB localidad)
+    {
+      if (localidad == null)
+      {
+        return new HttpResponseMessage(HttpStatusCode.BadRequest);
+      }
+
+      Localidad loc = _db.Localidades.Where(x => x.id == id).Include(x => x.provincia).FirstOrDefault();
+      int numeroMesas = _db.Mesas.Count(x => x.localidad.id == id);
+
+      if (localidad.nombre != null && loc.nombreLocalidad != localidad.nombre)
+      {
+        loc.nombreLocalidad = localidad.nombre;
+      }
+
+      if (localidad.provincia != "" && localidad.provincia != null && loc.provincia.nombreProvincia != localidad.provincia)
+      {
+        loc.provincia = _db.Provincias.Where(x => x.nombreProvincia == localidad.provincia).FirstOrDefault();
+      }
+
+      // SI QUIERO SACAR ALGUNAS MESAS
+      if (numeroMesas > localidad.numeroMesas)
+      {
+        var mesas = _db.Mesas.Where(x => x.numero > localidad.numeroMesas);
+        if (mesas.Any())
+        {
+          _db.Mesas.RemoveRange(mesas);
+        }
+      }
+
+      // SI QUIERO AGREGAR MESAS
+      else if (numeroMesas < localidad.numeroMesas)
+      {
+        for (int i = numeroMesas + 1; i <= localidad.numeroMesas; i++)
+        {
+          _db.Add(new Mesa(i, loc));
+        }
+      }
+
+      _db.Update(loc);
+      _db.SaveChanges();
+      return new HttpResponseMessage(HttpStatusCode.OK);
     }
 
     [HttpDelete]
@@ -60,12 +122,12 @@ namespace PPS.Controllers
       Localidad localidad = null;
       foreach (Localidad l in _db.Localidades)
       {
-        if(l.nombreLocalidad == nombre)
+        if (l.nombreLocalidad == nombre)
         {
           localidad = l;
         }
       }
-      if ( localidad != null)
+      if (localidad != null)
       {
         _db.Localidades.Remove(localidad);
         _db.SaveChanges();
