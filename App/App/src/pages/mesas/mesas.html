@@ -8,12 +8,34 @@
 
 <ion-content class="mesas" padding>
 
-    <h2 class="center">Aca deberia haber mesas</h2> 
+  <h2 class="center">Aca deberia haber mesas</h2>
 
-    <ion-card>
-        <ion-card-header>
-            Seleccione una mesa
-        </ion-card-header>       
-    </ion-card>
+  <ion-card>
+    <ion-card-header>
+      Seleccione una mesa
+    </ion-card-header>
+  </ion-card>
+
+  <ion-item>
+    <ion-label>Provincia</ion-label>
+    <ion-select [(ngModel)]="provincia">
+      <ion-option *ngFor="let provincia of provincias" [value]="provincia.nombreProvincia">{{provincia.nombreProvincia}}</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Localidad</ion-label>
+    <ion-select [(ngModel)]="localidad">
+      <ion-option *ngFor="let localidad of localidadesProvincia" [value]="localidad.nombreLocalidad">{{localidad.nombreLocalidad}}</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Mesa</ion-label>
+    <ion-select [(ngModel)]="mesa">
+      <ion-option *ngFor="let mesa of mesasLocalidad" [value]="mesa.id">{{mesa.id}}</ion-option>
+    </ion-select>
+  </ion-item>
+
   <button>Este botton no se que hace</button>
 </ion-content>
