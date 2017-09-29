@@ -21,7 +21,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".app-menu-wrapper {\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n      -ms-flex-direction: row;\r\n          flex-direction: row;\r\n  -webkit-box-pack: justify;\r\n      -ms-flex-pack: justify;\r\n          justify-content: space-between;\r\n}\r\n", ""]);
+exports.push([module.i, ".app-menu-wrapper {\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n      -ms-flex-direction: row;\r\n          flex-direction: row;\r\n  -webkit-box-pack: justify;\r\n      -ms-flex-pack: justify;\r\n          justify-content: space-between;\r\n}\r\n\r\n\r\n", ""]);
 
 // exports
 
@@ -34,7 +34,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Bienvenido al Recuento del Escrutinio</h1>\r\n<div class=\"app-menu-wrapper\">\r\n  <div>\r\n    <button (click)=\"(show='localidades')\"> Localidades </button>\r\n    <button (click)=\"(show='altaPartido')\"> Alta Partido Politico </button>\r\n    <button (click)=\"(show='consultaPartido')\"> Consulta Partido Politico </button>\r\n    <button (click)=\"(show='altaCandidato')\"> Alta Candidato </button>\r\n    <button (click)=\"(show='consultaCandidato')\"> Consulta Candidato </button>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaPartido'\">\r\n    <partido-politico>\r\n    </partido-politico>\r\n  </div>\r\n  <div *ngIf=\"show == 'localidades'\">\r\n    <localidad>\r\n    </localidad>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaCandidato'\">\r\n    <candidato>\r\n    </candidato>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaCandidato'\">\r\n    <candidato-details>\r\n    </candidato-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaPartido'\">\r\n    <partido-details>\r\n    </partido-details>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"page-header\">\r\n  <h1 align=\"center\">Bienvenido al Recuento del Escrutinio</h1>\r\n</div>\r\n  <nav class=\"navbar navbar-inverse\">\r\n    <div class=\"navbar-header\">\r\n      <a class=\"navbar-brand\"><span class=\"glyphicon glyphicon-envelope\"></span> Escrutinio Web</a>\r\n    </div>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='localidades')\"> Localidades </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaPartido')\"> Alta Partido Politico </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaPartido')\"> Consulta Partido Politico </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaCandidato')\"> Alta Candidato </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaCandidato')\"> Consulta Candidato </button>\r\n  </nav>\r\n\r\n  <div *ngIf=\"show == 'altaPartido'\">\r\n    <partido-politico>\r\n    </partido-politico>\r\n  </div>\r\n  <div *ngIf=\"show == 'localidades'\">\r\n    <localidad>\r\n    </localidad>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaCandidato'\">\r\n    <candidato>\r\n    </candidato>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaCandidato'\">\r\n    <candidato-details>\r\n    </candidato-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaPartido'\">\r\n    <partido-details>\r\n    </partido-details>\r\n  </div>\r\n"
 
 /***/ }),
 
@@ -168,7 +168,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/candidato-details/candidato-details.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1><strong>Detalle de candidato</strong></h1>\r\n<label>Seleccione un candidato</label>\r\n<select class=\"form-control\" id=\"candidato\"\r\n        required\r\n         [(ngModel)]=\"candidatoElegido\">\r\n  <option *ngFor=\"let cand of candidatos\" [value]=\"cand.id\">{{cand.nombreCompleto}}</option>\r\n</select>\r\n<button (click)=\"details()\" type=\"submit\" class=\"btn btn-success\">Ver detalle</button>\r\n\r\nCandidato= {{candidatoElegido}}\r\n<div *ngFor=\"let cand of candidatos\">\r\n  <div *ngIf=\"eligioCandidato\">\r\n    <div *ngIf=\"cand.id == candidatoElegido\">\r\n        <label>Nombre: </label><input [(ngModel)]=\"candidatoEditado.nombre\"><br>\r\n        <label>Apellido: </label><input [(ngModel)]=\"candidatoEditado.apellido\"><br>\r\n        <label>Cargo: </label><input [(ngModel)]=\"candidatoEditado.cargo\"><br>\r\n        <div *ngIf=\"candidatoEditado.cargo == 0\">\r\n          <label>Localidad: </label><input [(ngModel)]=\"candidatoEditado.localidad.nombreLocalidad\"><br>\r\n        </div>\r\n        <div *ngIf=\"candidatoEditado.cargo == 1\">\r\n          <label>Provincia: </label><input [(ngModel)]=\"candidatoEditado.provincia.nombreProvincia\"><br>\r\n        </div>\r\n        <label>Foto:</label><input [(ngModel)]=\"candidatoEditado.urlFoto\"><br>\r\n        <label>Partido:</label><select class=\"form-control\" id=\"candidato\"\r\n                                       required\r\n                                       [(ngModel)]=\"candidatoEditado.partido.numeroLista\">\r\n          <option *ngFor=\"let part of partidos\" [value]=\"part.numeroLista\">{{part.nombre}}</option>\r\n        </select>\r\n        <button (click)=\"edit()\" type=\"submit\" class=\"btn btn-success\">Editar</button>\r\n        <button (click)=\"delete()\" type=\"submit\" class=\"btn btn-warning\">Borrar</button>\r\n      </div>      \r\n  </div>\r\n</div>\r\n"
+module.exports = "<h1><strong>Detalle de candidato</strong></h1>\r\n<label>Seleccione un candidato</label>\r\n<select class=\"form-control\" id=\"candidato\"\r\n        required\r\n        [(ngModel)]=\"candidatoElegido\">\r\n  <option *ngFor=\"let cand of candidatos\" [value]=\"cand.id\">{{cand.nombreCompleto}}</option>\r\n</select>\r\n<button (click)=\"details()\" type=\"submit\" class=\"btn btn-success\">Ver detalle</button>\r\n\r\nCandidato= {{candidatoElegido}}\r\n<div *ngFor=\"let cand of candidatos\">\r\n  <div *ngIf=\"eligioCandidato\">\r\n    <div *ngIf=\"cand.id == candidatoElegido\">\r\n      <label>Nombre: </label><input [(ngModel)]=\"candidatoEditado.nombre\"><br>\r\n      <label>Apellido: </label><input [(ngModel)]=\"candidatoEditado.apellido\"><br>\r\n      <label>Cargo: </label>\r\n      <select class=\"form-control\" id=\"candidato-cargo\" required\r\n              [(ngModel)]=\"candidatoEditado.cargo\">\r\n        <option *ngFor=\"let cargo of cargos\" [value]=\"cargo.numero\">{{cargo.nombre}}</option>\r\n      </select>\r\n      <div *ngIf=\"candidatoEditado.cargo == 0 || candidatoEditado.cargo == 1\">\r\n        <label>Provincia: </label>\r\n        <select class=\"form-control\" id=\"candidato-provincia\" required (change)=\"reloadPartidos($event)\"\r\n                [(ngModel)]=\"candidatoEditado.localidad.provincia.nombreProvincia\">\r\n          <option *ngFor=\"let prov of provincias\" [value]=\"prov.nombreProvincia\">{{prov.nombreProvincia}}</option>\r\n        </select>\r\n      </div>\r\n      <div *ngIf=\"candidatoEditado.cargo == 0\">\r\n        <label>Localidad: </label>\r\n        <select class=\"form-control\" id=\"candidato-localidad\" required\r\n                [(ngModel)]=\"candidatoEditado.localidad.id\">\r\n          <option *ngFor=\"let loc of localidades\" [value]=\"loc.id\">{{loc.nombreLocalidad}}</option>\r\n        </select>\r\n      </div>\r\n      <label>Partido:</label><select class=\"form-control\" id=\"candidato-partido\"\r\n                                     required\r\n                                     [(ngModel)]=\"candidatoEditado.partido.numeroLista\">\r\n        <option *ngFor=\"let part of partidos\" [value]=\"part.numeroLista\">{{part.nombre}}</option>\r\n      </select>\r\n      <label>Foto:</label><input [(ngModel)]=\"candidatoEditado.urlFoto\"><br>\r\n      <button (click)=\"edit()\" type=\"submit\" class=\"btn btn-success\">Editar</button>\r\n      <button (click)=\"delete()\" type=\"submit\" class=\"btn btn-warning\">Borrar</button>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -180,6 +180,7 @@ module.exports = "<h1><strong>Detalle de candidato</strong></h1>\r\n<label>Selec
 /* unused harmony export Localidad */
 /* unused harmony export Partido */
 /* unused harmony export Candidato */
+/* unused harmony export Cargo */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CandidatoDetailsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
@@ -218,6 +219,12 @@ var Candidato = (function () {
     return Candidato;
 }());
 
+var Cargo = (function () {
+    function Cargo() {
+    }
+    return Cargo;
+}());
+
 var CandidatoDetailsComponent = (function () {
     function CandidatoDetailsComponent(_httpService) {
         this._httpService = _httpService;
@@ -226,12 +233,18 @@ var CandidatoDetailsComponent = (function () {
         this.candidatoElegido = -1;
         this.partidos = [];
         this.localidades = [];
+        this.provincias = [];
+        this.cargos = [];
     }
     CandidatoDetailsComponent.prototype.ngOnInit = function () {
         var _this = this;
         this._httpService.get('/api/candidato').subscribe(function (values) {
             _this.candidatos = values.json();
             console.log(_this.candidatos);
+        });
+        this._httpService.get('/api/candidato/getcargos').subscribe(function (values) {
+            _this.cargos = values.json();
+            console.log(_this.cargos);
         });
     };
     CandidatoDetailsComponent.prototype.details = function () {
@@ -243,7 +256,16 @@ var CandidatoDetailsComponent = (function () {
         this._httpService.get('/api/partidopolitico').subscribe(function (values) {
             _this.partidos = values.json();
         });
-        this._httpService.get('/api/localidad').subscribe(function (values) {
+        this._httpService.get('/api/provincia').subscribe(function (values) {
+            _this.provincias = values.json();
+        });
+        this._httpService.get('/api/localidad/getbyprov?provincia=' + this.candidatoEditado.localidad.provincia.nombreProvincia).subscribe(function (values) {
+            _this.localidades = values.json();
+        });
+    };
+    CandidatoDetailsComponent.prototype.reloadPartidos = function (event) {
+        var _this = this;
+        this._httpService.get('/api/localidad/getbyprov?provincia=' + this.candidatoEditado.localidad.provincia.nombreProvincia).subscribe(function (values) {
             _this.localidades = values.json();
         });
     };
@@ -313,6 +335,8 @@ module.exports = "<h1>Formulario alta candidato</h1>\r\n<form (ngSubmit)=\"onSub
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export Provincia */
+/* unused harmony export Localidad */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CandidatoComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
@@ -326,6 +350,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+var Provincia = (function () {
+    function Provincia() {
+    }
+    return Provincia;
+}());
+
+var Localidad = (function () {
+    function Localidad() {
+    }
+    return Localidad;
+}());
 
 var CandidatoComponent = (function () {
     function CandidatoComponent(_httpService) {
@@ -374,7 +410,7 @@ var CandidatoComponent = (function () {
             loc = this.fullLocalidades.filter(function (x) { return x.nombreLocalidad == "" && x.provincia.nombreProvincia == "Nacional"; })[0];
         }
         console.log(loc);
-        localidad = { id: loc.id, nombre: loc.nombreLocalidad, provincia: loc.provincia.nombreProvincia };
+        localidad = { id: loc.id, nombreLocalidad: loc.nombreLocalidad, provincia: { nombreProvincia: loc.provincia.nombreProvincia } };
         var body = {
             nombre: this.nombre,
             apellido: this.apellido,
@@ -497,6 +533,8 @@ var _a;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export Provincia */
+/* unused harmony export Localidad */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocalidadComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
@@ -511,15 +549,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+var Provincia = (function () {
+    function Provincia() {
+    }
+    return Provincia;
+}());
+
+var Localidad = (function () {
+    function Localidad() {
+    }
+    return Localidad;
+}());
+
 var LocalidadComponent = (function () {
     function LocalidadComponent(_httpService) {
         this._httpService = _httpService;
-        this.apiValues = [];
         this.provincias = [];
         this.nombreProvincia = "";
         this.nombreLocalidad = "";
+        this.numeroMesas = 0;
         this.localidades = [];
+        // Edit y Delete
+        this.locSeleccionada = 0;
+        this.nombreLocalidadEdit = "";
+        this.numeroMesasEdit = 0;
+        // Flags
         this.seBorro = false;
+        this.seEdito = false;
         this.error = false;
         this.seAgrego = false;
     }
@@ -528,34 +584,65 @@ var LocalidadComponent = (function () {
         this._httpService.get('/api/provincia').subscribe(function (values) {
             _this.provincias = values.json();
         });
-        /*this._httpService.get('/api/localidad').subscribe(values => {
-            this.apiValues = values.json() as object[];
-        });*/
-        this._httpService.get('/api/localidad/cordoba').subscribe(function (values) {
+        this._httpService.get('/api/localidad/true').subscribe(function (values) {
             _this.localidades = values.json();
         });
     };
     LocalidadComponent.prototype.onSubmit = function () {
         var _this = this;
-        var c = { nombre: this.nombreLocalidad, provincia: this.nombreProvincia };
+        var c = { nombre: this.nombreLocalidad, provincia: this.nombreProvincia, numeroMesas: this.numeroMesas };
         this._httpService.post('/api/localidad', c).subscribe(function (response) {
             var body = JSON.parse(response.text("legacy"));
             console.log(body.statusCode);
             if (body.statusCode == 200) {
                 _this.seAgrego = true;
+                _this.nombreProvincia = "";
+                _this.nombreLocalidad = "";
+                _this.numeroMesas = 0;
+                _this._httpService.get('/api/localidad/true').subscribe(function (values) {
+                    _this.localidades = values.json();
+                });
             }
             else {
                 _this.error = true;
             }
         });
     };
+    LocalidadComponent.prototype.cambiarLoc = function (event) {
+        var _this = this;
+        var locElegida = this.localidades.find(function (x) { return x.id == _this.locSeleccionada; });
+        this.nombreLocalidadEdit = locElegida.nombreLocalidad;
+        this._httpService.get('/api/localidad/getmesas?id=' + this.locSeleccionada).subscribe(function (values) {
+            var body = JSON.parse(values.text("legacy"));
+            console.log(body);
+            _this.numeroMesasEdit = values.json();
+        });
+    };
+    LocalidadComponent.prototype.edit = function () {
+        var _this = this;
+        var body = { nombre: this.nombreLocalidadEdit, provincia: this.nombreProvincia, numeroMesas: this.numeroMesasEdit };
+        this._httpService.patch('/api/localidad/?id=' + this.locSeleccionada, body).subscribe(function (response) {
+            var body = JSON.parse(response.text("legacy"));
+            console.log(body.statusCode);
+            if (body.statusCode == 200) {
+                _this.seEdito = true;
+                var locElegida = _this.localidades.find(function (x) { return x.id == _this.locSeleccionada; });
+                locElegida.nombreLocalidad = _this.nombreLocalidadEdit;
+            }
+        });
+    };
     LocalidadComponent.prototype.delete = function () {
         var _this = this;
-        this._httpService.delete('/api/localidad/?nombre=' + this.nombreLocalidad).subscribe(function (response) {
+        this._httpService.delete('/api/localidad/?id=' + this.locSeleccionada).subscribe(function (response) {
             var body = JSON.parse(response.text("legacy"));
             console.log(body.statusCode);
             if (body.statusCode == 200) {
                 _this.seBorro = true;
+                _this._httpService.get('/api/localidad/true').subscribe(function (values) {
+                    _this.localidades = values.json();
+                    _this.nombreLocalidadEdit = "";
+                    _this.numeroMesasEdit = 0;
+                });
             }
         });
     };
@@ -578,7 +665,7 @@ var _a;
 /***/ "../../../../../src/app/partido/localidad.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p><strong>Listado de localidades</strong></p>\r\n<ul>\r\n  <li *ngFor=\"let value of localidades\">\r\n      {{value.nombreLocalidad}}\r\n  </li>\r\n</ul>\r\n\r\n<p><strong>Alta de localidad</strong></p>\r\n    <label>Nombre de la localidad:</label>\r\n    <input name=\"nombre\" [(ngModel)]=\"nombreLocalidad\" required><br>\r\n    <label>Provincia</label>\r\n    <select class=\"form-control\" id=\"power\"\r\n            required\r\n            [(ngModel)]=\"nombreProvincia\" name=\"power\">\r\n      <option *ngFor=\"let cargo of provincias\" [value]=\"cargo.nombreProvincia\">{{cargo.nombreProvincia}}</option>\r\n    </select>\r\n  <button (click)=\"onSubmit()\" type=\"submit\" class=\"btn btn-success\" >Submit</button>\r\n<div class=\"alert alert-success\" *ngIf=\"seAgrego\">\r\n  <strong>Se ha agregado correctamente la localidad</strong>\r\n</div>\r\n<div class=\"alert alert-warning\" *ngIf=\"error\">\r\n  <strong>La localidad que desea agregar ya existe</strong>\r\n</div>\r\n\r\n<p><strong>Baja de localidad</strong></p>\r\n<label>Nombre de la localidad:</label>\r\n<select class=\"form-control\" id=\"power\"\r\n        required\r\n        [(ngModel)]=\"nombreLocalidad\" name=\"power\">\r\n  <option *ngFor=\"let cargo of localidades\" [value]=\"cargo.nombreLocalidad\">{{cargo.nombreLocalidad}}</option>\r\n</select>\r\n<button (click)=\"delete()\" type=\"submit\" class=\"btn btn-success\">Borrar</button>\r\n\r\n<div class=\"alert alert-success\" *ngIf=\"seBorro\">\r\n  <strong>Se ha eliminado correctamente la localidad</strong>\r\n</div>\r\n"
+module.exports = "<p><strong>Listado de localidades</strong></p>\r\n<ul>\r\n  <li *ngFor=\"let value of localidades\">\r\n    {{value.nombreLocalidad}}\r\n  </li>\r\n</ul>\r\n\r\n<p><strong>Alta de localidad</strong></p>\r\n<label>Nombre de la localidad:</label>\r\n<input name=\"nombre\" [(ngModel)]=\"nombreLocalidad\" required><br>\r\n<label>Numero inicial de mesas:</label>\r\n<input name=\"mesas\" [(ngModel)]=\"numeroMesas\" required><br>\r\n<label>Provincia</label>\r\n<select class=\"form-control\" id=\"power\"\r\n        required\r\n        [(ngModel)]=\"nombreProvincia\" name=\"power\">\r\n  <option *ngFor=\"let cargo of provincias\" [value]=\"cargo.nombreProvincia\">{{cargo.nombreProvincia}}</option>\r\n</select>\r\n<button (click)=\"onSubmit()\" type=\"submit\" class=\"btn btn-success\">Submit</button>\r\n<div class=\"alert alert-success\" *ngIf=\"seAgrego\">\r\n  <strong>Se ha agregado correctamente la localidad</strong>\r\n</div>\r\n<div class=\"alert alert-warning\" *ngIf=\"error\">\r\n  <strong>La localidad que desea agregar ya existe</strong>\r\n</div>\r\n\r\n<p><strong>Editar y Baja de localidad</strong></p>\r\n<label>Nombre de la localidad:</label>\r\n<select class=\"form-control\" id=\"edit-select\"\r\n        required (change)=\"cambiarLoc($event)\"\r\n        [(ngModel)]=\"locSeleccionada\" name=\"edit-select\">\r\n  <option *ngFor=\"let cargo of localidades\" [value]=\"cargo.id\">{{cargo.nombreLocalidad}}</option>\r\n</select>\r\n<label>Nombre localidad:</label>\r\n<input name=\"nombre-edit\" [(ngModel)]=\"nombreLocalidadEdit\" required><br>\r\n<label>Numero de mesas disponibles:</label>\r\n<input name=\"mesas-edit\" [(ngModel)]=\"numeroMesasEdit\" required><br>\r\n<button (click)=\"edit()\" type=\"submit\" class=\"btn btn-success\">Guardar Cambios</button>\r\n<button (click)=\"delete()\" type=\"submit\" class=\"btn btn-error btn-danger\">Borrar</button>\r\n\r\n<div class=\"alert alert-success\" *ngIf=\"seEdito\">\r\n  <strong>Se ha editado correctamente la localidad</strong>\r\n</div>\r\n\r\n<div class=\"alert alert-success\" *ngIf=\"seBorro\">\r\n  <strong>Se ha eliminado correctamente la localidad</strong>\r\n</div>\r\n"
 
 /***/ }),
 
