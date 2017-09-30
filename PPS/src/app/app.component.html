@@ -1,12 +1,17 @@
-<h1>Bienvenido al Recuento del Escrutinio</h1>
-<div class="app-menu-wrapper">
-  <div>
-    <button (click)="(show='localidades')"> Localidades </button>
-    <button (click)="(show='altaPartido')"> Alta Partido Politico </button>
-    <button (click)="(show='consultaPartido')"> Consulta Partido Politico </button>
-    <button (click)="(show='altaCandidato')"> Alta Candidato </button>
-    <button (click)="(show='consultaCandidato')"> Consulta Candidato </button>
-  </div>
+<div class="page-header">
+  <h1 align="center">Bienvenido al Recuento del Escrutinio</h1>
+</div>
+  <nav class="navbar navbar-inverse">
+    <div class="navbar-header">
+      <a class="navbar-brand"><span class="glyphicon glyphicon-envelope"></span> Escrutinio Web</a>
+    </div>
+    <button class="btn btn-danger navbar-btn" (click)="(show='localidades')"> Localidades </button>
+    <button class="btn btn-danger navbar-btn" (click)="(show='altaPartido')"> Alta Partido Politico </button>
+    <button class="btn btn-danger navbar-btn" (click)="(show='consultaPartido')"> Consulta Partido Politico </button>
+    <button class="btn btn-danger navbar-btn" (click)="(show='altaCandidato')"> Alta Candidato </button>
+    <button class="btn btn-danger navbar-btn" (click)="(show='consultaCandidato')"> Consulta Candidato </button>
+  </nav>
+
   <div *ngIf="show == 'altaPartido'">
     <partido-politico>
     </partido-politico>
@@ -27,4 +32,3 @@
     <partido-details>
     </partido-details>
   </div>
-</div>
