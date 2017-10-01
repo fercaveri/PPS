@@ -7,6 +7,7 @@ using PPS.Data;
 using PPS.Models;
 using System.Net.Http;
 using System.Net;
+using PPS.WebModels;
 
 namespace PPS.Controllers
 {
@@ -28,6 +29,19 @@ namespace PPS.Controllers
               return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
             return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage Post([FromBody] UsuarioWEB user)
+        {
+          var usuario = _db.Usuarios.Select(x => new Usuario(x.usuario, x.contraseña, x.nombreCompleto, (int)x.rol)).Where(x => x.usuario == user.user && x.contraseña == user.pass).FirstOrDefault();
+          if (usuario == null)
+          {
+            _db.Usuarios.Add(new Usuario(user.user, user.pass, user.fullName, user.role));
+            _db.SaveChanges();
+            return new HttpResponseMessage(HttpStatusCode.OK);
+          }
+          return new HttpResponseMessage(HttpStatusCode.NotAcceptable);
         }
   }
 }

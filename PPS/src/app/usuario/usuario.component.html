@@ -1,0 +1,15 @@
+<p><strong>Alta de usuario</strong></p>
+<label>Usuario</label>
+<input name="user" [(ngModel)]="user.user" required><br>
+<label>Contraseña</label>
+<input name="pass" [(ngModel)]="user.pass" required><br>
+<label>Nombre completo</label>
+<input name="fullName" [(ngModel)]="user.fullName" required><br>
+<label>Rol</label>
+<select class="form-control" id="role"
+        required
+        [(ngModel)]="role" name="role">
+  <option *ngFor="let rol of roles" [value]="rol">{{rol}}</option>
+</select>
+<button (click)="submit()" type="submit" class="btn btn-success">Submit</button>
+

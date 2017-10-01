@@ -9,6 +9,7 @@ import { CandidatoComponent } from './candidato/candidato.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CandidatoDetailsComponent } from './candidato-details/candidato-details.component';
 import { PartidoDetailsComponent } from './partido-details/partido-details.component';
+import { UsuarioComponent } from './usuario/usuario.component';
 
 @NgModule({
     declarations: [
@@ -17,7 +18,8 @@ import { PartidoDetailsComponent } from './partido-details/partido-details.compo
         LocalidadComponent,
         CandidatoComponent,
         CandidatoDetailsComponent,
-        PartidoDetailsComponent
+        PartidoDetailsComponent,
+        UsuarioComponent
     ],
     imports: [
         BrowserModule,

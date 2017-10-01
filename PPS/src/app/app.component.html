@@ -10,6 +10,9 @@
     <button class="btn btn-danger navbar-btn" (click)="(show='consultaPartido')"> Consulta Partido Politico </button>
     <button class="btn btn-danger navbar-btn" (click)="(show='altaCandidato')"> Alta Candidato </button>
     <button class="btn btn-danger navbar-btn" (click)="(show='consultaCandidato')"> Consulta Candidato </button>
+    <button class="btn btn-info" (click)="(show='usuario')">
+      <span class="glyphicon glyphicon-log-in"></span> Sign Up
+    </button>
   </nav>
 
   <div *ngIf="show == 'altaPartido'">
@@ -32,3 +35,9 @@
     <partido-details>
     </partido-details>
   </div>
+  <div *ngIf="show == 'usuario'">
+    <app-usuario>
+    </app-usuario>
+  </div>
+
+
