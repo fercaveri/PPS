@@ -5,6 +5,7 @@ import { NavController } from 'ionic-angular';
 import { MesasPage } from '../mesas/mesas';
 
 import { TelegramaPage } from '../telegrama/telegrama';
+import { config } from "../../config";
 
 @Component({
   selector: 'page-home',
@@ -12,8 +13,7 @@ import { TelegramaPage } from '../telegrama/telegrama';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
-    
+    constructor(public navCtrl: NavController) {
   }
   
   onLink(url: string) {

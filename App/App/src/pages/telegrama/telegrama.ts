@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { config } from "../../config";
 
 @Component({
     selector: 'telegrama',
@@ -33,31 +34,31 @@ export class TelegramaPage{
                 candidato: cand.id
             };
             if (this.isEdit) {
-                this.http.patch('http://localhost:59472/api/recuento', c).subscribe(response => {
+                this.http.patch('http://localhost:' + new config().port +'/api/recuento', c).subscribe(response => {
                     console.log(response.status);
                 });
             }
             else {
-                this.http.post('http://localhost:59472/api/recuento', c).subscribe(response => {
+                this.http.post('http://localhost:' + new config().port +'/api/recuento', c).subscribe(response => {
                     console.log(response.status);
                 });
             }
         }
     }
     getPartidos() {
-        this.http.get('http://localhost:59472/api/partidopolitico').map(res => res.json()).subscribe(data => {
+        this.http.get('http://localhost:' + new config().port +'/api/partidopolitico').map(res => res.json()).subscribe(data => {
             this.partidos = data;
             console.log(this.partidos);
         });
     }
     getCandidatos() {
-        this.http.get('http://localhost:59472/api/candidato/' + this.localidad + '/').map(res => res.json()).subscribe(data => {
+        this.http.get('http://localhost:' + new config().port +'/api/candidato/' + this.localidad + '/').map(res => res.json()).subscribe(data => {
             this.candidatos = data;
             console.log(this.candidatos);
         });
     }
     getRecuento() {
-        this.http.get('http://localhost:59472/api/recuento?idMesa=' + this.mesa).map(res => res.json()).subscribe(data => {
+        this.http.get('http://localhost:' + new config().port +'/api/recuento?idMesa=' + this.mesa).map(res => res.json()).subscribe(data => {
             this.recuento = data;
             console.log(this.recuento);
             if (this.recuento.length > 0) {
