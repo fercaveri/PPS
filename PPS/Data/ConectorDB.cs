@@ -15,6 +15,7 @@ namespace PPS.Data
     public DbSet<Provincia> Provincias { get; set; }
     public DbSet<Mesa> Mesas { get; set; }
     public DbSet<Recuento> Recuentos { get; set; }
+    public DbSet<Usuario> Usuarios { get; set;}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -23,7 +24,7 @@ namespace PPS.Data
       modelBuilder.Entity<Provincia>().ToTable("Provincias");
       modelBuilder.Entity<Localidad>().ToTable("Localidades");
       modelBuilder.Entity<Mesa>().ToTable("Mesas");
-      
+      modelBuilder.Entity<Usuario>().ToTable("Usuarios");
     }
   }
 }
