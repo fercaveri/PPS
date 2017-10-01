@@ -20,15 +20,11 @@ namespace PPS.Controllers
           _db= db;
         }
         // GET api/usuario
-        [HttpGet("{usuario,pass}")]
-        public HttpResponseMessage Get(String usuario, String pass)
+        [HttpGet]
+        public IEnumerable<Usuario> Get(String usuario, String pass)
         {
-            var usuarios = _db.Usuarios.Select(x => new Usuario(x.usuario, x.contraseña, x.nombreCompleto, (int)x.rol)).Where(x => x.usuario == usuario && x.contraseña == pass).FirstOrDefault();
-            if (usuarios == null)
-            {
-              return new HttpResponseMessage(HttpStatusCode.NotFound);
-            }
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            var usuarios = _db.Usuarios.Select(x => new Usuario(x.usuario, x.contraseña, x.nombreCompleto, (int)x.rol)).Where(x => x.usuario == usuario && x.contraseña == pass).ToList();
+            return usuarios;
         }
 
         [HttpPost]

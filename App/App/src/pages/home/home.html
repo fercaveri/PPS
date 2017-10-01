@@ -25,6 +25,14 @@
                 Seleccion de mesas
             </button>
         </ion-list>
-        
     </ion-card>
+
+  <ion-label>Usuario</ion-label>
+  <ion-input type="text" [(ngModel)]="user" name="user"></ion-input>
+
+  <ion-label>Contraseña</ion-label>
+  <ion-input type="text" [(ngModel)]="pass" name="pass"></ion-input>
+  <button ion-item (click)="login()">
+    Iniciar sesión
+  </button>
 </ion-content>
