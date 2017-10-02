@@ -30,10 +30,11 @@ namespace PPS.Controllers
     }
 
     // GET api/candidato
-    [HttpGet("{partido}")]
-    public IEnumerable<Candidato> Lista(String partido)
+    [Route("getlista")]
+    [HttpGet]
+    public IEnumerable<Candidato> GetLista(int numeroLista)
     {
-      return _db.Candidatos.Where(x => x.partido.nombre == partido).ToList();
+      return _db.Candidatos.Where(x => x.partido.numeroLista == numeroLista).ToList();
     }
 
     // POST api/partidopolitico

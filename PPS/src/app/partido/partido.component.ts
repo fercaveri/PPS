@@ -22,10 +22,17 @@ export class PartidoComponent implements OnInit {
         });
     }
     onSubmit() {
-        this.submitted = true;
         const c = { nombrePartido: this.nombrePartido, nombreProvincia: this.provincia };
         this._httpService.post('/api/partidopolitico', c).subscribe(response => {
-            console.log(response);
+            let body = JSON.parse(response.text("legacy"));
+            console.log(body.statusCode);
+            if (body.statusCode == 200) {
+                this.submitted = true;
+            }
+            else {
+                //TODO: ERROR
+            }
+            
         });
     }
 }

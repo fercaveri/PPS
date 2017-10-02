@@ -75,6 +75,6 @@
     margin: 20px;
   }
 
-  .localidad-bottom td {
+  .localidad-bottom td, .form-group td {
     padding: 5px;
   }

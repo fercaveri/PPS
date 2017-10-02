@@ -1,0 +1,35 @@
+.partidos-lista-titulo {
+  padding: 20px;
+  font-size: 20px;
+}
+
+.partidos-lista {
+  list-style: none;
+  padding: 0;
+}
+
+  .partidos-lista li {
+    font-size: 14px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px 15px;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(195, 255, 195, 0.3);
+  }
+
+    .partidos-lista li .first {
+      width: 300px;
+    }
+
+    .partidos-lista li .second {
+      width: 300px;
+    }
+
+    .partidos-lista li .btn {
+      font-size: 12px;
+      padding: 2px 6px;
+      line-height: 1.2;
+      border: 1px solid gray;
+    }

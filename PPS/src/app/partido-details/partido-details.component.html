@@ -1,14 +1,16 @@
-<p>
-  Lista de candidatos
-</p>
-
-<select class="form-control" id="partido"
-        required
-        [(ngModel)]="partido" name="partido">
-  <option *ngFor="let part of partidos" [value]="part.nombre">{{part.nombre}}</option>
-</select>
-<button (click)="onSubmit()" type="submit" class="btn btn-success">Ver Lista</button>
+<h2><strong class="partidos-lista-titulo">Listado de partidos politicos</strong></h2>
+<spinner *ngIf="!partCargados"></spinner>
+<ul class="partidos-lista">
+  <li *ngFor="let part of partidos">
+    <span class="first">{{part.nombre}}</span>
+    <span>
+      <button class="btn btn-info" (click)="verLista(part.numeroLista)"><span class="glyphicon glyphicon-info"></span> VER CANDIDATOS </button>
+    </span>
+  </li>
+</ul>
 
 <ul>
   <li *ngFor="let value of candidatos">Nombre = {{value.nombre}} Apellido = {{value.apellido}} Cargo = {{value.cargo}}</li>
 </ul>
+
+<!-- cargos.find(x => x.numero ==value.cargo)[0].nombre -->
