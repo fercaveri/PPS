@@ -1,7 +1,12 @@
-<p><strong>Listado de localidades</strong></p>
-<ul>
+<p><strong class="localidad-lista-titulo">Listado de localidades</strong></p>
+<ul class="localidad-lista">
   <li *ngFor="let value of localidades">
-    {{value.nombreLocalidad}}
+    <span class="first">{{value.nombreLocalidad}}</span>
+    <span class="second">{{value.provincia.nombreProvincia}}</span>
+    <span>
+      <button class="btn btn-info" (click)="cambiarLoc(value.id)"><span class="glyphicon glyphicon-pencil"></span></button>
+      <button class="btn btn-danger" (click)="delete(value.id)"><span class="glyphicon glyphicon-trash"></span></button>
+    </span>
   </li>
 </ul>
 
@@ -24,19 +29,12 @@
   <strong>La localidad que desea agregar ya existe</strong>
 </div>
 
-<p><strong>Editar y Baja de localidad</strong></p>
-<label>Nombre de la localidad:</label>
-<select class="form-control" id="edit-select"
-        required (change)="cambiarLoc($event)"
-        [(ngModel)]="locSeleccionada" name="edit-select">
-  <option *ngFor="let cargo of localidades" [value]="cargo.id">{{cargo.nombreLocalidad}}</option>
-</select>
+<p><strong>Editar localidad</strong></p>
 <label>Nombre localidad:</label>
 <input name="nombre-edit" [(ngModel)]="nombreLocalidadEdit" required><br>
 <label>Numero de mesas disponibles:</label>
 <input name="mesas-edit" [(ngModel)]="numeroMesasEdit" required><br>
 <button (click)="edit()" type="submit" class="btn btn-success">Guardar Cambios</button>
-<button (click)="delete()" type="submit" class="btn btn-error btn-danger">Borrar</button>
 
 <div class="alert alert-success" *ngIf="seEdito">
   <strong>Se ha editado correctamente la localidad</strong>

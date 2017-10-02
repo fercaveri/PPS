@@ -62,8 +62,9 @@ export class LocalidadComponent implements OnInit {
             else { this.error = true; }
         });
     }
-    cambiarLoc(event: Event): void {
-        var locElegida = this.localidades.find(x => x.id == this.locSeleccionada);
+    cambiarLoc(id: number): void {
+        this.locSeleccionada = id;
+        var locElegida = this.localidades.find(x => x.id == id);
         this.nombreLocalidadEdit = locElegida.nombreLocalidad;
         this._httpService.get('/api/localidad/getmesas?id=' + this.locSeleccionada).subscribe(values => {
             let body = JSON.parse(values.text("legacy"));
@@ -83,8 +84,8 @@ export class LocalidadComponent implements OnInit {
             }
         });
     }
-    delete() {
-        this._httpService.delete('/api/localidad/?id=' + this.locSeleccionada).subscribe(response => {
+    delete(id: number) {
+        this._httpService.delete('/api/localidad/?id=' + id).subscribe(response => {
             let body = JSON.parse(response.text("legacy"));
             console.log(body.statusCode);
             if (body.statusCode == 200) {

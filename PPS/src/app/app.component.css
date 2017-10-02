@@ -4,4 +4,7 @@
   justify-content: space-between;
 }
 
+.selected-btn {
+  border: 2px solid #66ff66;
+}
 

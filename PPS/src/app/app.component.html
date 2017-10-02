@@ -5,12 +5,12 @@
     <div class="navbar-header">
       <a class="navbar-brand"><span class="glyphicon glyphicon-envelope"></span> Escrutinio Web</a>
     </div>
-    <button class="btn btn-danger navbar-btn" (click)="(show='localidades')"> Localidades </button>
-    <button class="btn btn-danger navbar-btn" (click)="(show='altaPartido')"> Alta Partido Politico </button>
-    <button class="btn btn-danger navbar-btn" (click)="(show='consultaPartido')"> Consulta Partido Politico </button>
-    <button class="btn btn-danger navbar-btn" (click)="(show='altaCandidato')"> Alta Candidato </button>
-    <button class="btn btn-danger navbar-btn" (click)="(show='consultaCandidato')"> Consulta Candidato </button>
-    <button class="btn btn-info" (click)="(show='usuario')">
+    <button class="btn btn-danger navbar-btn" (click)="(show='localidades')" [ngClass]="{'selected-btn': show=='localidades'}"> Localidades </button>
+    <button class="btn btn-danger navbar-btn" (click)="(show='altaPartido')" [ngClass]="{'selected-btn': show=='altaPartido'}"> Alta Partido Politico </button>
+    <button class="btn btn-danger navbar-btn" (click)="(show='consultaPartido')" [ngClass]="{'selected-btn': show=='consultaPartido'}"> Consulta Partido Politico </button>
+    <button class="btn btn-danger navbar-btn" (click)="(show='altaCandidato')" [ngClass]="{'selected-btn': show=='altaCandidato'}"> Alta Candidato </button>
+    <button class="btn btn-danger navbar-btn" (click)="(show='consultaCandidato')" [ngClass]="{'selected-btn': show=='consultaCandidato'}"> Consulta Candidato </button>
+    <button class="btn btn-info" (click)="(show='usuario')" [ngClass]="{'selected-btn': show=='usuario'}">
       <span class="glyphicon glyphicon-log-in"></span> Sign Up
     </button>
   </nav>

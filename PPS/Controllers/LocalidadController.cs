@@ -131,6 +131,7 @@ namespace PPS.Controllers
       Localidad localidad = _db.Localidades.Where(x => x.id == id).FirstOrDefault();
       if (localidad != null)
       {
+        // ACA BORRAR LOS RECUENTOS XQ SINO PINCHA JEJE
         var mesas = _db.Mesas.Where(x => x.localidad.id == id);
         if (mesas.Any())
         {

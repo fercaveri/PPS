@@ -1,4 +1,39 @@
-.partido-wrapper{
+.partido-wrapper {
   display: flex;
   flex-direction: column;
 }
+
+.localidad-lista-titulo {
+  padding: 20px;
+  font-size: 20px;
+}
+
+.localidad-lista {
+  list-style: none;
+  padding: 0;
+}
+
+  .localidad-lista li {
+    font-size: 14px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px 15px;
+    display: flex;
+    justify-content: space-between;
+    background-color: aliceblue;
+  }
+
+  .localidad-lista li .first{
+    width: 300px;
+  }
+
+    .localidad-lista li .second {
+      width: 300px;
+    }
+
+    .localidad-lista li .btn {
+      font-size: 12px;
+      padding: 2px 6px;
+      line-height: 1.2;
+    }
