@@ -33,6 +33,9 @@ export class LocalidadComponent implements OnInit {
     numeroMesasEdit: number = 0;
 
     // Flags
+    locCargadas: boolean = false;
+    mostrarAgregar: boolean = false;
+    mostrarEditar: boolean = false;
     seBorro: boolean = false;
     seEdito: boolean = false;
     error: boolean = false;
@@ -43,6 +46,7 @@ export class LocalidadComponent implements OnInit {
         });
         this._httpService.get('/api/localidad/true').subscribe(values => {
             this.localidades = values.json() as Localidad[];
+            this.locCargadas = true;
         });
     }
     onSubmit() {
@@ -63,6 +67,7 @@ export class LocalidadComponent implements OnInit {
         });
     }
     cambiarLoc(id: number): void {
+        this.mostrarEditar = true;
         this.locSeleccionada = id;
         var locElegida = this.localidades.find(x => x.id == id);
         this.nombreLocalidadEdit = locElegida.nombreLocalidad;

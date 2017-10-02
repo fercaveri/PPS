@@ -131,11 +131,26 @@ namespace PPS.Controllers
       Localidad localidad = _db.Localidades.Where(x => x.id == id).FirstOrDefault();
       if (localidad != null)
       {
-        // ACA BORRAR LOS RECUENTOS XQ SINO PINCHA JEJE
+        // Remover todas las mesas de la localidad
         var mesas = _db.Mesas.Where(x => x.localidad.id == id);
         if (mesas.Any())
         {
+          foreach(Mesa mesa in mesas)
+          {
+            // Remover todos los recuentos de la localidad
+            var recuentos = _db.Recuentos.Where(x => x.mesa.id == mesa.id);
+            if (recuentos.Any())
+            {
+              _db.Recuentos.RemoveRange(recuentos);
+            }
+          }
           _db.Mesas.RemoveRange(mesas);
+        }
+        // Remover todos los candidatos de la localidad xq es FK
+        var candidatos = _db.Candidatos.Where(x => x.localidad.id == localidad.id);
+        if (candidatos.Any())
+        {
+          _db.Candidatos.RemoveRange(candidatos);
         }
         _db.Localidades.Remove(localidad);
         _db.SaveChanges();

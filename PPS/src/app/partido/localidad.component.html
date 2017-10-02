@@ -1,4 +1,5 @@
 <p><strong class="localidad-lista-titulo">Listado de localidades</strong></p>
+<spinner *ngIf="!locCargadas"></spinner>
 <ul class="localidad-lista">
   <li *ngFor="let value of localidades">
     <span class="first">{{value.nombreLocalidad}}</span>
@@ -9,37 +10,74 @@
     </span>
   </li>
 </ul>
-
-<p><strong>Alta de localidad</strong></p>
-<label>Nombre de la localidad:</label>
-<input name="nombre" [(ngModel)]="nombreLocalidad" required><br>
-<label>Numero inicial de mesas:</label>
-<input name="mesas" [(ngModel)]="numeroMesas" required><br>
-<label>Provincia</label>
-<select class="form-control" id="power"
-        required
-        [(ngModel)]="nombreProvincia" name="power">
-  <option *ngFor="let cargo of provincias" [value]="cargo.nombreProvincia">{{cargo.nombreProvincia}}</option>
-</select>
-<button (click)="onSubmit()" type="submit" class="btn btn-success">Submit</button>
-<div class="alert alert-success" *ngIf="seAgrego">
-  <strong>Se ha agregado correctamente la localidad</strong>
+<div class="localidad-deleted alert alert-success" *ngIf="seBorro">
+  <strong>Se ha eliminado correctamente la localidad</strong><span (click)="this.seBorro = false;"> X </span>
 </div>
-<div class="alert alert-warning" *ngIf="error">
-  <strong>La localidad que desea agregar ya existe</strong>
-</div>
+<button class="localidad-agregar btn btn-success" (click)="this.mostrarAgregar = true;" *ngIf="!mostrarAgregar"> NUEVA LOCALIDAD <span class="glyphicon glyphicon-plus"></span></button>
+<button class="localidad-agregar btn btn-info" (click)="this.mostrarAgregar = false;" *ngIf="mostrarAgregar"> OCULTAR NUEVO <span class="glyphicon glyphicon-minus"></span></button>
+<button class="localidad-agregar btn btn-info" (click)="this.mostrarEditar = false;" *ngIf="mostrarEditar"> OCULTAR EDITAR <span class="glyphicon glyphicon-minus"></span></button>
 
-<p><strong>Editar localidad</strong></p>
-<label>Nombre localidad:</label>
-<input name="nombre-edit" [(ngModel)]="nombreLocalidadEdit" required><br>
-<label>Numero de mesas disponibles:</label>
-<input name="mesas-edit" [(ngModel)]="numeroMesasEdit" required><br>
-<button (click)="edit()" type="submit" class="btn btn-success">Guardar Cambios</button>
+<div class="localidad-bottom">
+  <table class="localidad-alta" *ngIf="mostrarAgregar">
+    <tbody>
+      <tr><td><h4><strong>Alta de localidad</strong></h4></td></tr>
+      <tr>
+        <td><label>Nombre de la localidad:</label></td>
+        <td><input name="nombre" [(ngModel)]="nombreLocalidad" required></td>
+      </tr>
+      <tr>
+        <td><label>Numero inicial de mesas:</label></td>
+        <td><input name="mesas" [(ngModel)]="numeroMesas" required></td>
+      </tr>
+      <tr>
+        <td><label>Provincia</label></td>
+        <td>
+          <select class="form-control" id="power"
+                  required
+                  [(ngModel)]="nombreProvincia" name="power">
+            <option *ngFor="let cargo of provincias" [value]="cargo.nombreProvincia">{{cargo.nombreProvincia}}</option>
+          </select>
+        </td>
+      </tr>
+      <tr><td><button (click)="onSubmit()" type="submit" class="btn btn-success">Submit</button></td></tr>
+      <tr>
+        <td>
+          <div class="alert alert-success" *ngIf="seAgrego">
+            <strong>Se ha agregado correctamente la localidad</strong>
+          </div>
+          <div class="alert alert-warning" *ngIf="error">
+            <strong>La localidad que desea agregar ya existe</strong>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-<div class="alert alert-success" *ngIf="seEdito">
-  <strong>Se ha editado correctamente la localidad</strong>
-</div>
-
-<div class="alert alert-success" *ngIf="seBorro">
-  <strong>Se ha eliminado correctamente la localidad</strong>
+  <table class="localidad-edit" *ngIf="mostrarEditar">
+    <tbody>
+      <tr>
+        <td><h4><strong>Editar localidad</strong></h4></td>
+      </tr>
+      <tr>
+        <td><label>Nombre localidad:</label></td>
+        <td><input name="nombre-edit" [(ngModel)]="nombreLocalidadEdit" required></td>
+      </tr>
+      <tr>
+        <td><label>Numero de mesas disponibles:</label></td>
+        <td><input name="mesas-edit" [(ngModel)]="numeroMesasEdit" required></td>
+      </tr>
+      <tr>
+        <td>
+          <button (click)="edit()" type="submit" class="btn btn-success">Guardar Cambios</button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="alert alert-success" *ngIf="seEdito">
+            <strong>Se ha editado correctamente la localidad</strong>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

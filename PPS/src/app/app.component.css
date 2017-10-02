@@ -8,3 +8,6 @@
   border: 2px solid #66ff66;
 }
 
+body td, body th {
+  padding: 5px;
+}

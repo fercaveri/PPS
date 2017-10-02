@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CandidatoDetailsComponent } from './candidato-details/candidato-details.component';
 import { PartidoDetailsComponent } from './partido-details/partido-details.component';
 import { UsuarioComponent } from './usuario/usuario.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
     declarations: [
@@ -19,7 +20,8 @@ import { UsuarioComponent } from './usuario/usuario.component';
         CandidatoComponent,
         CandidatoDetailsComponent,
         PartidoDetailsComponent,
-        UsuarioComponent
+        UsuarioComponent,
+        SpinnerComponent
     ],
     imports: [
         BrowserModule,
