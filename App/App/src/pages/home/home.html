@@ -14,12 +14,10 @@
         <p class="ionic-logo"></p>
     </div>
 
-  <ion-label>Usuario</ion-label>
-  <ion-input type="text" [(ngModel)]="user" name="user"></ion-input>
-
-  <ion-label>Contraseña</ion-label>
-  <ion-input type="text" [(ngModel)]="pass" name="pass"></ion-input>
+  <ion-input type="text" [(ngModel)]="user" name="user" placeholder="Usuario"></ion-input>
+  <ion-input type="text" [(ngModel)]="pass" name="pass" placeholder="Password"></ion-input>
   <button ion-button full color="dark"  (click)="login()">
+    <ion-icon name="home" item-left></ion-icon>
     Iniciar sesión
   </button>
 </ion-content>

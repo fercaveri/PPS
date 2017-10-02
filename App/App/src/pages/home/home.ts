@@ -51,8 +51,8 @@ export class HomePage {
           '/api/usuario/?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
               this.usuario = data;
               console.log(this.usuario);
+              this.showAlert(this.usuario);
           });
-      this.showAlert(this.usuario);
   }
 
   navToMain() {
