@@ -3,8 +3,9 @@ import { Http } from "@angular/http";
 import { AlertController, NavController } from 'ionic-angular';
 
 import { MainPage } from '../main/main';
-import { config } from "../../config";
-import { Usuario } from "../../model";
+import { config } from '../../config';
+import { Usuario } from '../../model';
+import { Camera } from 'ionic-native';
 
 @Component({
   selector: 'page-home',
@@ -14,7 +15,26 @@ export class HomePage {
   user: String = "";
   pass: String = "";
   usuario: number;
+
+  private imageSrc: string;
+
   constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController) {
+  }
+
+  private openGallery(): void {
+      let cameraOptions = {
+          sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+          destinationType: Camera.DestinationType.FILE_URI,
+          quality: 100,
+          targetWidth: 1000,
+          targetHeight: 1000,
+          encodingType: Camera.EncodingType.JPEG,
+          correctOrientation: true
+      }
+
+      Camera.getPicture(cameraOptions)
+          .then(file_uri => this.imageSrc = file_uri,
+          err => console.log(err));
   }
   
   onLink(url: string) {
