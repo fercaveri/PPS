@@ -21,16 +21,17 @@ namespace PPS.Controllers
     }
     // GET api/usuario
     [HttpGet]
-    public bool Get(String usuario, String pass)
+    public int Get(String usuario, String pass)
     {
       var usuarios = _db.Usuarios.Select(x => new Usuario(x.usuario, x.contraseña, x.nombreCompleto, (int)x.rol)).Where(x => x.usuario == usuario && x.contraseña == pass).ToList();
       if (usuarios.Any())
       {
-        return true;
+        Usuario u = (Usuario) usuarios.First();
+        return (int) u.rol;
       }
       else
       {
-        return false;
+        return -1;
       }
     }
 

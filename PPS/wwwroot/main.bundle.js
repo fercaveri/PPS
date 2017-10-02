@@ -21,7 +21,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".app-menu-wrapper {\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n      -ms-flex-direction: row;\r\n          flex-direction: row;\r\n  -webkit-box-pack: justify;\r\n      -ms-flex-pack: justify;\r\n          justify-content: space-between;\r\n}\r\n\r\n\r\n", ""]);
+exports.push([module.i, ".app-menu-wrapper {\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n      -ms-flex-direction: row;\r\n          flex-direction: row;\r\n  -webkit-box-pack: justify;\r\n      -ms-flex-pack: justify;\r\n          justify-content: space-between;\r\n}\r\n\r\n.selected-btn {\r\n  border: 2px solid #66ff66;\r\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -34,7 +34,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page-header\">\r\n  <h1 align=\"center\">Bienvenido al Recuento del Escrutinio</h1>\r\n</div>\r\n  <nav class=\"navbar navbar-inverse\">\r\n    <div class=\"navbar-header\">\r\n      <a class=\"navbar-brand\"><span class=\"glyphicon glyphicon-envelope\"></span> Escrutinio Web</a>\r\n    </div>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='localidades')\"> Localidades </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaPartido')\"> Alta Partido Politico </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaPartido')\"> Consulta Partido Politico </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaCandidato')\"> Alta Candidato </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaCandidato')\"> Consulta Candidato </button>\r\n    <button class=\"btn btn-info\" (click)=\"(show='usuario')\">\r\n      <span class=\"glyphicon glyphicon-log-in\"></span> Sign Up\r\n    </button>\r\n  </nav>\r\n\r\n  <div *ngIf=\"show == 'altaPartido'\">\r\n    <partido-politico>\r\n    </partido-politico>\r\n  </div>\r\n  <div *ngIf=\"show == 'localidades'\">\r\n    <localidad>\r\n    </localidad>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaCandidato'\">\r\n    <candidato>\r\n    </candidato>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaCandidato'\">\r\n    <candidato-details>\r\n    </candidato-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaPartido'\">\r\n    <partido-details>\r\n    </partido-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'usuario'\">\r\n    <app-usuario>\r\n    </app-usuario>\r\n  </div>\r\n\r\n\r\n"
+module.exports = "<div class=\"page-header\">\r\n  <h1 align=\"center\">Bienvenido al Recuento del Escrutinio</h1>\r\n</div>\r\n  <nav class=\"navbar navbar-inverse\">\r\n    <div class=\"navbar-header\">\r\n      <a class=\"navbar-brand\"><span class=\"glyphicon glyphicon-envelope\"></span> Escrutinio Web</a>\r\n    </div>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='localidades')\" [ngClass]=\"{'selected-btn': show=='localidades'}\"> Localidades </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaPartido')\" [ngClass]=\"{'selected-btn': show=='altaPartido'}\"> Alta Partido Politico </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaPartido')\" [ngClass]=\"{'selected-btn': show=='consultaPartido'}\"> Consulta Partido Politico </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaCandidato')\" [ngClass]=\"{'selected-btn': show=='altaCandidato'}\"> Alta Candidato </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaCandidato')\" [ngClass]=\"{'selected-btn': show=='consultaCandidato'}\"> Consulta Candidato </button>\r\n    <button class=\"btn btn-info\" (click)=\"(show='usuario')\" [ngClass]=\"{'selected-btn': show=='usuario'}\">\r\n      <span class=\"glyphicon glyphicon-log-in\"></span> Sign Up\r\n    </button>\r\n  </nav>\r\n\r\n  <div *ngIf=\"show == 'altaPartido'\">\r\n    <partido-politico>\r\n    </partido-politico>\r\n  </div>\r\n  <div *ngIf=\"show == 'localidades'\">\r\n    <localidad>\r\n    </localidad>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaCandidato'\">\r\n    <candidato>\r\n    </candidato>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaCandidato'\">\r\n    <candidato-details>\r\n    </candidato-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaPartido'\">\r\n    <partido-details>\r\n    </partido-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'usuario'\">\r\n    <app-usuario>\r\n    </app-usuario>\r\n  </div>\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -611,9 +611,10 @@ var LocalidadComponent = (function () {
             }
         });
     };
-    LocalidadComponent.prototype.cambiarLoc = function (event) {
+    LocalidadComponent.prototype.cambiarLoc = function (id) {
         var _this = this;
-        var locElegida = this.localidades.find(function (x) { return x.id == _this.locSeleccionada; });
+        this.locSeleccionada = id;
+        var locElegida = this.localidades.find(function (x) { return x.id == id; });
         this.nombreLocalidadEdit = locElegida.nombreLocalidad;
         this._httpService.get('/api/localidad/getmesas?id=' + this.locSeleccionada).subscribe(function (values) {
             var body = JSON.parse(values.text("legacy"));
@@ -634,9 +635,9 @@ var LocalidadComponent = (function () {
             }
         });
     };
-    LocalidadComponent.prototype.delete = function () {
+    LocalidadComponent.prototype.delete = function (id) {
         var _this = this;
-        this._httpService.delete('/api/localidad/?id=' + this.locSeleccionada).subscribe(function (response) {
+        this._httpService.delete('/api/localidad/?id=' + id).subscribe(function (response) {
             var body = JSON.parse(response.text("legacy"));
             console.log(body.statusCode);
             if (body.statusCode == 200) {
@@ -668,7 +669,7 @@ var _a;
 /***/ "../../../../../src/app/partido/localidad.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p><strong>Listado de localidades</strong></p>\r\n<ul>\r\n  <li *ngFor=\"let value of localidades\">\r\n    {{value.nombreLocalidad}}\r\n  </li>\r\n</ul>\r\n\r\n<p><strong>Alta de localidad</strong></p>\r\n<label>Nombre de la localidad:</label>\r\n<input name=\"nombre\" [(ngModel)]=\"nombreLocalidad\" required><br>\r\n<label>Numero inicial de mesas:</label>\r\n<input name=\"mesas\" [(ngModel)]=\"numeroMesas\" required><br>\r\n<label>Provincia</label>\r\n<select class=\"form-control\" id=\"power\"\r\n        required\r\n        [(ngModel)]=\"nombreProvincia\" name=\"power\">\r\n  <option *ngFor=\"let cargo of provincias\" [value]=\"cargo.nombreProvincia\">{{cargo.nombreProvincia}}</option>\r\n</select>\r\n<button (click)=\"onSubmit()\" type=\"submit\" class=\"btn btn-success\">Submit</button>\r\n<div class=\"alert alert-success\" *ngIf=\"seAgrego\">\r\n  <strong>Se ha agregado correctamente la localidad</strong>\r\n</div>\r\n<div class=\"alert alert-warning\" *ngIf=\"error\">\r\n  <strong>La localidad que desea agregar ya existe</strong>\r\n</div>\r\n\r\n<p><strong>Editar y Baja de localidad</strong></p>\r\n<label>Nombre de la localidad:</label>\r\n<select class=\"form-control\" id=\"edit-select\"\r\n        required (change)=\"cambiarLoc($event)\"\r\n        [(ngModel)]=\"locSeleccionada\" name=\"edit-select\">\r\n  <option *ngFor=\"let cargo of localidades\" [value]=\"cargo.id\">{{cargo.nombreLocalidad}}</option>\r\n</select>\r\n<label>Nombre localidad:</label>\r\n<input name=\"nombre-edit\" [(ngModel)]=\"nombreLocalidadEdit\" required><br>\r\n<label>Numero de mesas disponibles:</label>\r\n<input name=\"mesas-edit\" [(ngModel)]=\"numeroMesasEdit\" required><br>\r\n<button (click)=\"edit()\" type=\"submit\" class=\"btn btn-success\">Guardar Cambios</button>\r\n<button (click)=\"delete()\" type=\"submit\" class=\"btn btn-error btn-danger\">Borrar</button>\r\n\r\n<div class=\"alert alert-success\" *ngIf=\"seEdito\">\r\n  <strong>Se ha editado correctamente la localidad</strong>\r\n</div>\r\n\r\n<div class=\"alert alert-success\" *ngIf=\"seBorro\">\r\n  <strong>Se ha eliminado correctamente la localidad</strong>\r\n</div>\r\n"
+module.exports = "<p><strong class=\"localidad-lista-titulo\">Listado de localidades</strong></p>\r\n<ul class=\"localidad-lista\">\r\n  <li *ngFor=\"let value of localidades\">\r\n    <span class=\"first\">{{value.nombreLocalidad}}</span>\r\n    <span class=\"second\">{{value.provincia.nombreProvincia}}</span>\r\n    <span>\r\n      <button class=\"btn btn-info\" (click)=\"cambiarLoc(value.id)\"><span class=\"glyphicon glyphicon-pencil\"></span></button>\r\n      <button class=\"btn btn-danger\" (click)=\"delete(value.id)\"><span class=\"glyphicon glyphicon-trash\"></span></button>\r\n    </span>\r\n  </li>\r\n</ul>\r\n\r\n<p><strong>Alta de localidad</strong></p>\r\n<label>Nombre de la localidad:</label>\r\n<input name=\"nombre\" [(ngModel)]=\"nombreLocalidad\" required><br>\r\n<label>Numero inicial de mesas:</label>\r\n<input name=\"mesas\" [(ngModel)]=\"numeroMesas\" required><br>\r\n<label>Provincia</label>\r\n<select class=\"form-control\" id=\"power\"\r\n        required\r\n        [(ngModel)]=\"nombreProvincia\" name=\"power\">\r\n  <option *ngFor=\"let cargo of provincias\" [value]=\"cargo.nombreProvincia\">{{cargo.nombreProvincia}}</option>\r\n</select>\r\n<button (click)=\"onSubmit()\" type=\"submit\" class=\"btn btn-success\">Submit</button>\r\n<div class=\"alert alert-success\" *ngIf=\"seAgrego\">\r\n  <strong>Se ha agregado correctamente la localidad</strong>\r\n</div>\r\n<div class=\"alert alert-warning\" *ngIf=\"error\">\r\n  <strong>La localidad que desea agregar ya existe</strong>\r\n</div>\r\n\r\n<p><strong>Editar localidad</strong></p>\r\n<label>Nombre localidad:</label>\r\n<input name=\"nombre-edit\" [(ngModel)]=\"nombreLocalidadEdit\" required><br>\r\n<label>Numero de mesas disponibles:</label>\r\n<input name=\"mesas-edit\" [(ngModel)]=\"numeroMesasEdit\" required><br>\r\n<button (click)=\"edit()\" type=\"submit\" class=\"btn btn-success\">Guardar Cambios</button>\r\n\r\n<div class=\"alert alert-success\" *ngIf=\"seEdito\">\r\n  <strong>Se ha editado correctamente la localidad</strong>\r\n</div>\r\n\r\n<div class=\"alert alert-success\" *ngIf=\"seBorro\">\r\n  <strong>Se ha eliminado correctamente la localidad</strong>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -680,7 +681,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".partido-wrapper{\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n      -ms-flex-direction: column;\r\n          flex-direction: column;\r\n}\r\n", ""]);
+exports.push([module.i, ".partido-wrapper {\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n      -ms-flex-direction: column;\r\n          flex-direction: column;\r\n}\r\n\r\n.localidad-lista-titulo {\r\n  padding: 20px;\r\n  font-size: 20px;\r\n}\r\n\r\n.localidad-lista {\r\n  list-style: none;\r\n  padding: 0;\r\n}\r\n\r\n  .localidad-lista li {\r\n    font-size: 14px;\r\n    border: 1px solid black;\r\n    border-radius: 5px;\r\n    padding: 5px;\r\n    margin: 5px 15px;\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-pack: justify;\r\n        -ms-flex-pack: justify;\r\n            justify-content: space-between;\r\n    background-color: aliceblue;\r\n  }\r\n\r\n  .localidad-lista li .first{\r\n    width: 300px;\r\n  }\r\n\r\n    .localidad-lista li .second {\r\n      width: 300px;\r\n    }\r\n\r\n    .localidad-lista li .btn {\r\n      font-size: 12px;\r\n      padding: 2px 6px;\r\n      line-height: 1.2;\r\n    }\r\n", ""]);
 
 // exports
 
@@ -777,7 +778,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/usuario/usuario.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p><strong>Alta de usuario</strong></p>\r\n<label>Usuario</label>\r\n<input name=\"user\" [(ngModel)]=\"user.user\" required><br>\r\n<label>Contraseña</label>\r\n<input name=\"pass\" [(ngModel)]=\"user.pass\" required><br>\r\n<label>Nombre completo</label>\r\n<input name=\"fullName\" [(ngModel)]=\"user.fullName\" required><br>\n<label>Rol</label>\r\n<select class=\"form-control\" id=\"role\"\r\n        required\r\n        [(ngModel)]=\"role\" name=\"role\">\r\n  <option *ngFor=\"let rol of roles\" [value]=\"rol\">{{rol}}</option>\r\n</select>\n<button (click)=\"test()\" type=\"submit\" class=\"btn btn-success\">Submit</button>\r\n\n"
+module.exports = "<p><strong>Alta de usuario</strong></p>\r\n<label>Usuario</label>\r\n<input name=\"user\" [(ngModel)]=\"user.user\" required><br>\r\n<label>Contraseña</label>\r\n<input name=\"pass\" [(ngModel)]=\"user.pass\" required><br>\r\n<label>Nombre completo</label>\r\n<input name=\"fullName\" [(ngModel)]=\"user.fullName\" required><br>\n<label>Rol</label>\r\n<select class=\"form-control\" id=\"role\"\r\n        required\r\n        [(ngModel)]=\"role\" name=\"role\">\r\n  <option *ngFor=\"let rol of roles\" [value]=\"rol\">{{rol}}</option>\r\n</select>\n<button (click)=\"submit()\" type=\"submit\" class=\"btn btn-success\">Submit</button>\r\n\n"
 
 /***/ }),
 
@@ -813,9 +814,6 @@ var UsuarioComponent = (function () {
         this.roles = ['Normal', 'Admin', 'SuperAdmin'];
     }
     UsuarioComponent.prototype.ngOnInit = function () {
-    };
-    UsuarioComponent.prototype.test = function () {
-        console.log(this.role);
     };
     UsuarioComponent.prototype.submit = function () {
         for (var i = 0; i < this.roles.length; i++) {

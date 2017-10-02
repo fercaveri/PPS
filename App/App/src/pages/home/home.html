@@ -14,25 +14,12 @@
         <p class="ionic-logo"></p>
     </div>
 
-    <ion-card>
-        <ion-card-header>
-            Seleccione mesa y cargue datos
-        </ion-card-header>
-
-        <ion-list>
-            <button ion-item (click)="navToMesas()">
-                <ion-icon name="jet" item-left></ion-icon>
-                Seleccion de mesas
-            </button>
-        </ion-list>
-    </ion-card>
-
   <ion-label>Usuario</ion-label>
   <ion-input type="text" [(ngModel)]="user" name="user"></ion-input>
 
   <ion-label>Contraseña</ion-label>
   <ion-input type="text" [(ngModel)]="pass" name="pass"></ion-input>
-  <button ion-item (click)="login()">
+  <button ion-button full color="dark"  (click)="login()">
     Iniciar sesión
   </button>
 </ion-content>

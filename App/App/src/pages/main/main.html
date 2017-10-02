@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Escrutinio App
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="home" padding>
+
+  <h2 class="center">Escrutinio App</h2>
+
+  <div class="center">
+    <p class="ionic-logo"></p>
+  </div>
+
+  <ion-card>
+    <ion-card-header>
+      Seleccione mesa y cargue datos
+    </ion-card-header>
+
+    <ion-list>
+      <button ion-item (click)="navToMesas()">
+        <ion-icon name="jet" item-left></ion-icon>
+        Seleccion de mesas
+      </button>
+    </ion-list>
+  </ion-card>
+</ion-content>

@@ -3,15 +3,16 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { MesasPage } from '../pages/mesas/mesas';
-
 import { TelegramaPage } from '../pages/telegrama/telegrama';
+import { MainPage } from '../pages/main/main';
 
 @NgModule({
     declarations: [
         MyApp,
         HomePage,
         MesasPage,
-        TelegramaPage
+        TelegramaPage,
+        MainPage
     ],
     imports: [
         IonicModule.forRoot(MyApp)
@@ -21,7 +22,8 @@ import { TelegramaPage } from '../pages/telegrama/telegrama';
         MyApp,
         HomePage,
         MesasPage,
-        TelegramaPage
+        TelegramaPage,
+        MainPage
     ],
     providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }]
 })

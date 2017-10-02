@@ -68,10 +68,11 @@ namespace PPS.Data
         context.Recuentos.Add(r);
         context.SaveChanges();
       }
-
-      context.Usuarios.Add(new Usuario("sadmin", "sadmin", "Super Administrador", 2));
-
-
+      if (!context.Usuarios.Any())
+      {
+        context.Usuarios.Add(new Usuario("sadmin", "sadmin", "Super Administrador", 2));
+        context.SaveChanges();
+      }
     }
   }
 }
