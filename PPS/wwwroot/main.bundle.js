@@ -476,7 +476,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/partido-details/partido-details.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2><strong class=\"partidos-lista-titulo\">Listado de partidos politicos</strong></h2>\r\n<spinner *ngIf=\"!partCargados\"></spinner>\r\n<ul class=\"partidos-lista\">\r\n  <li *ngFor=\"let part of partidos\">\r\n    <span class=\"first\">{{part.nombre}}</span>\r\n    <span>\r\n      <button class=\"btn btn-info\" (click)=\"verLista(part.numeroLista)\"><span class=\"glyphicon glyphicon-info\"></span> VER CANDIDATOS </button>\r\n    </span>\r\n  </li>\r\n</ul>\r\n\r\n<ul class=\"partidos-candidatos-list\">\r\n  <li *ngFor=\"let value of candidatos\">\r\n    <img class=\"part-candidato-imagen\" src=\"{{value.urlFoto}}\" />\r\n    <span>{{value.apellido}}, {{value.nombre}}</span>\r\n  </li>\r\n</ul>\r\n\r\n"
+module.exports = "<h2><strong class=\"partidos-lista-titulo\">Listado de partidos politicos</strong></h2>\r\n<spinner *ngIf=\"!partCargados\"></spinner>\r\n<ul class=\"partidos-lista\">\r\n  <li *ngFor=\"let part of partidos\">\r\n    <span class=\"first\">{{part.nombre}}</span>\r\n    <span>\r\n      <button class=\"btn btn-info\" (click)=\"verLista(part.numeroLista)\"><span class=\"glyphicon glyphicon-info\"></span> VER CANDIDATOS </button>\r\n    </span>\r\n  </li>\r\n</ul>\r\n\r\n<ul class=\"partidos-candidatos-list\">\r\n  <li *ngFor=\"let value of candidatos\">\r\n    <img class=\"part-candidato-imagen\" src=\"{{value.urlFoto}}\" />\r\n    <span>{{value.apellido}}, {{value.nombre}}</span>\r\n    <span>{{getCargo(value.cargo)}}</span>\r\n  </li>\r\n</ul>\r\n\r\n"
 
 /***/ }),
 
