@@ -38,4 +38,9 @@ export class PartidoDetailsComponent implements OnInit {
       });
   }
 
+  getCargo(id: number): any {
+      var cargo = this.cargos.filter(x => x.numero == id)[0];
+      return cargo.nombre;
+  }
+
 }

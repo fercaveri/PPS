@@ -33,3 +33,20 @@
       line-height: 1.2;
       border: 1px solid gray;
     }
+
+.partidos-candidatos-list {
+  list-style: none;
+  padding: 20px;
+}
+
+  .partidos-candidatos-list li {
+    display: flex;
+    align-items: center;
+  }
+
+.part-candidato-imagen {
+  border-radius: 50%;
+  border: 2px solid black;
+  width: 100px;
+  height: 100px;
+}

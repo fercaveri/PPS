@@ -9,8 +9,12 @@
   </li>
 </ul>
 
-<ul>
-  <li *ngFor="let value of candidatos">Nombre = {{value.nombre}} Apellido = {{value.apellido}} Cargo = {{value.cargo}}</li>
+<ul class="partidos-candidatos-list">
+  <li *ngFor="let value of candidatos">
+    <img class="part-candidato-imagen" src="{{value.urlFoto}}" />
+    <span>{{value.apellido}}, {{value.nombre}}</span>
+    <span>{{getCargo(value.cargo)}}</span>
+  </li>
 </ul>
 
-<!-- cargos.find(x => x.numero ==value.cargo)[0].nombre -->
+<!-- (cargos.filter(x => x.numero == value.cargo)[0]).nombre -->
