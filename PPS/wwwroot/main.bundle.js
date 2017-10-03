@@ -463,7 +463,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".partidos-lista-titulo {\r\n  padding: 20px;\r\n  font-size: 20px;\r\n}\r\n\r\n.partidos-lista {\r\n  list-style: none;\r\n  padding: 0;\r\n}\r\n\r\n  .partidos-lista li {\r\n    font-size: 14px;\r\n    border: 1px solid black;\r\n    border-radius: 5px;\r\n    padding: 5px;\r\n    margin: 5px 15px;\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-pack: justify;\r\n        -ms-flex-pack: justify;\r\n            justify-content: space-between;\r\n    background-color: rgba(195, 255, 195, 0.3);\r\n  }\r\n\r\n    .partidos-lista li .first {\r\n      width: 300px;\r\n    }\r\n\r\n    .partidos-lista li .second {\r\n      width: 300px;\r\n    }\r\n\r\n    .partidos-lista li .btn {\r\n      font-size: 12px;\r\n      padding: 2px 6px;\r\n      line-height: 1.2;\r\n      border: 1px solid gray;\r\n    }\r\n", ""]);
+exports.push([module.i, ".partidos-lista-titulo {\r\n  padding: 20px;\r\n  font-size: 20px;\r\n}\r\n\r\n.partidos-lista {\r\n  list-style: none;\r\n  padding: 0;\r\n}\r\n\r\n  .partidos-lista li {\r\n    font-size: 14px;\r\n    border: 1px solid black;\r\n    border-radius: 5px;\r\n    padding: 5px;\r\n    margin: 5px 15px;\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-pack: justify;\r\n        -ms-flex-pack: justify;\r\n            justify-content: space-between;\r\n    background-color: rgba(195, 255, 195, 0.3);\r\n  }\r\n\r\n    .partidos-lista li .first {\r\n      width: 300px;\r\n    }\r\n\r\n    .partidos-lista li .second {\r\n      width: 300px;\r\n    }\r\n\r\n    .partidos-lista li .btn {\r\n      font-size: 12px;\r\n      padding: 2px 6px;\r\n      line-height: 1.2;\r\n      border: 1px solid gray;\r\n    }\r\n\r\n.partidos-candidatos-list {\r\n  list-style: none;\r\n  padding: 20px;\r\n}\r\n\r\n  .partidos-candidatos-list li {\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-align: center;\r\n        -ms-flex-align: center;\r\n            align-items: center;\r\n  }\r\n\r\n.part-candidato-imagen {\r\n  border-radius: 50%;\r\n  border: 2px solid black;\r\n  width: 100px;\r\n  height: 100px;\r\n}\r\n", ""]);
 
 // exports
 
@@ -476,7 +476,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/partido-details/partido-details.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2><strong class=\"partidos-lista-titulo\">Listado de partidos politicos</strong></h2>\r\n<spinner *ngIf=\"!partCargados\"></spinner>\r\n<ul class=\"partidos-lista\">\r\n  <li *ngFor=\"let part of partidos\">\r\n    <span class=\"first\">{{part.nombre}}</span>\r\n    <span>\r\n      <button class=\"btn btn-info\" (click)=\"verLista(part.numeroLista)\"><span class=\"glyphicon glyphicon-info\"></span> VER CANDIDATOS </button>\r\n    </span>\r\n  </li>\r\n</ul>\r\n\r\n<ul>\r\n  <li *ngFor=\"let value of candidatos\">Nombre = {{value.nombre}} Apellido = {{value.apellido}} Cargo = {{cargos.find(x => x.numero ==value.cargo)[0].nombre}}</li>\r\n</ul>\r\n"
+module.exports = "<h2><strong class=\"partidos-lista-titulo\">Listado de partidos politicos</strong></h2>\r\n<spinner *ngIf=\"!partCargados\"></spinner>\r\n<ul class=\"partidos-lista\">\r\n  <li *ngFor=\"let part of partidos\">\r\n    <span class=\"first\">{{part.nombre}}</span>\r\n    <span>\r\n      <button class=\"btn btn-info\" (click)=\"verLista(part.numeroLista)\"><span class=\"glyphicon glyphicon-info\"></span> VER CANDIDATOS </button>\r\n    </span>\r\n  </li>\r\n</ul>\r\n\r\n<ul class=\"partidos-candidatos-list\">\r\n  <li *ngFor=\"let value of candidatos\">\r\n    <img class=\"part-candidato-imagen\" src=\"{{value.urlFoto}}\" />\r\n    <span>{{value.apellido}}, {{value.nombre}}</span>\r\n  </li>\r\n</ul>\r\n\r\n"
 
 /***/ }),
 
@@ -531,6 +531,10 @@ var PartidoDetailsComponent = (function () {
             console.log(values);
             _this.candidatos = values.json();
         });
+    };
+    PartidoDetailsComponent.prototype.getCargo = function (id) {
+        var cargo = this.cargos.filter(function (x) { return x.numero == id; })[0];
+        return cargo.nombre;
     };
     return PartidoDetailsComponent;
 }());
@@ -867,7 +871,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/usuario/usuario.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p><strong>Alta de usuario</strong></p>\r\n<label>Usuario</label>\r\n<input name=\"user\" [(ngModel)]=\"user.user\" required><br>\r\n<label>Contraseña</label>\r\n<input name=\"pass\" [(ngModel)]=\"user.pass\" required><br>\r\n<label>Nombre completo</label>\r\n<input name=\"fullName\" [(ngModel)]=\"user.fullName\" required><br>\r\n<label>Rol</label>\r\n<select class=\"form-control\" id=\"role\"\r\n        required\r\n        [(ngModel)]=\"role\" name=\"role\">\r\n  <option *ngFor=\"let rol of roles\" [value]=\"rol\">{{rol}}</option>\r\n</select>\r\n<button (click)=\"submit()\" type=\"submit\" class=\"btn btn-success\">Submit</button>\r\n\r\n"
+module.exports = "<p><strong>Alta de usuario</strong></p>\r\n<label>Usuario</label>\r\n<input name=\"user\" [(ngModel)]=\"user.user\" required><br>\r\n<label>Contraseña</label>\r\n<input name=\"pass\" [(ngModel)]=\"user.pass\" required><br>\r\n<label>Nombre completo</label>\r\n<input name=\"fullName\" [(ngModel)]=\"user.fullName\" required><br>\n<label>Rol</label>\r\n<select class=\"form-control\" id=\"role\"\r\n        required\r\n        [(ngModel)]=\"role\" name=\"role\">\r\n  <option *ngFor=\"let rol of roles\" [value]=\"rol\">{{rol}}</option>\r\n</select>\n<button (click)=\"submit()\" type=\"submit\" class=\"btn btn-success\">Submit</button>\r\n\n"
 
 /***/ }),
 

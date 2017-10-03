@@ -16,25 +16,40 @@ export class HomePage {
   pass: String = "";
   usuario: number;
 
-  private imageSrc: string;
+  cameraData: string;
+  photoTaken: boolean;
+  cameraUrl: string;
+  photoSelected: boolean;
 
   constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController) {
   }
 
-  private openGallery(): void {
-      let cameraOptions = {
+  selectFromGallery() {
+      var options = {
           sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-          destinationType: Camera.DestinationType.FILE_URI,
-          quality: 100,
-          targetWidth: 1000,
-          targetHeight: 1000,
-          encodingType: Camera.EncodingType.JPEG,
-          correctOrientation: true
-      }
+          destinationType: Camera.DestinationType.FILE_URI
+      };
+      Camera.getPicture(options).then((imageData) => {
+          this.cameraUrl = imageData;
+          this.photoSelected = true;
+          this.photoTaken = false;
+      }, (err) => {
+          // Handle error
+      });
+  }
 
-      Camera.getPicture(cameraOptions)
-          .then(file_uri => this.imageSrc = file_uri,
-          err => console.log(err));
+  openCamera() {
+      var options = {
+          sourceType: Camera.PictureSourceType.CAMERA,
+          destinationType: Camera.DestinationType.DATA_URL
+      };
+      Camera.getPicture(options).then((imageData) => {
+          this.cameraData = 'data:image/jpeg;base64,' + imageData;
+          this.photoTaken = true;
+          this.photoSelected = false;
+      }, (err) => {
+          // Handle error
+      });
   }
   
   onLink(url: string) {
@@ -67,7 +82,7 @@ export class HomePage {
       alert.present();
   }
   login() {
-      this.http.get('http://localhost:' + new config().port +
+      this.http.get('http://' +new config().port +':'+ new config().port +
           '/api/usuario/?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
               this.usuario = data;
               console.log(this.usuario);
