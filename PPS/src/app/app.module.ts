@@ -11,6 +11,7 @@ import { CandidatoDetailsComponent } from './candidato-details/candidato-details
 import { PartidoDetailsComponent } from './partido-details/partido-details.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { TelegramaComponent } from './telegrama/telegrama.component';
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
         CandidatoDetailsComponent,
         PartidoDetailsComponent,
         UsuarioComponent,
-        SpinnerComponent
+        SpinnerComponent,
+        TelegramaComponent
     ],
     imports: [
         BrowserModule,
