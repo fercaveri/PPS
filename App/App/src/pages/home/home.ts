@@ -82,11 +82,15 @@ export class HomePage {
       alert.present();
   }
   login() {
+      console.log("CALL A http://" + new config().ip + ':' + new config().port +
+          '/api/usuario?usuario=' + this.user + '&pass=' + this.pass);
       this.http.get('http://' +new config().ip +':'+ new config().port +
-          '/api/usuario/?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
+          '/api/usuario?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
               this.usuario = data;
               console.log(this.usuario);
               this.showAlert(this.usuario);
+          }, error => {
+              console.log(error);
           });
   }
 

@@ -18,7 +18,7 @@ export class MesasPage {
     mesa: number = 0;
     mesasLocalidades: object[] = [];
     constructor(public navCtrl: NavController, public http: Http) {
-        this.http.get('http://localhost:' + new config().port+'/api/provincia').map(res => res.json()).subscribe(data => {
+        this.http.get('http://' + new config().ip + ':' + + new config().port+'/api/provincia').map(res => res.json()).subscribe(data => {
             console.log(data);
             this.provincias = data;
         });
@@ -27,7 +27,7 @@ export class MesasPage {
     onChange(nombre: String) {
         this.provincia = nombre;
         console.log(this.provincia);
-        this.http.get('http://localhost:' + new config().port +'/api/localidad/'+this.provincia+'/').map(res => res.json()).subscribe(data => {
+        this.http.get('http://' + new config().ip + ':' + + new config().port +'/api/localidad/'+this.provincia+'/').map(res => res.json()).subscribe(data => {
             console.log(data);
             this.localidadesProvincia = data;
         });
@@ -35,7 +35,7 @@ export class MesasPage {
     buscarMesas(nombre: String) {
         this.localidad = nombre;
         console.log(this.localidad);
-        this.http.get('http://localhost:' + new config().port +'/api/mesa/' + this.localidad + '/').map(res => res.json()).subscribe(data => {
+        this.http.get('http://' + new config().ip + ':' + + new config().port +'/api/mesa/' + this.localidad + '/').map(res => res.json()).subscribe(data => {
             console.log(data);
             this.mesasLocalidades = data;
         });
