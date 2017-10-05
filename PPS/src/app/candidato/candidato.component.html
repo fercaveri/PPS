@@ -1,59 +1,90 @@
-<h1>Formulario alta candidato</h1>
-<form (ngSubmit)="onSubmit()" #candidatoForm="ngForm">
-  <div class="form-group">
-    <label for="candidato-nombre">Nombre:</label>
-    <input [(ngModel)]="nombre" name="nombre" type="text" class="form-control" id="candidato-nombre"required>
-  </div>
+<div style="display:flex;">
+  <form (ngSubmit)="onSubmit()" #candidatoForm="ngForm">
+    <table class="alta-cand-table">
+      <thead>
+        <tr>
+          <td>
+            <h2>Formulario alta candidato</h2>
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="form-group">
+          <td><label for="candidato-nombre">Nombre:</label></td>
+          <td><input [(ngModel)]="nombre" name="nombre" type="text" class="form-control" id="candidato-nombre" required></td>
+        </tr>
+        <tr class="form-group">
+          <td><label for="candidato-apellido">Apellido:</label></td>
+          <td><input [(ngModel)]="apellido" name="apellido" type="text" class="form-control" id="candidato-apellido" required></td>
+        </tr>
+        <tr class="form-group">
+          <td><label for="candidato-cargo">Cargo:</label></td>
+          <td>
+            <select [(ngModel)]="cargo" name="cargo" class="form-control" id="candidato-cargo" required>
+              <option *ngFor="let cargo of cargos; let i = index" [attr.data-index]="i" [value]="i">{{cargo}}</option>
+            </select>
+          </td>
+        </tr>
 
-  <div class="form-group">
-    <label for="candidato-apellido">Apellido:</label>
-    <input [(ngModel)]="apellido" name="apellido" type="text" class="form-control" id="candidato-apellido" required>
-  </div>
 
-  <label for="candidato-cargo">Cargo:</label>
-  <select [(ngModel)]="cargo" name="cargo" class="form-control" id="candidato-cargo" required>
-    <option *ngFor="let cargo of cargos; let i = index" [attr.data-index]="i" [value]="i">{{cargo}}</option>
-  </select>
 
-  <div *ngIf="cargo==0">
-    <label for="candidato-localidad">Localidad:</label>
-    <select [(ngModel)]="localidadId" name="localidadId" class="form-control" id="candidato-localidad" required>
-      <option *ngFor="let loc of localidades" [value]="loc.id">{{loc.nombreLocalidad + " - " + loc.provincia.nombreProvincia}}</option>
-    </select>
-  </div>
-  <div *ngIf="cargo==1">
-    <label for="candidato-localidad">Provincia:</label>
-    <select [(ngModel)]="provincia" name="provinciaId" class="form-control" id="candidato-provincia" required>
-      <option *ngFor="let prov of provincias" [value]="prov.nombreProvincia">{{prov.nombreProvincia}}</option>
-    </select>
-  </div>
+        <tr *ngIf="cargo==0" class="form-group">
+          <td><label for="candidato-localidad">Localidad:</label></td>
+          <td>
+            <select [(ngModel)]="localidadId" name="localidadId" class="form-control" id="candidato-localidad" required>
+              <option *ngFor="let loc of localidades" [value]="loc.id">{{loc.nombreLocalidad + " - " + loc.provincia.nombreProvincia}}</option>
+            </select>
+          </td>
+        </tr>
+        <tr *ngIf="cargo==1" class="form-group">
+          <td><label for="candidato-localidad">Provincia:</label></td>
+          <td>
+            <select [(ngModel)]="provincia" name="provinciaId" class="form-control" id="candidato-provincia" required>
+              <option *ngFor="let prov of provincias" [value]="prov.nombreProvincia">{{prov.nombreProvincia}}</option>
+            </select>
+          </td>
+        </tr>
 
-  
 
-  <div class="form-group">
-    <label for="candidato-foto">URL Foto:</label>
-    <input [(ngModel)]="foto" name="foto" type="text" class="form-control" id="candidato-apellido">
-  </div>
 
-  <label for="candidato-partido">Partido Politico:</label>
-  <select [(ngModel)]="partidoId" name="partidoId" class="form-control" id="candidato-partido" required>
-    <option *ngFor="let part of partidos" [value]="part.numeroLista">{{part.nombre}}</option>
-  </select>
+        <tr class="form-group">
+          <td><label for="candidato-foto">URL Foto:</label></td>
+          <td><input [(ngModel)]="foto" name="foto" type="text" class="form-control" id="candidato-apellido"></td>
+        </tr>
 
-  <button type="submit" class="btn btn-success"
-          [disabled]="!candidatoForm.form.valid">
-    Submit
-  </button>
+        <tr class="form-group">
+          <td><label for="candidato-partido">Partido Politico:</label></td>
+          <td>
+            <select [(ngModel)]="partidoId" name="partidoId" class="form-control" id="candidato-partido" required>
+              <option *ngFor="let part of partidos" [value]="part.numeroLista">{{part.nombre}}</option>
+            </select>
+          </td>
+        </tr>
 
+        <tr>
+          <td>
+            <button type="submit" class="btn btn-success"
+                    [disabled]="!candidatoForm.form.valid">
+              Submit
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
   <div class="alert alert-success" *ngIf="submitted">
     <strong>Se ha agregado correctamente el candidato</strong>
+    <div class="alta-cand-msg">
+      <i class="glyphicon glyphicon-success"></i>
+    </div>
   </div>
   <div class="alert alert-warning" *ngIf="error">
     <strong>Ya existe un candidato en ese cargo dentro del partido seleccionado</strong>
+    <span class="alta-cand-msg">
+      <i class="glyphicon glyphicon-warning"></i>
+    </span>
   </div>
-</form>
-
-
+</div>
 
 
 

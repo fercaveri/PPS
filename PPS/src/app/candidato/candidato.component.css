@@ -1,0 +1,16 @@
+.alta-cand-table td{
+  padding: 5px;
+}
+
+.alta-cand-msg {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+  .alta-cand-msg .glyphicon {
+    font-size: 120px;
+  }
