@@ -26,7 +26,7 @@ namespace PPS.Data
       modelBuilder.Entity<Localidad>().ToTable("Localidades");
       modelBuilder.Entity<Mesa>().ToTable("Mesas");
       modelBuilder.Entity<Usuario>().ToTable("Usuarios");
-      modelBuilder.Entity<Usuario>().ToTable("Telegramas");
+      modelBuilder.Entity<Telegrama>().ToTable("Telegramas");
     }
   }
 }

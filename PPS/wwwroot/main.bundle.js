@@ -102,12 +102,14 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__partido_details_partido_details_component__ = __webpack_require__("../../../../../src/app/partido-details/partido-details.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__usuario_usuario_component__ = __webpack_require__("../../../../../src/app/usuario/usuario.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__spinner_spinner_component__ = __webpack_require__("../../../../../src/app/spinner/spinner.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__telegrama_telegrama_component__ = __webpack_require__("../../../../../src/app/telegrama/telegrama.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -136,7 +138,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_9__candidato_details_candidato_details_component__["a" /* CandidatoDetailsComponent */],
             __WEBPACK_IMPORTED_MODULE_10__partido_details_partido_details_component__["a" /* PartidoDetailsComponent */],
             __WEBPACK_IMPORTED_MODULE_11__usuario_usuario_component__["a" /* UsuarioComponent */],
-            __WEBPACK_IMPORTED_MODULE_12__spinner_spinner_component__["a" /* SpinnerComponent */]
+            __WEBPACK_IMPORTED_MODULE_12__spinner_spinner_component__["a" /* SpinnerComponent */],
+            __WEBPACK_IMPORTED_MODULE_13__telegrama_telegrama_component__["a" /* TelegramaComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -847,6 +850,67 @@ SpinnerComponent = __decorate([
 ], SpinnerComponent);
 
 //# sourceMappingURL=spinner.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/telegrama/telegrama.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/telegrama/telegrama.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  telegrama works!\n</p>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/telegrama/telegrama.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TelegramaComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var TelegramaComponent = (function () {
+    function TelegramaComponent() {
+    }
+    TelegramaComponent.prototype.ngOnInit = function () {
+    };
+    return TelegramaComponent;
+}());
+TelegramaComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'app-telegrama',
+        template: __webpack_require__("../../../../../src/app/telegrama/telegrama.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/telegrama/telegrama.component.css")]
+    }),
+    __metadata("design:paramtypes", [])
+], TelegramaComponent);
+
+//# sourceMappingURL=telegrama.component.js.map
 
 /***/ }),
 
