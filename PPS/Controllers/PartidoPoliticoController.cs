@@ -8,6 +8,7 @@ using PPS.Models;
 using PPS.WebModels;
 using System.Net.Http;
 using System.Net;
+using Microsoft.EntityFrameworkCore;
 
 namespace PPS.Controllers
 {
@@ -34,7 +35,7 @@ namespace PPS.Controllers
     [HttpGet]
     public IEnumerable<Candidato> GetLista(int numeroLista)
     {
-      return _db.Candidatos.Where(x => x.partido.numeroLista == numeroLista).ToList();
+      return _db.Candidatos.Where(x => x.partido.numeroLista == numeroLista).Include(x => x.localidad).Include(x => x.localidad.provincia).ToList();
     }
 
     // POST api/partidopolitico

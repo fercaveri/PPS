@@ -466,7 +466,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".partidos-lista-titulo {\r\n  padding: 20px;\r\n  font-size: 20px;\r\n}\r\n\r\n.partidos-lista {\r\n  list-style: none;\r\n  padding: 0;\r\n}\r\n\r\n  .partidos-lista li {\r\n    font-size: 14px;\r\n    border: 1px solid black;\r\n    border-radius: 5px;\r\n    padding: 5px;\r\n    margin: 5px 15px;\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-pack: justify;\r\n        -ms-flex-pack: justify;\r\n            justify-content: space-between;\r\n    background-color: rgba(195, 255, 195, 0.3);\r\n  }\r\n\r\n    .partidos-lista li .first {\r\n      width: 300px;\r\n    }\r\n\r\n    .partidos-lista li .second {\r\n      width: 300px;\r\n    }\r\n\r\n    .partidos-lista li .btn {\r\n      font-size: 12px;\r\n      padding: 2px 6px;\r\n      line-height: 1.2;\r\n      border: 1px solid gray;\r\n    }\r\n\r\n.partidos-candidatos-list {\r\n  list-style: none;\r\n  padding: 20px;\r\n}\r\n\r\n  .partidos-candidatos-list li {\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-align: center;\r\n        -ms-flex-align: center;\r\n            align-items: center;\r\n  }\r\n\r\n.part-candidato-imagen {\r\n  border-radius: 50%;\r\n  border: 2px solid black;\r\n  width: 100px;\r\n  height: 100px;\r\n}\r\n", ""]);
+exports.push([module.i, ".partidos-lista-titulo {\r\n  padding: 20px;\r\n  font-size: 20px;\r\n}\r\n\r\n.partidos-lista {\r\n  list-style: none;\r\n  padding: 0;\r\n}\r\n\r\n  .partidos-lista li {\r\n    font-size: 14px;\r\n    border: 1px solid black;\r\n    border-radius: 5px;\r\n    padding: 5px;\r\n    margin: 5px 15px;\r\n    background-color: rgba(195, 255, 195, 0.3);\r\n  }\r\n\r\n    .partidos-lista li div {\r\n      display: -webkit-box;\r\n      display: -ms-flexbox;\r\n      display: flex;\r\n      -webkit-box-pack: justify;\r\n          -ms-flex-pack: justify;\r\n              justify-content: space-between;\r\n    }\r\n\r\n      .partidos-lista li div .first {\r\n        width: 300px;\r\n        font-size: 16px;\r\n        font-weight: bold;\r\n      }\r\n\r\n      .partidos-lista li div .second {\r\n        width: 300px;\r\n      }\r\n\r\n      .partidos-lista li div .btn {\r\n        font-size: 12px;\r\n        padding: 2px 6px;\r\n        line-height: 1.2;\r\n        border: 1px solid gray;\r\n      }\r\n\r\n.partidos-candidatos-list {\r\n  list-style: none;\r\n  padding: 20px;\r\n}\r\n\r\n  .partidos-candidatos-list li {\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-align: center;\r\n        -ms-flex-align: center;\r\n            align-items: center;\r\n    border: 1px solid gray;\r\n    border-radius: 5px;\r\n    padding: 5px;\r\n    margin: 5px;\r\n    background-color: rgba(200,200,200,0.3);\r\n  }\r\n\r\n.part-candidato-imagen {\r\n  border-radius: 50%;\r\n  border: 2px solid black;\r\n  width: 75px;\r\n  height: 75px;\r\n}\r\n\r\n.partidos-candidatos-list li span {\r\n  margin: 0 20px;\r\n  font-weight: bold;\r\n  font-size: 16px;\r\n}\r\n", ""]);
 
 // exports
 
@@ -479,7 +479,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/partido-details/partido-details.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2><strong class=\"partidos-lista-titulo\">Listado de partidos politicos</strong></h2>\r\n<spinner *ngIf=\"!partCargados\"></spinner>\r\n<ul class=\"partidos-lista\">\r\n  <li *ngFor=\"let part of partidos\">\r\n    <span class=\"first\">{{part.nombre}}</span>\r\n    <span>\r\n      <button class=\"btn btn-info\" (click)=\"verLista(part.numeroLista)\"><span class=\"glyphicon glyphicon-info\"></span> VER CANDIDATOS </button>\r\n    </span>\r\n  </li>\r\n</ul>\r\n\r\n<ul class=\"partidos-candidatos-list\">\r\n  <li *ngFor=\"let value of candidatos\">\r\n    <img class=\"part-candidato-imagen\" src=\"{{value.urlFoto}}\" />\r\n    <span>{{value.apellido}}, {{value.nombre}}</span>\r\n    <span>{{getCargo(value.cargo)}}</span>\r\n  </li>\r\n</ul>\r\n\r\n"
+module.exports = "<h2><strong class=\"partidos-lista-titulo\">Listado de partidos politicos</strong></h2>\r\n<spinner *ngIf=\"!partCargados\"></spinner>\r\n<ul class=\"partidos-lista\">\r\n  <li *ngFor=\"let part of partidos; let i = index;\">\r\n    <div>\r\n      <span class=\"first\">{{part.nombre}}</span>\r\n      <span>\r\n        <button class=\"btn btn-info\" *ngIf=\"partActual[i] == null || partActual[i] == false\" (click)=\"verLista(part.numeroLista, i); partActual[i] = true;\"><span class=\"glyphicon glyphicon-info\"></span> VER CANDIDATOS </button>\r\n        <button class=\"btn btn-danger\" *ngIf=\"partActual[i] == true\" (click)=\"partActual[i] = false; candidatos[i] = [];\"><span class=\"glyphicon glyphicon-info\"></span> OCULTAR CANDIDATOS </button>\r\n      </span>\r\n    </div>\r\n    <ul class=\"partidos-candidatos-list\" *ngIf=\"partActual[i] == true\">\r\n      <li *ngFor=\"let value of candidatos[i]\">\r\n        <img class=\"part-candidato-imagen\" [src]=\"'data:image/jpg;base64,'+ value.urlFoto\" />\r\n        <span>{{value.apellido}}, {{value.nombre}}</span>\r\n        <span>{{getCargo(value.cargo, value.localidad)}}</span>\r\n      </li>\r\n    </ul>\r\n  </li>\r\n</ul>\r\n\r\n"
 
 /***/ }),
 
@@ -488,6 +488,8 @@ module.exports = "<h2><strong class=\"partidos-lista-titulo\">Listado de partido
 
 "use strict";
 /* unused harmony export Cargo */
+/* unused harmony export Provincia */
+/* unused harmony export Localidad */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PartidoDetailsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
@@ -508,6 +510,18 @@ var Cargo = (function () {
     return Cargo;
 }());
 
+var Provincia = (function () {
+    function Provincia() {
+    }
+    return Provincia;
+}());
+
+var Localidad = (function () {
+    function Localidad() {
+    }
+    return Localidad;
+}());
+
 var PartidoDetailsComponent = (function () {
     function PartidoDetailsComponent(_httpService) {
         this._httpService = _httpService;
@@ -516,6 +530,7 @@ var PartidoDetailsComponent = (function () {
         this.partidos = [];
         this.cargos = [];
         this.partCargados = false;
+        this.partActual = [];
     }
     PartidoDetailsComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -528,16 +543,29 @@ var PartidoDetailsComponent = (function () {
             console.log(_this.cargos);
         });
     };
-    PartidoDetailsComponent.prototype.verLista = function (id) {
+    PartidoDetailsComponent.prototype.verLista = function (id, index) {
         var _this = this;
         this._httpService.get('/api/partidopolitico/getlista?numeroLista=' + id).subscribe(function (values) {
             console.log(values);
-            _this.candidatos = values.json();
+            _this.candidatos[index] = values.json();
+            _this.candidatos[index].sort(function (a, b) {
+                if (a['cargo'] < b['cargo'])
+                    return 1;
+                else if (a['cargo'] > b['cargo'])
+                    return -1;
+                else
+                    return 0;
+            });
         });
     };
-    PartidoDetailsComponent.prototype.getCargo = function (id) {
+    PartidoDetailsComponent.prototype.getCargo = function (id, loc) {
+        console.log(loc);
         var cargo = this.cargos.filter(function (x) { return x.numero == id; })[0];
-        return cargo.nombre;
+        var nombre = cargo.nombre;
+        if (nombre == "Concejal") {
+            nombre += " (" + loc.nombreLocalidad + ")";
+        }
+        return nombre;
     };
     return PartidoDetailsComponent;
 }());
@@ -874,7 +902,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/telegrama/telegrama.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  telegrama works!\n</p>\n"
+module.exports = "<p>\r\n  telegrama works!\r\n</p>\r\n"
 
 /***/ }),
 
@@ -935,7 +963,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/usuario/usuario.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p><strong>Alta de usuario</strong></p>\r\n<label>Usuario</label>\r\n<input name=\"user\" [(ngModel)]=\"user.user\" required><br>\r\n<label>Contraseña</label>\r\n<input name=\"pass\" [(ngModel)]=\"user.pass\" required><br>\r\n<label>Nombre completo</label>\r\n<input name=\"fullName\" [(ngModel)]=\"user.fullName\" required><br>\n<label>Rol</label>\r\n<select class=\"form-control\" id=\"role\"\r\n        required\r\n        [(ngModel)]=\"role\" name=\"role\">\r\n  <option *ngFor=\"let rol of roles\" [value]=\"rol\">{{rol}}</option>\r\n</select>\n<button (click)=\"submit()\" type=\"submit\" class=\"btn btn-success\">Submit</button>\r\n\n"
+module.exports = "<p><strong>Alta de usuario</strong></p>\r\n<label>Usuario</label>\r\n<input name=\"user\" [(ngModel)]=\"user.user\" required><br>\r\n<label>Contraseña</label>\r\n<input name=\"pass\" [(ngModel)]=\"user.pass\" required><br>\r\n<label>Nombre completo</label>\r\n<input name=\"fullName\" [(ngModel)]=\"user.fullName\" required><br>\r\n<label>Rol</label>\r\n<select class=\"form-control\" id=\"role\"\r\n        required\r\n        [(ngModel)]=\"role\" name=\"role\">\r\n  <option *ngFor=\"let rol of roles\" [value]=\"rol\">{{rol}}</option>\r\n</select>\r\n<button (click)=\"submit()\" type=\"submit\" class=\"btn btn-success\">Submit</button>\r\n\r\n"
 
 /***/ }),
 

@@ -6,6 +6,16 @@ export class Cargo {
     nombre: string;
 }
 
+export class Provincia {
+    nombreProvincia: string;
+}
+
+export class Localidad {
+    id: number;
+    nombreLocalidad: string;
+    provincia: Provincia;
+}
+
 @Component({
   selector: 'partido-details',
   templateUrl: './partido-details.component.html',
@@ -14,11 +24,12 @@ export class Cargo {
 export class PartidoDetailsComponent implements OnInit {
 
   constructor(private _httpService: Http) { }
-  candidatos: object[] = [];
+  candidatos: object[][] = [];
   partido: String = "";
   partidos: object[] = [];
   cargos: Cargo[] = [];
   partCargados: boolean = false;
+  partActual: boolean[] = [];
 
   ngOnInit() {
       this._httpService.get('/api/partidopolitico').subscribe(values => {
@@ -31,16 +42,26 @@ export class PartidoDetailsComponent implements OnInit {
       });
   }
 
-  verLista(id: number) {
+  verLista(id: number, index: number) {
       this._httpService.get('/api/partidopolitico/getlista?numeroLista=' + id).subscribe(values => {
           console.log(values);
-          this.candidatos = values.json() as object[];
+          this.candidatos[index] = values.json() as object[];
+          this.candidatos[index].sort((a, b) => {
+              if (a['cargo'] < b['cargo']) return 1;
+              else if (a['cargo'] > b['cargo']) return -1;
+              else return 0;
+          });
       });
   }
 
-  getCargo(id: number): any {
+  getCargo(id: number, loc: Localidad): any {
+      console.log(loc);
       var cargo = this.cargos.filter(x => x.numero == id)[0];
-      return cargo.nombre;
+      var nombre = cargo.nombre
+      if (nombre == "Concejal") {
+          nombre += " (" + loc.nombreLocalidad + ")";
+      }
+      return nombre;
   }
 
 }

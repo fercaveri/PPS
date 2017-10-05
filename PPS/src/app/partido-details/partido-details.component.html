@@ -1,19 +1,21 @@
 <h2><strong class="partidos-lista-titulo">Listado de partidos politicos</strong></h2>
 <spinner *ngIf="!partCargados"></spinner>
 <ul class="partidos-lista">
-  <li *ngFor="let part of partidos">
-    <span class="first">{{part.nombre}}</span>
-    <span>
-      <button class="btn btn-info" (click)="verLista(part.numeroLista)"><span class="glyphicon glyphicon-info"></span> VER CANDIDATOS </button>
-    </span>
-  </li>
-</ul>
-
-<ul class="partidos-candidatos-list">
-  <li *ngFor="let value of candidatos">
-    <img class="part-candidato-imagen" src="{{value.urlFoto}}" />
-    <span>{{value.apellido}}, {{value.nombre}}</span>
-    <span>{{getCargo(value.cargo)}}</span>
+  <li *ngFor="let part of partidos; let i = index;">
+    <div>
+      <span class="first">{{part.nombre}}</span>
+      <span>
+        <button class="btn btn-info" *ngIf="partActual[i] == null || partActual[i] == false" (click)="verLista(part.numeroLista, i); partActual[i] = true;"><span class="glyphicon glyphicon-info"></span> VER CANDIDATOS </button>
+        <button class="btn btn-danger" *ngIf="partActual[i] == true" (click)="partActual[i] = false; candidatos[i] = [];"><span class="glyphicon glyphicon-info"></span> OCULTAR CANDIDATOS </button>
+      </span>
+    </div>
+    <ul class="partidos-candidatos-list" *ngIf="partActual[i] == true">
+      <li *ngFor="let value of candidatos[i]">
+        <img class="part-candidato-imagen" [src]="'data:image/jpg;base64,'+ value.urlFoto" />
+        <span>{{value.apellido}}, {{value.nombre}}</span>
+        <span>{{getCargo(value.cargo, value.localidad)}}</span>
+      </li>
+    </ul>
   </li>
 </ul>
 

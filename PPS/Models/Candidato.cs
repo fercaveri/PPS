@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -9,7 +10,13 @@ namespace PPS.Models
 {
   public enum Cargo
   {
-    Concejal = 0, DiputadoProvincial = 1, DiputadoNacional = 2, SenadorNacional = 3
+    Concejal = 0,
+    [Description("Diputado Provincial")]
+    DiputadoProvincial = 1,
+    [Description("Diputado Nacional")]
+    DiputadoNacional = 2,
+    [Description("Senador Nacional")]
+    SenadorNacional = 3
   }
 
   public class Candidato

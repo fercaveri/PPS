@@ -14,25 +14,30 @@
     border-radius: 5px;
     padding: 5px;
     margin: 5px 15px;
-    display: flex;
-    justify-content: space-between;
     background-color: rgba(195, 255, 195, 0.3);
   }
 
-    .partidos-lista li .first {
-      width: 300px;
+    .partidos-lista li div {
+      display: flex;
+      justify-content: space-between;
     }
 
-    .partidos-lista li .second {
-      width: 300px;
-    }
+      .partidos-lista li div .first {
+        width: 300px;
+        font-size: 16px;
+        font-weight: bold;
+      }
 
-    .partidos-lista li .btn {
-      font-size: 12px;
-      padding: 2px 6px;
-      line-height: 1.2;
-      border: 1px solid gray;
-    }
+      .partidos-lista li div .second {
+        width: 300px;
+      }
+
+      .partidos-lista li div .btn {
+        font-size: 12px;
+        padding: 2px 6px;
+        line-height: 1.2;
+        border: 1px solid gray;
+      }
 
 .partidos-candidatos-list {
   list-style: none;
@@ -54,4 +59,10 @@
   border: 2px solid black;
   width: 75px;
   height: 75px;
+}
+
+.partidos-candidatos-list li span {
+  margin: 0 20px;
+  font-weight: bold;
+  font-size: 16px;
 }
