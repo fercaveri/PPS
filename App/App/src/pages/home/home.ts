@@ -5,7 +5,6 @@ import { AlertController, NavController } from 'ionic-angular';
 import { MainPage } from '../main/main';
 import { config } from '../../config';
 import { Usuario } from '../../model';
-import { Camera } from 'ionic-native';
 
 @Component({
   selector: 'page-home',
@@ -15,41 +14,9 @@ export class HomePage {
   user: String = "";
   pass: String = "";
   usuario: number;
-
-  cameraData: string;
-  photoTaken: boolean;
-  cameraUrl: string;
-  photoSelected: boolean;
+  mesa: number = 0;
 
   constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController) {
-  }
-
-  selectFromGallery() {
-      var options = {
-          sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-          destinationType: Camera.DestinationType.FILE_URI
-      };
-      Camera.getPicture(options).then((imageData) => {
-          this.cameraUrl = imageData;
-          this.photoSelected = true;
-          this.photoTaken = false;
-      }, (err) => {
-          // Handle error
-      });
-  }
-
-  openCamera() {
-      var options = {
-          sourceType: Camera.PictureSourceType.CAMERA,
-          destinationType: Camera.DestinationType.DATA_URL
-      };
-      Camera.getPicture(options).then((imageData) => {
-          this.cameraData = 'data:image/jpeg;base64,' + imageData;
-          this.photoTaken = true;
-          this.photoSelected = false;
-      }, (err) => {
-          // Handle error
-      });
   }
   
   onLink(url: string) {
@@ -95,6 +62,6 @@ export class HomePage {
   }
 
   navToMain() {
-      this.navCtrl.push(MainPage);
+      this.navCtrl.push(MainPage, {mesa: this.mesa});
   }
 }

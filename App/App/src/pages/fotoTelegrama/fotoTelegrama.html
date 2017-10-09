@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Selección de foto del telegrama
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="home" padding>
+  <h2 class="center">Seleccione una foto</h2>
+  <button ion-button block (click)="selectFromGallery()">Abrir galeria</button>
+  <div *ngIf="base64Image">
+    <ion-label stacked> Foto seleccionada: </ion-label>
+    <img [src]="base64Image" *ngIf="base64Image" />
+    <button ion-button block (click)="sendPhoto()">Guardar foto</button>
+  </div>
+</ion-content>
