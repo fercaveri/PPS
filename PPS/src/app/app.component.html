@@ -5,20 +5,67 @@
     <div class="navbar-header">
       <a class="navbar-brand"><span class="glyphicon glyphicon-envelope"></span> Escrutinio Web</a>
     </div>
-    <button class="btn btn-danger navbar-btn" (click)="(show='localidades')" [ngClass]="{'selected-btn': show=='localidades'}"> Localidades </button>
-    <button class="btn btn-danger navbar-btn" (click)="(show='altaPartido')" [ngClass]="{'selected-btn': show=='altaPartido'}"> Alta Partido Politico </button>
-    <button class="btn btn-danger navbar-btn" (click)="(show='consultaPartido')" [ngClass]="{'selected-btn': show=='consultaPartido'}"> Consulta Partido Politico </button>
-    <button class="btn btn-danger navbar-btn" (click)="(show='altaCandidato')" [ngClass]="{'selected-btn': show=='altaCandidato'}"> Alta Candidato </button>
-    <button class="btn btn-danger navbar-btn" (click)="(show='consultaCandidato')" [ngClass]="{'selected-btn': show=='consultaCandidato'}"> Consulta Candidato </button>
-    <button class="btn btn-danger navbar-btn" (click)="(show='telegramas')" [ngClass]="{'selected-btn': show=='telegramas'}"> Telegramas </button>
-    <button class="btn btn-info" (click)="(show='usuario')" [ngClass]="{'selected-btn': show=='usuario'}">
-      <span class="glyphicon glyphicon-log-in"></span> Sign Up
-    </button>
-    <button class="btn btn-info" (click)="(show='login')" [ngClass]="{'selected-btn': show=='login'}">
-      <span class="glyphicon glyphicon-user"></span> Login
-    </button>
+    <div *ngIf="rol==2||rol==1">
+      <button class="btn btn-danger navbar-btn" (click)="(show='localidades')" [ngClass]="{'selected-btn': show=='localidades'}"> Localidades </button>
+      <button class="btn btn-danger navbar-btn" (click)="(show='altaPartido')" [ngClass]="{'selected-btn': show=='altaPartido'}"> Alta Partido Politico </button>
+      <button class="btn btn-danger navbar-btn" (click)="(show='consultaPartido')" [ngClass]="{'selected-btn': show=='consultaPartido'}"> Consulta Partido Politico </button>
+      <button class="btn btn-danger navbar-btn" (click)="(show='altaCandidato')" [ngClass]="{'selected-btn': show=='altaCandidato'}"> Alta Candidato </button>
+      <button class="btn btn-danger navbar-btn" (click)="(show='consultaCandidato')" [ngClass]="{'selected-btn': show=='consultaCandidato'}"> Consulta Candidato </button>
+      <button class="btn btn-danger navbar-btn" (click)="(show='telegramas')" [ngClass]="{'selected-btn': show=='telegramas'}"> Telegramas </button>
+      <button class="btn btn-info navbar-btn" (click)="(show='usuario')" [ngClass]="{'selected-btn': show=='usuario'}">
+        <span class="glyphicon glyphicon-log-in"></span> Crear usuarios
+      </button>
+      <button class="btn btn-info navbar-btn" (click)="logout()">
+        <span class="glyphicon glyphicon-remove"></span> Logout
+      </button>
+    </div>
+    <div *ngIf="rol==0">
+     <button class="btn btn-info navbar-btn">
+        <span class="glyphicon glyphicon-envelope"></span> Ver recuentos
+      </button>
+      <button class="btn btn-info navbar-btn" (click)="logout()">
+        <span class="glyphicon glyphicon-remove"></span> Logout
+      </button>
+    </div>    
   </nav>
 
+<div *ngIf="logeo==false">
+  <h2>Login</h2>
+  <table class="form-group" style="width: 50%; margin: 20px;">
+    <tbody>
+      <tr>
+        <td><label>Usuario</label></td>
+        <td><input name="user" class="form-control" [(ngModel)]="user" required></td>
+      </tr>
+      <tr>
+        <td><label>Contraseña</label></td>
+        <td><input name="pass" class="form-control" [(ngModel)]="pass" required></td>
+      </tr>
+      <tr>
+        <td>
+          <button class="btn btn-info" (click)="login()">Logearse<span class="glyphicon glyphicon-user"></span></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="showAlert == true">
+    <div class="alert alert-success" *ngIf="rol==2">
+      <strong>Usted es un superAdmin.</strong> Tendrá acceso a toda la funcionalidad de la web.
+    </div>
+    <div class="alert alert-info" *ngIf="rol==1">
+      <strong>Usted es un Admin.</strong> Tendrá restringido la posibilidad de crear nuevos administradores.
+    </div>
+    <div class="alert alert-info" *ngIf="rol==0">
+      <strong>Usted es un usuario normal.</strong> Tendrá acceso solo a poder ver los resultados del recuento.
+    </div>
+    <div class="alert alert-danger" *ngIf="rol==-1">
+      <strong>Contraseña o usuario incorrecto.</strong> Vuelva a intentar.
+    </div>
+    <button class="btn btn-succes" (click)="ok()">Entendido<span class="glyphicon glyphicon-ok"></span></button>
+  </div>
+</div>
+
+<div *ngIf="logeo==true">
   <div *ngIf="show == 'altaPartido'">
     <partido-politico>
     </partido-politico>
@@ -43,12 +90,8 @@
     <app-usuario>
     </app-usuario>
   </div>
-  <div *ngIf="show == 'login'">
-    <app-login>
-    </app-login>
-  </div>
   <div *ngIf="show == 'telegramas'">
     <app-telegrama>
     </app-telegrama>
   </div>
-
+</div>
