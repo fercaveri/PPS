@@ -31,7 +31,7 @@ namespace PPS.Controllers
       return Mesas;
     }
 
-    // GET api/candidato?[nombre&apellido]
+    // GET api/mesa?localidad
     [HttpGet("{localidad}")]
     public IEnumerable<Mesa> Get(String localidad)
     {
