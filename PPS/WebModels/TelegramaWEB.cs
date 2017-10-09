@@ -7,7 +7,7 @@ namespace PPS.WebModels
 {
     public class TelegramaWEB
     {
-      public String photo { get; set; }
-      public MesaWEB mesa { get; set; }
+      public String foto { get; set; }
+      public int mesa { get; set; }
     }
 }

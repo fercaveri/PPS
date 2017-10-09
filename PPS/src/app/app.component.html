@@ -10,8 +10,12 @@
     <button class="btn btn-danger navbar-btn" (click)="(show='consultaPartido')" [ngClass]="{'selected-btn': show=='consultaPartido'}"> Consulta Partido Politico </button>
     <button class="btn btn-danger navbar-btn" (click)="(show='altaCandidato')" [ngClass]="{'selected-btn': show=='altaCandidato'}"> Alta Candidato </button>
     <button class="btn btn-danger navbar-btn" (click)="(show='consultaCandidato')" [ngClass]="{'selected-btn': show=='consultaCandidato'}"> Consulta Candidato </button>
+    <button class="btn btn-danger navbar-btn" (click)="(show='telegramas')" [ngClass]="{'selected-btn': show=='telegramas'}"> Telegramas </button>
     <button class="btn btn-info" (click)="(show='usuario')" [ngClass]="{'selected-btn': show=='usuario'}">
       <span class="glyphicon glyphicon-log-in"></span> Sign Up
+    </button>
+    <button class="btn btn-info" (click)="(show='login')" [ngClass]="{'selected-btn': show=='login'}">
+      <span class="glyphicon glyphicon-user"></span> Login
     </button>
   </nav>
 
@@ -39,5 +43,12 @@
     <app-usuario>
     </app-usuario>
   </div>
-
+  <div *ngIf="show == 'login'">
+    <app-login>
+    </app-login>
+  </div>
+  <div *ngIf="show == 'telegramas'">
+    <app-telegrama>
+    </app-telegrama>
+  </div>
 

@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { Http } from "@angular/http";
-import { AlertController, NavController } from 'ionic-angular';
+import { AlertController, NavController, NavParams } from 'ionic-angular';
 
 import { MesasPage } from '../mesas/mesas';
-import { TelegramaPage } from '../telegrama/telegrama';
+import { FotoTelegramaPage } from '../fotoTelegrama/fotoTelegrama';
 
 @Component({
     selector: 'page-main',
     templateUrl: 'main.html'
 })
 export class MainPage {
-    constructor(public navCtrl: NavController, public http: Http) {
+    mesa: number;
+    constructor(public navCtrl: NavController, public http: Http, public navParams: NavParams) {
+        this.mesa = navParams.get('mesa');
     }
 
     onLink(url: string) {
@@ -21,7 +23,7 @@ export class MainPage {
         this.navCtrl.push(MesasPage);
     }
 
-    navToGrilla() {
-        this.navCtrl.push(TelegramaPage);
+    navToCargaFoto() {
+        this.navCtrl.push(FotoTelegramaPage, { mesa: this.mesa });
     }
 }

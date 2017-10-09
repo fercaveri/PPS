@@ -34,7 +34,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page-header\">\r\n  <h1 align=\"center\">Bienvenido al Recuento del Escrutinio</h1>\r\n</div>\r\n  <nav class=\"navbar navbar-inverse\">\r\n    <div class=\"navbar-header\">\r\n      <a class=\"navbar-brand\"><span class=\"glyphicon glyphicon-envelope\"></span> Escrutinio Web</a>\r\n    </div>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='localidades')\" [ngClass]=\"{'selected-btn': show=='localidades'}\"> Localidades </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaPartido')\" [ngClass]=\"{'selected-btn': show=='altaPartido'}\"> Alta Partido Politico </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaPartido')\" [ngClass]=\"{'selected-btn': show=='consultaPartido'}\"> Consulta Partido Politico </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaCandidato')\" [ngClass]=\"{'selected-btn': show=='altaCandidato'}\"> Alta Candidato </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaCandidato')\" [ngClass]=\"{'selected-btn': show=='consultaCandidato'}\"> Consulta Candidato </button>\r\n    <button class=\"btn btn-info\" (click)=\"(show='usuario')\" [ngClass]=\"{'selected-btn': show=='usuario'}\">\r\n      <span class=\"glyphicon glyphicon-log-in\"></span> Sign Up\r\n    </button>\r\n  </nav>\r\n\r\n  <div *ngIf=\"show == 'altaPartido'\">\r\n    <partido-politico>\r\n    </partido-politico>\r\n  </div>\r\n  <div *ngIf=\"show == 'localidades'\">\r\n    <localidad>\r\n    </localidad>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaCandidato'\">\r\n    <candidato>\r\n    </candidato>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaCandidato'\">\r\n    <candidato-details>\r\n    </candidato-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaPartido'\">\r\n    <partido-details>\r\n    </partido-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'usuario'\">\r\n    <app-usuario>\r\n    </app-usuario>\r\n  </div>\r\n\r\n\r\n"
+module.exports = "<div class=\"page-header\">\r\n  <h1 align=\"center\">Bienvenido al Recuento del Escrutinio</h1>\r\n</div>\r\n  <nav class=\"navbar navbar-inverse\">\r\n    <div class=\"navbar-header\">\r\n      <a class=\"navbar-brand\"><span class=\"glyphicon glyphicon-envelope\"></span> Escrutinio Web</a>\r\n    </div>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='localidades')\" [ngClass]=\"{'selected-btn': show=='localidades'}\"> Localidades </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaPartido')\" [ngClass]=\"{'selected-btn': show=='altaPartido'}\"> Alta Partido Politico </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaPartido')\" [ngClass]=\"{'selected-btn': show=='consultaPartido'}\"> Consulta Partido Politico </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaCandidato')\" [ngClass]=\"{'selected-btn': show=='altaCandidato'}\"> Alta Candidato </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaCandidato')\" [ngClass]=\"{'selected-btn': show=='consultaCandidato'}\"> Consulta Candidato </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='telegramas')\" [ngClass]=\"{'selected-btn': show=='telegramas'}\"> Telegramas </button>\r\n    <button class=\"btn btn-info\" (click)=\"(show='usuario')\" [ngClass]=\"{'selected-btn': show=='usuario'}\">\r\n      <span class=\"glyphicon glyphicon-log-in\"></span> Sign Up\r\n    </button>\r\n    <button class=\"btn btn-info\" (click)=\"(show='login')\" [ngClass]=\"{'selected-btn': show=='login'}\">\r\n      <span class=\"glyphicon glyphicon-user\"></span> Login\r\n    </button>\r\n  </nav>\r\n\r\n  <div *ngIf=\"show == 'altaPartido'\">\r\n    <partido-politico>\r\n    </partido-politico>\r\n  </div>\r\n  <div *ngIf=\"show == 'localidades'\">\r\n    <localidad>\r\n    </localidad>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaCandidato'\">\r\n    <candidato>\r\n    </candidato>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaCandidato'\">\r\n    <candidato-details>\r\n    </candidato-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaPartido'\">\r\n    <partido-details>\r\n    </partido-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'usuario'\">\r\n    <app-usuario>\r\n    </app-usuario>\r\n  </div>\r\n  <div *ngIf=\"show == 'login'\">\r\n    <app-login>\r\n    </app-login>\r\n  </div>\r\n  <div *ngIf=\"show == 'telegramas'\">\r\n    <app-telegrama>\r\n    </app-telegrama>\r\n  </div>\r\n\r\n"
 
 /***/ }),
 
@@ -103,12 +103,14 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__usuario_usuario_component__ = __webpack_require__("../../../../../src/app/usuario/usuario.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__spinner_spinner_component__ = __webpack_require__("../../../../../src/app/spinner/spinner.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__telegrama_telegrama_component__ = __webpack_require__("../../../../../src/app/telegrama/telegrama.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__login_login_component__ = __webpack_require__("../../../../../src/app/login/login.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -139,7 +141,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_10__partido_details_partido_details_component__["a" /* PartidoDetailsComponent */],
             __WEBPACK_IMPORTED_MODULE_11__usuario_usuario_component__["a" /* UsuarioComponent */],
             __WEBPACK_IMPORTED_MODULE_12__spinner_spinner_component__["a" /* SpinnerComponent */],
-            __WEBPACK_IMPORTED_MODULE_13__telegrama_telegrama_component__["a" /* TelegramaComponent */]
+            __WEBPACK_IMPORTED_MODULE_13__telegrama_telegrama_component__["a" /* TelegramaComponent */],
+            __WEBPACK_IMPORTED_MODULE_14__login_login_component__["a" /* LoginComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -323,7 +326,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".alta-cand-table td{\r\n  padding: 5px;\r\n}\r\n\r\n.alta-cand-msg {\r\n  width: 100%;\r\n  height: 100px;\r\n}\r\n", ""]);
+exports.push([module.i, ".alta-cand-table td{\r\n  padding: 5px;\r\n}\r\n\r\n.alta-cand-msg {\r\n  width: 100%;\r\n  height: 100%;\r\n  margin: auto;\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-pack: center;\r\n      -ms-flex-pack: center;\r\n          justify-content: center;\r\n  -webkit-box-align: center;\r\n      -ms-flex-align: center;\r\n          align-items: center;\r\n}\r\n\r\n  .alta-cand-msg .glyphicon {\r\n    font-size: 120px;\r\n  }\r\n", ""]);
 
 // exports
 
@@ -336,7 +339,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/candidato/candidato.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div style=\"display:flex;\">\r\n  <form (ngSubmit)=\"onSubmit()\" #candidatoForm=\"ngForm\">\r\n    <table class=\"alta-cand-table\">\r\n      <thead>\r\n        <tr>\r\n          <td>\r\n            <h2>Formulario alta candidato</h2>\r\n          </td>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        <tr class=\"form-group\">\r\n          <td><label for=\"candidato-nombre\">Nombre:</label></td>\r\n          <td><input [(ngModel)]=\"nombre\" name=\"nombre\" type=\"text\" class=\"form-control\" id=\"candidato-nombre\" required></td>\r\n        </tr>\r\n        <tr class=\"form-group\">\r\n          <td><label for=\"candidato-apellido\">Apellido:</label></td>\r\n          <td><input [(ngModel)]=\"apellido\" name=\"apellido\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required></td>\r\n        </tr>\r\n        <tr class=\"form-group\">\r\n          <td><label for=\"candidato-cargo\">Cargo:</label></td>\r\n          <td>\r\n            <select [(ngModel)]=\"cargo\" name=\"cargo\" class=\"form-control\" id=\"candidato-cargo\" required>\r\n              <option *ngFor=\"let cargo of cargos; let i = index\" [attr.data-index]=\"i\" [value]=\"i\">{{cargo}}</option>\r\n            </select>\r\n          </td>\r\n        </tr>\r\n\r\n\r\n\r\n        <tr *ngIf=\"cargo==0\" class=\"form-group\">\r\n          <td><label for=\"candidato-localidad\">Localidad:</label></td>\r\n          <td>\r\n            <select [(ngModel)]=\"localidadId\" name=\"localidadId\" class=\"form-control\" id=\"candidato-localidad\" required>\r\n              <option *ngFor=\"let loc of localidades\" [value]=\"loc.id\">{{loc.nombreLocalidad + \" - \" + loc.provincia.nombreProvincia}}</option>\r\n            </select>\r\n          </td>\r\n        </tr>\r\n        <tr *ngIf=\"cargo==1\" class=\"form-group\">\r\n          <td><label for=\"candidato-localidad\">Provincia:</label></td>\r\n          <td>\r\n            <select [(ngModel)]=\"provincia\" name=\"provinciaId\" class=\"form-control\" id=\"candidato-provincia\" required>\r\n              <option *ngFor=\"let prov of provincias\" [value]=\"prov.nombreProvincia\">{{prov.nombreProvincia}}</option>\r\n            </select>\r\n          </td>\r\n        </tr>\r\n\r\n\r\n\r\n        <tr class=\"form-group\">\r\n          <td><label for=\"candidato-foto\">URL Foto:</label></td>\r\n          <td><input [(ngModel)]=\"foto\" name=\"foto\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\"></td>\r\n        </tr>\r\n\r\n        <tr class=\"form-group\">\r\n          <td><label for=\"candidato-partido\">Partido Politico:</label></td>\r\n          <td>\r\n            <select [(ngModel)]=\"partidoId\" name=\"partidoId\" class=\"form-control\" id=\"candidato-partido\" required>\r\n              <option *ngFor=\"let part of partidos\" [value]=\"part.numeroLista\">{{part.nombre}}</option>\r\n            </select>\r\n          </td>\r\n        </tr>\r\n\r\n        <tr>\r\n          <td>\r\n            <button type=\"submit\" class=\"btn btn-success\"\r\n                    [disabled]=\"!candidatoForm.form.valid\">\r\n              Submit\r\n            </button>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </form>\r\n  <div class=\"alert alert-success\" *ngIf=\"submitted\">\r\n    <strong>Se ha agregado correctamente el candidato</strong>\r\n    <span class=\"alta-cand-msg\">\r\n      <i class=\"glyphicon glyphicon-success\"></i>\r\n    </span>\r\n  </div>\r\n  <div class=\"alert alert-warning\" *ngIf=\"error\">\r\n    <strong>Ya existe un candidato en ese cargo dentro del partido seleccionado</strong>\r\n    <span class=\"alta-cand-msg\">\r\n      <i class=\"glyphicon glyphicon-warning\"></i>\r\n    </span>\r\n  </div>\r\n</div>\r\n\r\n\r\n\r\n"
+module.exports = "<div style=\"display:flex;\">\r\n  <form (ngSubmit)=\"onSubmit()\" #candidatoForm=\"ngForm\">\r\n    <table class=\"alta-cand-table\">\r\n      <thead>\r\n        <tr>\r\n          <td>\r\n            <h2>Formulario alta candidato</h2>\r\n          </td>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        <tr class=\"form-group\">\r\n          <td><label for=\"candidato-nombre\">Nombre:</label></td>\r\n          <td><input [(ngModel)]=\"nombre\" name=\"nombre\" type=\"text\" class=\"form-control\" id=\"candidato-nombre\" required></td>\r\n        </tr>\r\n        <tr class=\"form-group\">\r\n          <td><label for=\"candidato-apellido\">Apellido:</label></td>\r\n          <td><input [(ngModel)]=\"apellido\" name=\"apellido\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\" required></td>\r\n        </tr>\r\n        <tr class=\"form-group\">\r\n          <td><label for=\"candidato-cargo\">Cargo:</label></td>\r\n          <td>\r\n            <select [(ngModel)]=\"cargo\" name=\"cargo\" class=\"form-control\" id=\"candidato-cargo\" required>\r\n              <option *ngFor=\"let cargo of cargos; let i = index\" [attr.data-index]=\"i\" [value]=\"i\">{{cargo}}</option>\r\n            </select>\r\n          </td>\r\n        </tr>\r\n\r\n\r\n\r\n        <tr *ngIf=\"cargo==0\" class=\"form-group\">\r\n          <td><label for=\"candidato-localidad\">Localidad:</label></td>\r\n          <td>\r\n            <select [(ngModel)]=\"localidadId\" name=\"localidadId\" class=\"form-control\" id=\"candidato-localidad\" required>\r\n              <option *ngFor=\"let loc of localidades\" [value]=\"loc.id\">{{loc.nombreLocalidad + \" - \" + loc.provincia.nombreProvincia}}</option>\r\n            </select>\r\n          </td>\r\n        </tr>\r\n        <tr *ngIf=\"cargo==1\" class=\"form-group\">\r\n          <td><label for=\"candidato-localidad\">Provincia:</label></td>\r\n          <td>\r\n            <select [(ngModel)]=\"provincia\" name=\"provinciaId\" class=\"form-control\" id=\"candidato-provincia\" required>\r\n              <option *ngFor=\"let prov of provincias\" [value]=\"prov.nombreProvincia\">{{prov.nombreProvincia}}</option>\r\n            </select>\r\n          </td>\r\n        </tr>\r\n\r\n\r\n\r\n        <tr class=\"form-group\">\r\n          <td><label for=\"candidato-foto\">URL Foto:</label></td>\r\n          <td><input [(ngModel)]=\"foto\" name=\"foto\" type=\"text\" class=\"form-control\" id=\"candidato-apellido\"></td>\r\n        </tr>\r\n\r\n        <tr class=\"form-group\">\r\n          <td><label for=\"candidato-partido\">Partido Politico:</label></td>\r\n          <td>\r\n            <select [(ngModel)]=\"partidoId\" name=\"partidoId\" class=\"form-control\" id=\"candidato-partido\" required>\r\n              <option *ngFor=\"let part of partidos\" [value]=\"part.numeroLista\">{{part.nombre}}</option>\r\n            </select>\r\n          </td>\r\n        </tr>\r\n\r\n        <tr>\r\n          <td>\r\n            <button type=\"submit\" class=\"btn btn-success\"\r\n                    [disabled]=\"!candidatoForm.form.valid\">\r\n              Submit\r\n            </button>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </form>\r\n  <div class=\"alert alert-success\" *ngIf=\"submitted\">\r\n    <strong>Se ha agregado correctamente el candidato</strong>\r\n    <div class=\"alta-cand-msg\">\r\n      <i class=\"glyphicon glyphicon-success\"></i>\r\n    </div>\r\n  </div>\r\n  <div class=\"alert alert-warning\" *ngIf=\"error\">\r\n    <strong>Ya existe un candidato en ese cargo dentro del partido seleccionado</strong>\r\n    <span class=\"alta-cand-msg\">\r\n      <i class=\"glyphicon glyphicon-warning\"></i>\r\n    </span>\r\n  </div>\r\n</div>\r\n\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -455,6 +458,79 @@ CandidatoComponent = __decorate([
 
 var _a;
 //# sourceMappingURL=candidato.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/login/login.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/login/login.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<h2>Login</h2>\n<table class=\"form-group\" style=\"width: 50%; margin: 20px;\">\r\n  <tbody>\r\n    <tr>\r\n      <td><label>Usuario</label></td>\r\n      <td><input name=\"user\" class=\"form-control\" [(ngModel)]=\"user\" required></td>\r\n    </tr>\r\n    <tr>\r\n      <td><label>Contraseña</label></td>\r\n      <td><input name=\"pass\" class=\"form-control\" [(ngModel)]=\"pass\" required></td>\r\n    </tr>\r\n    <tr>\r\n      <td>\r\n        <button class=\"btn btn-info\" (click)=\"login()\">Logearse<span class=\"glyphicon glyphicon-ok\"></span></button>\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n\r\n<div *ngIf=\"showAlert == true\">\r\n  <div class=\"alert alert-success\" *ngIf=\"rol==2\">\r\n    <strong>Usted es un superAdmin.</strong> Tendrá acceso a toda la funcionalidad de la web.\r\n  </div>\r\n  <div class=\"alert alert-info\" *ngIf=\"rol==1\">\r\n    <strong>Usted es un Admin.</strong> Tendrá restringido la posibilidad de crear nuevos administradores.\r\n  </div>\r\n  <div class=\"alert alert-info\" *ngIf=\"rol==0\">\r\n    <strong>Usted es un usuario normal.</strong> Tendrá acceso solo a poder ver los resultados del recuento.\r\n  </div>\r\n  <div class=\"alert alert-danger\" *ngIf=\"rol==-1\">\r\n    <strong>Contraseña o usuario incorrecto.</strong> Vuelva a intentar.\r\n  </div>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/login/login.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var LoginComponent = (function () {
+    function LoginComponent(_httpService) {
+        this._httpService = _httpService;
+    }
+    LoginComponent.prototype.ngOnInit = function () {
+    };
+    LoginComponent.prototype.login = function () {
+        var _this = this;
+        this._httpService.get('/api/usuario?usuario=' + this.user + '&pass=' + this.pass).subscribe(function (values) {
+            _this.rol = Number(values.text('legacy'));
+            console.log(_this.rol);
+            _this.showAlert = true;
+        });
+    };
+    return LoginComponent;
+}());
+LoginComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'app-login',
+        template: __webpack_require__("../../../../../src/app/login/login.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/login/login.component.css")]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+], LoginComponent);
+
+var _a;
+//# sourceMappingURL=login.component.js.map
 
 /***/ }),
 
@@ -902,7 +978,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/telegrama/telegrama.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\r\n  telegrama works!\r\n</p>\r\n"
+module.exports = "<h2>Vista de telegramas</h2>\r\n<p>Seleccione una provincia</p>\r\n<select class=\"form-control\" id=\"provincia\" [(ngModel)]=\"provincia\" (change)=\"loadLocalidad()\" required>\r\n  <option *ngFor=\"let provincia of provincias\" [value]=\"provincia.nombreProvincia\">{{provincia.nombreProvincia}}</option>\r\n</select>\r\n<p>Seleccione una localidad</p>\r\n<select class=\"form-control\" id=\"localidad\"  (change)=\"loadMesas()\" [(ngModel)]=\"localidad\" required>\r\n  <option *ngFor=\"let localidad of localidades\" [value]=\"localidad.nombreLocalidad\">{{localidad.nombreLocalidad}}</option>\r\n</select>\r\n<p>Seleccione una mesa</p>\r\n<select class=\"form-control\" id=\"mesa\" [(ngModel)]=\"mesa\" required>\r\n  <option *ngFor=\"let mesa of mesas\" [value]=\"mesa.numero\">{{mesa.numero}}</option>\r\n</select>\r\n<button class=\"btn btn-success navbar-btn\" (click)=\"mostrarTelegrama()\"> Ver Telegrama </button>\r\n<img [src]=\"base64Image\" *ngIf=\"hayTelegrama\" />\r\n<div class=\"alert alert-warning\" *ngIf=\"alerta\">\r\n  <strong>No existe un telegrama cargado para esta mesa</strong>\r\n</div>\r\n\r\n"
 
 /***/ }),
 
@@ -912,6 +988,8 @@ module.exports = "<p>\r\n  telegrama works!\r\n</p>\r\n"
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TelegramaComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -922,10 +1000,49 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
 var TelegramaComponent = (function () {
-    function TelegramaComponent() {
+    function TelegramaComponent(_httpService, _sanitizer) {
+        this._httpService = _httpService;
+        this._sanitizer = _sanitizer;
     }
     TelegramaComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this._httpService.get('/api/provincia').subscribe(function (values) {
+            _this.provincias = values.json();
+            console.log(_this.provincias);
+        });
+    };
+    TelegramaComponent.prototype.loadLocalidad = function () {
+        var _this = this;
+        this._httpService.get('/api/localidad/getbyprov?provincia=' + this.provincia).subscribe(function (values) {
+            _this.localidades = values.json();
+            console.log(values);
+        });
+    };
+    TelegramaComponent.prototype.loadMesas = function () {
+        var _this = this;
+        this._httpService.get('/api/mesa?localidad=' + this.localidad).subscribe(function (values) {
+            _this.mesas = values.json();
+            console.log(values);
+        });
+    };
+    TelegramaComponent.prototype.mostrarTelegrama = function () {
+        var _this = this;
+        this._httpService.get('/api/telegrama').subscribe(function (values) {
+            if (values != null) {
+                var body = values.text("legacy");
+                _this.base64Image = body;
+                console.log(body);
+                _this.hayTelegrama = true;
+                _this.alerta = false;
+            }
+            else {
+                _this.alerta = true;
+                _this.hayTelegrama = false;
+            }
+        });
     };
     return TelegramaComponent;
 }());
@@ -935,9 +1052,10 @@ TelegramaComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/telegrama/telegrama.component.html"),
         styles: [__webpack_require__("../../../../../src/app/telegrama/telegrama.component.css")]
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["b" /* DomSanitizer */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["b" /* DomSanitizer */]) === "function" && _b || Object])
 ], TelegramaComponent);
 
+var _a, _b;
 //# sourceMappingURL=telegrama.component.js.map
 
 /***/ }),

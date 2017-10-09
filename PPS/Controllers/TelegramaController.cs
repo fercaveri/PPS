@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace PPS.Controllers
 {
     [Route("api/[controller]")]
-    public class TelegramaController
+    public class TelegramaController : Controller
     {
       private ConectorDB _db;
 
@@ -31,10 +31,15 @@ namespace PPS.Controllers
       [HttpPost]
       public HttpResponseMessage Post([FromBody] TelegramaWEB tel)
       {
-          Mesa mesa = _db.Mesas.Select(x => new Mesa(x.numero, x.localidad)).Where(x => x.numero == tel.mesa.numero).First();
-          _db.Telegramas.Add(new Telegrama(tel.photo, mesa));
-          _db.SaveChanges();
-          return new HttpResponseMessage(HttpStatusCode.OK);
-      }
-  }
+          var telegrama = _db.Telegramas.Select(x => new Telegrama(x.data, x.mesa)).Where(x => x.mesa.numero == tel.mesa);
+          if(telegrama == null)
+          {
+             Mesa mesa = _db.Mesas.Select(x => new Mesa(x.numero, x.localidad)).Where(x => x.numero == tel.mesa).First();
+            _db.Telegramas.Add(new Telegrama(tel.foto, mesa));
+            _db.SaveChanges();
+            return new HttpResponseMessage(HttpStatusCode.OK);
+          }
+          return new HttpResponseMessage(HttpStatusCode.NotAcceptable);
+      } 
+    }
 }

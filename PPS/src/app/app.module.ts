@@ -12,6 +12,7 @@ import { PartidoDetailsComponent } from './partido-details/partido-details.compo
 import { UsuarioComponent } from './usuario/usuario.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { TelegramaComponent } from './telegrama/telegrama.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import { TelegramaComponent } from './telegrama/telegrama.component';
         PartidoDetailsComponent,
         UsuarioComponent,
         SpinnerComponent,
-        TelegramaComponent
+        TelegramaComponent,
+        LoginComponent
     ],
     imports: [
         BrowserModule,
