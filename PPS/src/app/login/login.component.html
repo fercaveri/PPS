@@ -1,3 +1,33 @@
-<p>
-  login works!
-</p>
+<h2>Login</h2>
+<table class="form-group" style="width: 50%; margin: 20px;">
+  <tbody>
+    <tr>
+      <td><label>Usuario</label></td>
+      <td><input name="user" class="form-control" [(ngModel)]="user" required></td>
+    </tr>
+    <tr>
+      <td><label>Contraseña</label></td>
+      <td><input name="pass" class="form-control" [(ngModel)]="pass" required></td>
+    </tr>
+    <tr>
+      <td>
+        <button class="btn btn-info" (click)="login()">Logearse<span class="glyphicon glyphicon-ok"></span></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="showAlert == true">
+  <div class="alert alert-success" *ngIf="rol==2">
+    <strong>Usted es un superAdmin.</strong> Tendrá acceso a toda la funcionalidad de la web.
+  </div>
+  <div class="alert alert-info" *ngIf="rol==1">
+    <strong>Usted es un Admin.</strong> Tendrá restringido la posibilidad de crear nuevos administradores.
+  </div>
+  <div class="alert alert-info" *ngIf="rol==0">
+    <strong>Usted es un usuario normal.</strong> Tendrá acceso solo a poder ver los resultados del recuento.
+  </div>
+  <div class="alert alert-danger" *ngIf="rol==-1">
+    <strong>Contraseña o usuario incorrecto.</strong> Vuelva a intentar.
+  </div>
+</div>

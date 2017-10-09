@@ -34,7 +34,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page-header\">\r\n  <h1 align=\"center\">Bienvenido al Recuento del Escrutinio</h1>\r\n</div>\r\n  <nav class=\"navbar navbar-inverse\">\r\n    <div class=\"navbar-header\">\r\n      <a class=\"navbar-brand\"><span class=\"glyphicon glyphicon-envelope\"></span> Escrutinio Web</a>\r\n    </div>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='localidades')\" [ngClass]=\"{'selected-btn': show=='localidades'}\"> Localidades </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaPartido')\" [ngClass]=\"{'selected-btn': show=='altaPartido'}\"> Alta Partido Politico </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaPartido')\" [ngClass]=\"{'selected-btn': show=='consultaPartido'}\"> Consulta Partido Politico </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaCandidato')\" [ngClass]=\"{'selected-btn': show=='altaCandidato'}\"> Alta Candidato </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaCandidato')\" [ngClass]=\"{'selected-btn': show=='consultaCandidato'}\"> Consulta Candidato </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='telegramas')\" [ngClass]=\"{'selected-btn': show=='telegramas'}\"> Telegramas </button>\r\n    <button class=\"btn btn-info\" (click)=\"(show='usuario')\" [ngClass]=\"{'selected-btn': show=='usuario'}\">\r\n      <span class=\"glyphicon glyphicon-log-in\"></span> Sign Up\r\n    </button>\r\n    <button class=\"btn btn-info\" (click)=\"(show='login')\" [ngClass]=\"{'selected-btn': show=='login'}\">\r\n      <span class=\"glyphicon glyphicon-user\"></span> Login\r\n    </button>\r\n  </nav>\r\n\r\n  <div *ngIf=\"show == 'altaPartido'\">\r\n    <partido-politico>\r\n    </partido-politico>\r\n  </div>\r\n  <div *ngIf=\"show == 'localidades'\">\r\n    <localidad>\r\n    </localidad>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaCandidato'\">\r\n    <candidato>\r\n    </candidato>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaCandidato'\">\r\n    <candidato-details>\r\n    </candidato-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaPartido'\">\r\n    <partido-details>\r\n    </partido-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'usuario'\">\r\n    <app-usuario>\r\n    </app-usuario>\r\n  </div>\r\n  <div *ngIf=\"show == 'login'\">\r\n  \r\n  </div>\r\n  <div *ngIf=\"show == 'telegramas'\">\r\n    <app-telegrama></app-telegrama>\r\n  </div>\r\n\r\n"
+module.exports = "<div class=\"page-header\">\r\n  <h1 align=\"center\">Bienvenido al Recuento del Escrutinio</h1>\r\n</div>\r\n  <nav class=\"navbar navbar-inverse\">\r\n    <div class=\"navbar-header\">\r\n      <a class=\"navbar-brand\"><span class=\"glyphicon glyphicon-envelope\"></span> Escrutinio Web</a>\r\n    </div>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='localidades')\" [ngClass]=\"{'selected-btn': show=='localidades'}\"> Localidades </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaPartido')\" [ngClass]=\"{'selected-btn': show=='altaPartido'}\"> Alta Partido Politico </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaPartido')\" [ngClass]=\"{'selected-btn': show=='consultaPartido'}\"> Consulta Partido Politico </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaCandidato')\" [ngClass]=\"{'selected-btn': show=='altaCandidato'}\"> Alta Candidato </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaCandidato')\" [ngClass]=\"{'selected-btn': show=='consultaCandidato'}\"> Consulta Candidato </button>\r\n    <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='telegramas')\" [ngClass]=\"{'selected-btn': show=='telegramas'}\"> Telegramas </button>\r\n    <button class=\"btn btn-info\" (click)=\"(show='usuario')\" [ngClass]=\"{'selected-btn': show=='usuario'}\">\r\n      <span class=\"glyphicon glyphicon-log-in\"></span> Sign Up\r\n    </button>\r\n    <button class=\"btn btn-info\" (click)=\"(show='login')\" [ngClass]=\"{'selected-btn': show=='login'}\">\r\n      <span class=\"glyphicon glyphicon-user\"></span> Login\r\n    </button>\r\n  </nav>\r\n\r\n  <div *ngIf=\"show == 'altaPartido'\">\r\n    <partido-politico>\r\n    </partido-politico>\r\n  </div>\r\n  <div *ngIf=\"show == 'localidades'\">\r\n    <localidad>\r\n    </localidad>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaCandidato'\">\r\n    <candidato>\r\n    </candidato>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaCandidato'\">\r\n    <candidato-details>\r\n    </candidato-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaPartido'\">\r\n    <partido-details>\r\n    </partido-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'usuario'\">\r\n    <app-usuario>\r\n    </app-usuario>\r\n  </div>\r\n  <div *ngIf=\"show == 'login'\">\r\n    <app-login>\r\n    </app-login>\r\n  </div>\r\n  <div *ngIf=\"show == 'telegramas'\">\r\n    <app-telegrama>\r\n    </app-telegrama>\r\n  </div>\r\n\r\n"
 
 /***/ }),
 
@@ -482,7 +482,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/login/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  login works!\n</p>\n"
+module.exports = "<h2>Login</h2>\n<table class=\"form-group\" style=\"width: 50%; margin: 20px;\">\r\n  <tbody>\r\n    <tr>\r\n      <td><label>Usuario</label></td>\r\n      <td><input name=\"user\" class=\"form-control\" [(ngModel)]=\"user\" required></td>\r\n    </tr>\r\n    <tr>\r\n      <td><label>Contraseña</label></td>\r\n      <td><input name=\"pass\" class=\"form-control\" [(ngModel)]=\"pass\" required></td>\r\n    </tr>\r\n    <tr>\r\n      <td>\r\n        <button class=\"btn btn-info\" (click)=\"login()\">Logearse<span class=\"glyphicon glyphicon-ok\"></span></button>\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n\r\n<div *ngIf=\"showAlert == true\">\r\n  <div class=\"alert alert-success\" *ngIf=\"rol==2\">\r\n    <strong>Usted es un superAdmin.</strong> Tendrá acceso a toda la funcionalidad de la web.\r\n  </div>\r\n  <div class=\"alert alert-info\" *ngIf=\"rol==1\">\r\n    <strong>Usted es un Admin.</strong> Tendrá restringido la posibilidad de crear nuevos administradores.\r\n  </div>\r\n  <div class=\"alert alert-info\" *ngIf=\"rol==0\">\r\n    <strong>Usted es un usuario normal.</strong> Tendrá acceso solo a poder ver los resultados del recuento.\r\n  </div>\r\n  <div class=\"alert alert-danger\" *ngIf=\"rol==-1\">\r\n    <strong>Contraseña o usuario incorrecto.</strong> Vuelva a intentar.\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -492,6 +492,7 @@ module.exports = "<p>\n  login works!\n</p>\n"
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -502,10 +503,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var LoginComponent = (function () {
-    function LoginComponent() {
+    function LoginComponent(_httpService) {
+        this._httpService = _httpService;
     }
     LoginComponent.prototype.ngOnInit = function () {
+    };
+    LoginComponent.prototype.login = function () {
+        var _this = this;
+        this._httpService.get('/api/usuario?usuario=' + this.user + '&pass=' + this.pass).subscribe(function (values) {
+            _this.rol = Number(values.text('legacy'));
+            console.log(_this.rol);
+            _this.showAlert = true;
+        });
     };
     return LoginComponent;
 }());
@@ -515,9 +526,10 @@ LoginComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/login/login.component.html"),
         styles: [__webpack_require__("../../../../../src/app/login/login.component.css")]
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], LoginComponent);
 
+var _a;
 //# sourceMappingURL=login.component.js.map
 
 /***/ }),
@@ -1028,6 +1040,7 @@ var TelegramaComponent = (function () {
             }
             else {
                 _this.alerta = true;
+                _this.hayTelegrama = false;
             }
         });
     };

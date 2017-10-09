@@ -71,6 +71,8 @@ namespace PPS.Data
       if (!context.Usuarios.Any())
       {
         context.Usuarios.Add(new Usuario("sadmin", "sadmin", "Super Administrador", 2));
+        context.Usuarios.Add(new Usuario("admin", "admin", "Administrador", 1));
+        context.Usuarios.Add(new Usuario("user", "user", "Usuario", 0));
         context.SaveChanges();
       }
       if (!context.Telegramas.Any())
