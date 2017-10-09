@@ -1043,7 +1043,7 @@ var TelegramaComponent = (function () {
     };
     TelegramaComponent.prototype.loadMesas = function () {
         var _this = this;
-        this._httpService.get('/api/mesa?localidad=' + this.localidad).subscribe(function (values) {
+        this._httpService.get('/api/mesa/' + this.localidad).subscribe(function (values) {
             _this.mesas = values.json();
             console.log(values);
         });

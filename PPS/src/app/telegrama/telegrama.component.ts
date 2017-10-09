@@ -35,7 +35,7 @@ export class TelegramaComponent implements OnInit {
       });
   }
   loadMesas() {
-      this._httpService.get('/api/mesa?localidad=' + this.localidad).subscribe(values => {
+      this._httpService.get('/api/mesa/'+ this.localidad).subscribe(values => {
           this.mesas = values.json() as object[];
           console.log(values);
       });
