@@ -1,31 +1,31 @@
-<h2>Formulario alta partido</h2>
-<table class="form-group" style="width: 50%; margin: 20px;">
-  <tbody>
-    <tr>
-      <td><label for="partido-nombre">Nombre del partido:</label></td>
-      <td><input type="text" class="form-control" id="partido-nombre" [(ngModel)]="nombrePartido" required></td>
-    </tr>
-    <tr>
-      <td><label for="partido-Provincia">Provincia del partido:</label></td>
-      <td>
-        <select class="form-control" id="partido-provincia" [(ngModel)]="provincia" required>
-          <option *ngFor="let provincia of provincias" [value]="provincia.nombreProvincia">{{provincia.nombreProvincia}}</option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <button type="submit" class="btn btn-success" (click)="onSubmit()"> Submit </button>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <div class="alert alert-success" *ngIf="submitted">
-          <strong>Se ha agregado correctamente el partido politico</strong>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-
+<div class="container">
+  <h2>Formulario alta partido</h2>
+  <table class="form-group" style="width: 50%; margin: 20px;">
+    <tbody>
+      <tr>
+        <td><label for="partido-nombre">Nombre del partido:</label></td>
+        <td><input type="text" class="form-control" id="partido-nombre" [(ngModel)]="nombrePartido" required></td>
+      </tr>
+      <tr>
+        <td><label for="partido-Provincia">Provincia del partido:</label></td>
+        <td>
+          <select class="form-control" id="partido-provincia" [(ngModel)]="provincia" required>
+            <option *ngFor="let provincia of provincias" [value]="provincia.nombreProvincia">{{provincia.nombreProvincia}}</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button type="submit" class="btn btn-success" (click)="onSubmit()"> Submit </button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="alert alert-success" *ngIf="submitted">
+            <strong>Se ha agregado correctamente el partido politico</strong>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

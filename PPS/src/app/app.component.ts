@@ -35,5 +35,6 @@ export class AppComponent implements OnInit {
         this.showAlert = false;
         this.user = "";
         this.pass = "";
+        this.show = "";
     }
 }

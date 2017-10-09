@@ -1,19 +1,20 @@
-<h2>Vista de telegramas</h2>
-<p>Seleccione una provincia</p>
-<select class="form-control" id="provincia" [(ngModel)]="provincia" (change)="loadLocalidad()" required>
-  <option *ngFor="let provincia of provincias" [value]="provincia.nombreProvincia">{{provincia.nombreProvincia}}</option>
-</select>
-<p>Seleccione una localidad</p>
-<select class="form-control" id="localidad"  (change)="loadMesas()" [(ngModel)]="localidad" required>
-  <option *ngFor="let localidad of localidades" [value]="localidad.nombreLocalidad">{{localidad.nombreLocalidad}}</option>
-</select>
-<p>Seleccione una mesa</p>
-<select class="form-control" id="mesa" [(ngModel)]="mesa" required>
-  <option *ngFor="let mesa of mesas" [value]="mesa.numero">{{mesa.numero}}</option>
-</select>
-<button class="btn btn-success navbar-btn" (click)="mostrarTelegrama()"> Ver Telegrama </button>
-<img [src]="base64Image" *ngIf="hayTelegrama" />
-<div class="alert alert-warning" *ngIf="alerta">
-  <strong>No existe un telegrama cargado para esta mesa</strong>
+<div class="container">
+  <h2>Vista de telegramas</h2>
+  <p>Seleccione una provincia</p>
+  <select class="form-control" id="provincia" [(ngModel)]="provincia" (change)="loadLocalidad()" required>
+    <option *ngFor="let provincia of provincias" [value]="provincia.nombreProvincia">{{provincia.nombreProvincia}}</option>
+  </select>
+  <p>Seleccione una localidad</p>
+  <select class="form-control" id="localidad" (change)="loadMesas()" [(ngModel)]="localidad" required>
+    <option *ngFor="let localidad of localidades" [value]="localidad.nombreLocalidad">{{localidad.nombreLocalidad}}</option>
+  </select>
+  <p>Seleccione una mesa</p>
+  <select class="form-control" id="mesa" [(ngModel)]="mesa" required>
+    <option *ngFor="let mesa of mesas" [value]="mesa.numero">{{mesa.numero}}</option>
+  </select><br>
+  <button class="btn btn-success  btn-lg pull-right" (click)="mostrarTelegrama()"> Ver Telegrama </button><br>
+  <img [src]="base64Image" class="img-thumbnail" *ngIf="hayTelegrama" /><br>
+  <div class="alert alert-warning" *ngIf="alerta">
+    <strong>No existe un telegrama cargado para esta mesa</strong>
+  </div>
 </div>
-
