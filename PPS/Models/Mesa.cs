@@ -12,6 +12,12 @@ namespace PPS.Models
     public int numero { get; set; }
     public Localidad localidad { get; set; }
 
+    public Mesa(int id, int numero, Localidad l)
+    {
+      this.id = id;
+      this.numero = numero;
+      this.localidad = l;
+    }
     public Mesa(int numero, Localidad l)
     {
       this.numero = numero;

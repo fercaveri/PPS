@@ -944,7 +944,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/recuento/recuento.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n  <h2>Recuento de votos</h2>\r\n  <p>Seleccione una provincia</p>\r\n  <select class=\"form-control\" id=\"provincia\" [(ngModel)]=\"provincia\" (change)=\"loadLocalidad()\" required>\r\n    <option *ngFor=\"let provincia of provincias\" [value]=\"provincia.nombreProvincia\">{{provincia.nombreProvincia}}</option>\r\n  </select>\r\n  <p>Seleccione una localidad</p>\r\n  <select class=\"form-control\" id=\"localidad\" (change)=\"loadMesas()\" [(ngModel)]=\"localidad\" required>\r\n    <option *ngFor=\"let localidad of localidades\" [value]=\"localidad.nombreLocalidad\">{{localidad.nombreLocalidad}}</option>\r\n  </select>\r\n  <p>Seleccione una mesa</p>\r\n  <select class=\"form-control\" id=\"mesa\" [(ngModel)]=\"mesa\" required>\r\n    <option *ngFor=\"let mesa of mesas\" [value]=\"mesa.numero\">{{mesa.numero}}</option>\r\n  </select><br>\r\n  <button class=\"btn btn-success  btn-lg pull-right\" (click)=\"mostrarDatos()\"> Ver Datos </button><br>\r\n  <div *ngIf=\"llegoData\">\r\n    <label>Resultados de votacion sobre Senador Nacional en {{localidad}}</label>\r\n    <div style=\"display: block\">\r\n      <canvas baseChart\r\n              [data]=\"pieChartData\"\r\n              [labels]=\"pieChartLabels\"\r\n              [chartType]=\"pieChartType\"\r\n              (chartHover)=\"chartHovered($event)\"\r\n              (chartClick)=\"chartClicked($event)\"></canvas>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n\r\n"
+module.exports = "<div class=\"container\">\r\n  <h2>Recuento de votos</h2>\r\n  <p>Seleccione una provincia</p>\r\n  <select class=\"form-control\" id=\"provincia\" [(ngModel)]=\"provincia\" (change)=\"loadLocalidad()\" required>\r\n    <option *ngFor=\"let provincia of provincias\" [value]=\"provincia.nombreProvincia\">{{provincia.nombreProvincia}}</option>\r\n  </select>\r\n  <p>Seleccione una localidad</p>\r\n  <select class=\"form-control\" id=\"localidad\" (change)=\"loadMesas()\" [(ngModel)]=\"localidad\" required>\r\n    <option *ngFor=\"let localidad of localidades\" [value]=\"localidad.nombreLocalidad\">{{localidad.nombreLocalidad}}</option>\r\n  </select>\r\n  <p>Seleccione una mesa</p>\r\n  <select class=\"form-control\" id=\"mesa\" [(ngModel)]=\"mesa\" required>\r\n    <option *ngFor=\"let mesa of mesas\" [value]=\"mesa.id\">{{mesa.numero}}</option>\r\n  </select>\r\n  <p>Seleccione el cargo</p>\r\n  <select [(ngModel)]=\"cargo\" class=\"form-control\" id=\"cargo\" required>\r\n    <option *ngFor=\"let c of cargos; let i = index\" [attr.data-index]=\"i\" [value]=\"i\">{{c}}</option>\r\n  </select><br>\r\n  <button class=\"btn btn-success  btn-lg pull-right\" (click)=\"mostrarDatos()\"> Ver Datos </button><br>\r\n  <div *ngIf=\"llegoData\">\r\n    <label>Resultados de votacion sobre {{getCargo()}} en {{localidad}}</label>\r\n    <div style=\"display: block\">\r\n      <canvas baseChart\r\n              [data]=\"pieChartData\"\r\n              [labels]=\"pieChartLabels\"\r\n              [chartType]=\"pieChartType\"\r\n              (chartHover)=\"chartHovered($event)\"\r\n              (chartClick)=\"chartClicked($event)\"></canvas>\r\n    </div>\r\n  </div>\r\n  <div class=\"alert alert-warning\" *ngIf=\"noHayData == true\">\r\n    <strong>No existen datos cargados para este cargo en esta mesa</strong>\r\n  </div>\r\n</div>\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -969,7 +969,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var RecuentoComponent = (function () {
     function RecuentoComponent(_httpService) {
         this._httpService = _httpService;
+        this.cargos = ["Concejal", "Diputado Provincial", "Diputado Nacional", "Senador Nacional"];
         this.llegoData = false;
+        this.noHayData = false;
         this.pieChartType = 'pie';
     }
     // events
@@ -990,6 +992,9 @@ var RecuentoComponent = (function () {
             console.log(_this.pieChartLabels);
         });
     };
+    RecuentoComponent.prototype.getCargo = function () {
+        return this.cargos[this.cargo];
+    };
     RecuentoComponent.prototype.loadLocalidad = function () {
         var _this = this;
         this._httpService.get('/api/localidad/getbyprov?provincia=' + this.provincia).subscribe(function (values) {
@@ -1009,21 +1014,34 @@ var RecuentoComponent = (function () {
         this.data = "";
         for (var i = 0; i < this.pieChartLabels.length; i++) {
             if (i != this.pieChartLabels.length - 1) {
-                this._httpService.get('/api/recuento/votoxcargo?idMesa=1&cargo=3&partido=' + this.pieChartLabels[i]).subscribe(function (values) {
+                this._httpService.get('/api/recuento/votoxcargo?idMesa=' + this.mesa + '&cargo=' + this.cargo + '&partido=' + this.pieChartLabels[i]).subscribe(function (values) {
                     var cantVotos = values.text('legacy');
                     _this.data = _this.data + cantVotos + ',';
                     console.log(_this.data);
                 });
             }
             else {
-                this._httpService.get('/api/recuento/votoxcargo?idMesa=1&cargo=3&partido=' + this.pieChartLabels[i]).subscribe(function (values) {
+                this._httpService.get('/api/recuento/votoxcargo?idMesa=' + this.mesa + '&cargo=' + this.cargo + '&partido=' + this.pieChartLabels[i]).subscribe(function (values) {
                     var cantVotos = values.text('legacy');
                     _this.data = _this.data + cantVotos;
                     console.log(_this.data);
                     _this.pieChartData = _this.data.split(',').map(Number);
                     console.log(_this.pieChartLabels);
                     console.log(_this.pieChartData);
-                    _this.llegoData = true;
+                    var flag = false;
+                    for (var _i = 0, _a = _this.pieChartData; _i < _a.length; _i++) {
+                        var i_1 = _a[_i];
+                        if (i_1 > 0) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        _this.noHayData = true;
+                        _this.llegoData = false;
+                    }
+                    else {
+                        _this.llegoData = true;
+                    }
                 });
             }
         }

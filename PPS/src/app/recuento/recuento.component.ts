@@ -15,10 +15,12 @@ export class RecuentoComponent implements OnInit {
     provincias: object[];
     localidades: object[];
     mesas: object[];
-    cargo: ["Concejal", "Diputado Provincial", "Diputado Nacional", "Senador Nacional"];
+    cargos = ["Concejal", "Diputado Provincial", "Diputado Nacional", "Senador Nacional"];
+    cargo: number;
 
     data: String;
     llegoData: boolean = false;
+    noHayData: boolean = false;
     votos: string[];
 
     // Pie
@@ -48,6 +50,9 @@ export class RecuentoComponent implements OnInit {
             console.log(this.pieChartLabels);
         });
     }
+    getCargo() {
+        return this.cargos[this.cargo];
+    }
     loadLocalidad() {
         this._httpService.get('/api/localidad/getbyprov?provincia=' + this.provincia).subscribe(values => {
             this.localidades = values.json() as object[];
@@ -65,20 +70,33 @@ export class RecuentoComponent implements OnInit {
         this.data = "";
         for (var i = 0; i < this.pieChartLabels.length; i++) {
             if (i != this.pieChartLabels.length - 1) {
-                this._httpService.get('/api/recuento/votoxcargo?idMesa=1&cargo=3&partido=' + this.pieChartLabels[i]).subscribe(values => {
+                this._httpService.get('/api/recuento/votoxcargo?idMesa='+this.mesa+'&cargo=' + this.cargo + '&partido=' + this.pieChartLabels[i]).subscribe(values => {
                     var cantVotos = values.text('legacy');
                     this.data = this.data + cantVotos + ',';
                     console.log(this.data);
                 });
             } else {
-                this._httpService.get('/api/recuento/votoxcargo?idMesa=1&cargo=3&partido=' + this.pieChartLabels[i]).subscribe(values => {
+                this._httpService.get('/api/recuento/votoxcargo?idMesa='+this.mesa+'&cargo=' + this.cargo + '&partido=' + this.pieChartLabels[i]).subscribe(values => {
                     var cantVotos = values.text('legacy');
                     this.data = this.data + cantVotos;
                     console.log(this.data);
                     this.pieChartData = this.data.split(',').map(Number);
                     console.log(this.pieChartLabels);
                     console.log(this.pieChartData);
-                    this.llegoData = true;
+                    var flag = false;
+                    for (let i of this.pieChartData) {
+                        if (i > 0) {
+                            flag = true;
+                        }
+                    }
+                    if (flag == false) {
+                        this.noHayData = true;
+                        this.llegoData = false;
+                    }
+                    else {
+                        this.llegoData = true;
+                        this.noHayData = false;
+                    }
                 });
             }
         }

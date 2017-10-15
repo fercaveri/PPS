@@ -35,7 +35,7 @@ namespace PPS.Controllers
     [HttpGet("{localidad}")]
     public IEnumerable<Mesa> Get(String localidad)
     {
-      var Mesas = _db.Mesas.Select(x => new Mesa(x.numero, x.localidad))
+      var Mesas = _db.Mesas.Select(x => new Mesa(x.id, x.numero, x.localidad))
                           .Where(x => x.localidad.nombreLocalidad == localidad).ToList();
       return Mesas;
     }

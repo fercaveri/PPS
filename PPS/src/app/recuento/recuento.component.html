@@ -10,11 +10,15 @@
   </select>
   <p>Seleccione una mesa</p>
   <select class="form-control" id="mesa" [(ngModel)]="mesa" required>
-    <option *ngFor="let mesa of mesas" [value]="mesa.numero">{{mesa.numero}}</option>
+    <option *ngFor="let mesa of mesas" [value]="mesa.id">{{mesa.numero}}</option>
+  </select>
+  <p>Seleccione el cargo</p>
+  <select [(ngModel)]="cargo" class="form-control" id="cargo" required>
+    <option *ngFor="let c of cargos; let i = index" [attr.data-index]="i" [value]="i">{{c}}</option>
   </select><br>
   <button class="btn btn-success  btn-lg pull-right" (click)="mostrarDatos()"> Ver Datos </button><br>
   <div *ngIf="llegoData">
-    <label>Resultados de votacion sobre Senador Nacional en {{localidad}}</label>
+    <label>Resultados de votacion sobre {{getCargo()}} en {{localidad}}</label>
     <div style="display: block">
       <canvas baseChart
               [data]="pieChartData"
@@ -23,6 +27,9 @@
               (chartHover)="chartHovered($event)"
               (chartClick)="chartClicked($event)"></canvas>
     </div>
+  </div>
+  <div class="alert alert-warning" *ngIf="noHayData == true">
+    <strong>No existen datos cargados para este cargo en esta mesa</strong>
   </div>
 </div>
 
