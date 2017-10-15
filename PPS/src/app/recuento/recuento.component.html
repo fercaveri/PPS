@@ -1,0 +1,29 @@
+<div class="container">
+  <h2>Recuento de votos</h2>
+  <p>Seleccione una provincia</p>
+  <select class="form-control" id="provincia" [(ngModel)]="provincia" (change)="loadLocalidad()" required>
+    <option *ngFor="let provincia of provincias" [value]="provincia.nombreProvincia">{{provincia.nombreProvincia}}</option>
+  </select>
+  <p>Seleccione una localidad</p>
+  <select class="form-control" id="localidad" (change)="loadMesas()" [(ngModel)]="localidad" required>
+    <option *ngFor="let localidad of localidades" [value]="localidad.nombreLocalidad">{{localidad.nombreLocalidad}}</option>
+  </select>
+  <p>Seleccione una mesa</p>
+  <select class="form-control" id="mesa" [(ngModel)]="mesa" required>
+    <option *ngFor="let mesa of mesas" [value]="mesa.numero">{{mesa.numero}}</option>
+  </select><br>
+  <button class="btn btn-success  btn-lg pull-right" (click)="mostrarDatos()"> Ver Datos </button><br>
+  <div *ngIf="llegoData">
+    <label>Resultados de votacion sobre Senador Nacional en {{localidad}}</label>
+    <div style="display: block">
+      <canvas baseChart
+              [data]="pieChartData"
+              [labels]="pieChartLabels"
+              [chartType]="pieChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+    </div>
+  </div>
+</div>
+
+

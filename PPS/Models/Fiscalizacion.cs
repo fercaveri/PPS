@@ -9,6 +9,7 @@ namespace PPS.Models
     public class Fiscalizacion
     {
         [Key]
+        public int id { get; set; }
         public Usuario user { get; set; }
         public Mesa mesa { get; set; }
         public Localidad localidad { get; set; }

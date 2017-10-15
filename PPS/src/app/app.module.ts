@@ -13,6 +13,8 @@ import { UsuarioComponent } from './usuario/usuario.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { TelegramaComponent } from './telegrama/telegrama.component';
 import { LoginComponent } from './login/login.component';
+import { RecuentoComponent } from './recuento/recuento.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
     declarations: [
@@ -25,13 +27,15 @@ import { LoginComponent } from './login/login.component';
         UsuarioComponent,
         SpinnerComponent,
         TelegramaComponent,
-        LoginComponent
+        LoginComponent,
+        RecuentoComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
-        HttpClientModule
+        HttpClientModule,
+        ChartsModule      
     ],
     providers: [],
     bootstrap: [AppComponent]

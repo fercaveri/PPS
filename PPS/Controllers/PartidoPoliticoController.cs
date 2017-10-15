@@ -30,7 +30,16 @@ namespace PPS.Controllers
       return Partidos;
     }
 
-    // GET api/candidato
+    // GET api/candidato/getnombres
+    [HttpGet]
+    [Route("getnombres")]
+    public IEnumerable<String> GetNombres()
+    {
+      var Partidos = _db.Partidos.Select(x => x.nombre).ToList();
+      return Partidos;
+    }
+
+    // GET api/candidato/getlista
     [Route("getlista")]
     [HttpGet]
     public IEnumerable<Candidato> GetLista(int numeroLista)

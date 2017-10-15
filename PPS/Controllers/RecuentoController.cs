@@ -4,6 +4,7 @@ using PPS.Data;
 using PPS.Models;
 using PPS.WebModels;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -30,6 +31,34 @@ namespace PPS.Controllers
                                                                    .Include(x => x.mesa).Include(x => x.mesa.localidad)
                                                                    .Include(x => x.mesa.localidad.provincia).ToList();
       return recuentos;
+    }
+
+    //api/recuento/votoxcargo
+    [HttpGet]
+    [Route("votoxcargo")]
+    public int getVotos(int idMesa, int cargo, String partido)
+    {
+      Console.WriteLine("Entro a hacer la query");
+      Cargo c;
+      if(cargo == 0){
+        c = Cargo.Concejal;
+      } else if(cargo == 1){
+        c = Cargo.DiputadoNacional;
+      } else if(cargo == 2){
+        c = Cargo.DiputadoProvincial;
+      } else{
+        c = Cargo.SenadorNacional;
+      }
+      List<Recuento> recuentos = (_db.Recuentos.Where(x => x.candidato.partido.nombre == partido && x.candidato.cargo == c).ToList());
+      Console.WriteLine("Termino de hacer la query");
+      int cantVotos = 0;
+      for (int i = 0; i < recuentos.Count; i++)
+      {
+        Console.WriteLine("Hay "+recuentos[i].votos+" votos contados");
+        cantVotos += recuentos[i].votos;
+      }
+      Console.WriteLine("Devolvi "+ cantVotos+ " votos");
+      return cantVotos;
     }
 
     [HttpPost]
