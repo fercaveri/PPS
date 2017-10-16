@@ -944,7 +944,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/recuento/recuento.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n  <h2>Recuento de votos</h2>\r\n  <p>Seleccione una provincia</p>\r\n  <select class=\"form-control\" id=\"provincia\" [(ngModel)]=\"provincia\" (change)=\"loadLocalidad()\" required>\r\n    <option *ngFor=\"let provincia of provincias\" [value]=\"provincia.nombreProvincia\">{{provincia.nombreProvincia}}</option>\r\n  </select>\r\n  <p>Seleccione una localidad</p>\r\n  <select class=\"form-control\" id=\"localidad\" (change)=\"loadMesas()\" [(ngModel)]=\"localidad\" required>\r\n    <option *ngFor=\"let localidad of localidades\" [value]=\"localidad.nombreLocalidad\">{{localidad.nombreLocalidad}}</option>\r\n  </select>\r\n  <p>Seleccione una mesa</p>\r\n  <select class=\"form-control\" id=\"mesa\" [(ngModel)]=\"mesa\" required>\r\n    <option *ngFor=\"let mesa of mesas\" [value]=\"mesa.id\">{{mesa.numero}}</option>\r\n  </select>\r\n  <p>Seleccione el cargo</p>\r\n  <select [(ngModel)]=\"cargo\" class=\"form-control\" id=\"cargo\" required>\r\n    <option *ngFor=\"let c of cargos; let i = index\" [attr.data-index]=\"i\" [value]=\"i\">{{c}}</option>\r\n  </select><br>\r\n  <button class=\"btn btn-success  btn-lg pull-right\" (click)=\"mostrarDatos()\"> Ver Datos </button><br>\r\n  <div *ngIf=\"llegoData\">\r\n    <label>Resultados de votacion sobre {{getCargo()}} en {{localidad}}</label>\r\n    <div style=\"display: block\">\r\n      <canvas baseChart\r\n              [data]=\"pieChartData\"\r\n              [labels]=\"pieChartLabels\"\r\n              [chartType]=\"pieChartType\"\r\n              (chartHover)=\"chartHovered($event)\"\r\n              (chartClick)=\"chartClicked($event)\"></canvas>\r\n    </div>\r\n  </div>\r\n  <div class=\"alert alert-warning\" *ngIf=\"noHayData == true\">\r\n    <strong>No existen datos cargados para este cargo en esta mesa</strong>\r\n  </div>\r\n</div>\r\n\r\n\r\n"
+module.exports = "<div class=\"container\">\r\n  <h2>Recuento de votos</h2>\r\n  <div *ngIf=\"seleccionoModo == false\">\r\n    <button class=\"btn btn-info\" (click)=\"mostrarForm('pais')\"> Datos en el país </button>\r\n    <button class=\"btn btn-info\" (click)=\"mostrarForm('provincia')\"> Datos por provincia </button>\r\n    <button class=\"btn btn-info\" (click)=\"mostrarForm('localidad')\"> Datos por localidad </button>\r\n    <button class=\"btn btn-info\" (click)=\"mostrarForm('mesa')\"> Datos por mesa </button>\r\n  </div>\r\n  <div *ngIf=\"seleccionoModo == true\">\r\n    <div *ngIf=\"modo=='provincia'||modo=='localidad'||modo=='mesa'\">\r\n      <p>Seleccione una provincia</p>\r\n      <select class=\"form-control\" id=\"provincia\" [(ngModel)]=\"provincia\" (change)=\"loadLocalidad()\" required>\r\n        <option *ngFor=\"let provincia of provincias\" [value]=\"provincia.nombreProvincia\">{{provincia.nombreProvincia}}</option>\r\n      </select>\r\n    </div>\r\n    <div *ngIf=\"modo=='localidad'||modo=='mesa'\">\r\n      <p>Seleccione una localidad</p>\r\n      <select class=\"form-control\" id=\"localidad\" (change)=\"loadMesas()\" [(ngModel)]=\"localidad\" required>\r\n        <option *ngFor=\"let localidad of localidades\" [value]=\"localidad.nombreLocalidad\">{{localidad.nombreLocalidad}}</option>\r\n      </select>\r\n    </div>\r\n    <div *ngIf=\"modo=='mesa'\">\r\n      <p>Seleccione una mesa</p>\r\n      <select class=\"form-control\" id=\"mesa\" [(ngModel)]=\"mesa\" required>\r\n        <option *ngFor=\"let mesa of mesas\" [value]=\"mesa.id\">{{mesa.numero}}</option>\r\n      </select>\r\n    </div>\r\n    <p>Seleccione el cargo</p>\r\n    <select [(ngModel)]=\"cargo\" class=\"form-control\" id=\"cargo\" required>\r\n      <option *ngFor=\"let c of cargos; let i = index\" [attr.data-index]=\"i\" [value]=\"i\">{{c}}</option>\r\n    </select><br />\r\n    <button class=\"btn btn-default  btn-lg pull-right\" (click)=\"back()\"> Atras </button>\r\n    <button class=\"btn btn-success  btn-lg pull-right\" (click)=\"mostrarDatos()\"> Ver Datos </button>\r\n    \r\n\r\n    <div *ngIf=\"llegoData\">\r\n      <label>{{messageRecuento}}</label>\r\n      <div style=\"display: block\">\r\n        <canvas baseChart\r\n                [data]=\"pieChartData\"\r\n                [labels]=\"pieChartLabels\"\r\n                [chartType]=\"pieChartType\"\r\n                (chartHover)=\"chartHovered($event)\"\r\n                (chartClick)=\"chartClicked($event)\"></canvas>\r\n      </div>\r\n    </div>\r\n    <div class=\"alert alert-warning\" *ngIf=\"noHayData == true\">\r\n      <strong>No existen datos cargados para este cargo</strong>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -952,6 +952,7 @@ module.exports = "<div class=\"container\">\r\n  <h2>Recuento de votos</h2>\r\n 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export Mesa */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RecuentoComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
@@ -966,14 +967,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+var Mesa = (function () {
+    function Mesa() {
+    }
+    return Mesa;
+}());
+
 var RecuentoComponent = (function () {
     function RecuentoComponent(_httpService) {
         this._httpService = _httpService;
         this.cargos = ["Concejal", "Diputado Provincial", "Diputado Nacional", "Senador Nacional"];
         this.llegoData = false;
         this.noHayData = false;
+        this.seleccionoModo = false;
+        this.modo = "";
         this.pieChartType = 'pie';
     }
+    RecuentoComponent.prototype.mostrarForm = function (modo) {
+        this.modo = modo;
+        console.log(this.modo);
+        this.seleccionoModo = true;
+    };
+    RecuentoComponent.prototype.back = function () {
+        this.modo = "";
+        this.seleccionoModo = false;
+        this.llegoData = false;
+        this.provincia = "";
+        this.localidad = "";
+        this.mesa = "";
+        this.cargo = -1;
+    };
     // events
     RecuentoComponent.prototype.chartClicked = function (e) {
         console.log(e);
@@ -1012,16 +1035,17 @@ var RecuentoComponent = (function () {
     RecuentoComponent.prototype.mostrarDatos = function () {
         var _this = this;
         this.data = "";
+        var request = this.getRequest();
         for (var i = 0; i < this.pieChartLabels.length; i++) {
             if (i != this.pieChartLabels.length - 1) {
-                this._httpService.get('/api/recuento/votoxmesa?idMesa=' + this.mesa + '&cargo=' + this.cargo + '&partido=' + this.pieChartLabels[i]).subscribe(function (values) {
+                this._httpService.get(request + 'cargo=' + this.cargo + '&partido=' + this.pieChartLabels[i]).subscribe(function (values) {
                     var cantVotos = values.text('legacy');
                     _this.data = _this.data + cantVotos + ',';
                     console.log(_this.data);
                 });
             }
             else {
-                this._httpService.get('/api/recuento/votoxmesa?idMesa=' + this.mesa + '&cargo=' + this.cargo + '&partido=' + this.pieChartLabels[i]).subscribe(function (values) {
+                this._httpService.get(request + 'cargo=' + this.cargo + '&partido=' + this.pieChartLabels[i]).subscribe(function (values) {
                     var cantVotos = values.text('legacy');
                     _this.data = _this.data + cantVotos;
                     console.log(_this.data);
@@ -1045,6 +1069,31 @@ var RecuentoComponent = (function () {
                     }
                 });
             }
+        }
+    };
+    RecuentoComponent.prototype.getRequest = function () {
+        if (this.modo == 'pais') {
+            this.messageRecuento = 'Resultados de votacion sobre ' + this.cargos[this.cargo] + ' en todo el país';
+            return '/api/recuento/votopais?';
+        }
+        else if (this.modo == 'provincia') {
+            this.messageRecuento = 'Resultados de votacion sobre ' + this.cargos[this.cargo] + ' en la provincia de ' + this.provincia;
+            return '/api/recuento/votoxprovincia?provincia=' + this.provincia + '&';
+        }
+        else if (this.modo == 'localidad') {
+            this.messageRecuento = 'Resultados de votacion sobre ' + this.cargos[this.cargo] + ' en la localidad de ' + this.localidad;
+            return '/api/recuento/votoxlocalidad?localidad=' + this.localidad + '&';
+        }
+        else {
+            var numeroMesa;
+            for (var _i = 0, _a = this.mesas; _i < _a.length; _i++) {
+                var mesa = _a[_i];
+                if (mesa.id == +this.mesa) {
+                    numeroMesa = mesa.numero;
+                }
+            }
+            this.messageRecuento = 'Resultados de votacion sobre ' + this.cargos[this.cargo] + ' en la mesa ' + numeroMesa + ' de la localidad  ' + this.localidad;
+            return '/api/recuento/votoxmesa?idMesa=' + this.mesa + '&';
         }
     };
     return RecuentoComponent;
