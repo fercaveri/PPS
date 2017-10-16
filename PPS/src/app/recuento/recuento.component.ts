@@ -70,13 +70,13 @@ export class RecuentoComponent implements OnInit {
         this.data = "";
         for (var i = 0; i < this.pieChartLabels.length; i++) {
             if (i != this.pieChartLabels.length - 1) {
-                this._httpService.get('/api/recuento/votoxcargo?idMesa='+this.mesa+'&cargo=' + this.cargo + '&partido=' + this.pieChartLabels[i]).subscribe(values => {
+                this._httpService.get('/api/recuento/votoxmesa?idMesa='+this.mesa+'&cargo=' + this.cargo + '&partido=' + this.pieChartLabels[i]).subscribe(values => {
                     var cantVotos = values.text('legacy');
                     this.data = this.data + cantVotos + ',';
                     console.log(this.data);
                 });
             } else {
-                this._httpService.get('/api/recuento/votoxcargo?idMesa='+this.mesa+'&cargo=' + this.cargo + '&partido=' + this.pieChartLabels[i]).subscribe(values => {
+                this._httpService.get('/api/recuento/votoxmesa?idMesa='+this.mesa+'&cargo=' + this.cargo + '&partido=' + this.pieChartLabels[i]).subscribe(values => {
                     var cantVotos = values.text('legacy');
                     this.data = this.data + cantVotos;
                     console.log(this.data);

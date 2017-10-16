@@ -33,28 +33,67 @@ namespace PPS.Controllers
       return recuentos;
     }
 
-    //api/recuento/votoxcargo
+    //api/recuento/votoxmesa
     [HttpGet]
-    [Route("votoxcargo")]
-    public int getVotos(int idMesa, int cargo, String partido)
+    [Route("votoxmesa")]
+    public int getVotosMesa(int idMesa, int cargo, String partido)
     {
-      Cargo c;
-      if(cargo == 0){
-        c = Cargo.Concejal;
-      } else if(cargo == 1){
-        c = Cargo.DiputadoNacional;
-      } else if(cargo == 2){
-        c = Cargo.DiputadoProvincial;
-      } else{
-        c = Cargo.SenadorNacional;
-      }
-      List<Recuento> recuentos = (_db.Recuentos.Where(x => x.candidato.partido.nombre == partido && x.candidato.cargo == c).ToList());
+      Cargo c = this.getCargo(cargo);
+      List<Recuento> recuentos = (_db.Recuentos.Where(x => x.candidato.partido.nombre == partido && x.candidato.cargo == c && x.mesa.id == idMesa).ToList());
       int cantVotos = 0;
       for (int i = 0; i < recuentos.Count; i++)
       {
         cantVotos += recuentos[i].votos;
       }
       Console.WriteLine("Devolvi "+ cantVotos+ " votos");
+      return cantVotos;
+    }
+
+    //api/recuento/votoxlocalidad
+    [HttpGet]
+    [Route("votoxlocalidad")]
+    public int getVotosLocalidad(String localidad, int cargo, String partido)
+    {
+      Cargo c = this.getCargo(cargo);
+      List<Recuento> recuentos = (_db.Recuentos.Where(x => x.candidato.partido.nombre == partido && x.candidato.cargo == c && x.mesa.localidad.nombreLocalidad == localidad).ToList());
+      int cantVotos = 0;
+      for (int i = 0; i < recuentos.Count; i++)
+      {
+        cantVotos += recuentos[i].votos;
+      }
+      Console.WriteLine("Devolvi " + cantVotos + " votos");
+      return cantVotos;
+    }
+
+    //api/recuento/votoxprovincia
+    [HttpGet]
+    [Route("votoxprovincia")]
+    public int getVotosProvincia(String provincia, int cargo, String partido)
+    {
+      Cargo c = this.getCargo(cargo);
+      List<Recuento> recuentos = (_db.Recuentos.Where(x => x.candidato.partido.nombre == partido && x.candidato.cargo == c && x.mesa.localidad.provincia.nombreProvincia == provincia).ToList());
+      int cantVotos = 0;
+      for (int i = 0; i < recuentos.Count; i++)
+      {
+        cantVotos += recuentos[i].votos;
+      }
+      Console.WriteLine("Devolvi " + cantVotos + " votos");
+      return cantVotos;
+    }
+
+    //api/recuento/votopais
+    [HttpGet]
+    [Route("votopais")]
+    public int getVotosPais(int cargo, String partido)
+    {
+      Cargo c = this.getCargo(cargo);
+      List<Recuento> recuentos = (_db.Recuentos.Where(x => x.candidato.partido.nombre == partido && x.candidato.cargo == c).ToList());
+      int cantVotos = 0;
+      for (int i = 0; i < recuentos.Count; i++)
+      {
+        cantVotos += recuentos[i].votos;
+      }
+      Console.WriteLine("Devolvi " + cantVotos + " votos");
       return cantVotos;
     }
 
@@ -97,6 +136,27 @@ namespace PPS.Controllers
         }
         return new HttpResponseMessage(HttpStatusCode.NotAcceptable);
       }
+    }
+    private Cargo getCargo(int cargo)
+    {
+      Cargo c;
+      if (cargo == 0)
+      {
+        c = Cargo.Concejal;
+      }
+      else if (cargo == 1)
+      {
+        c = Cargo.DiputadoNacional;
+      }
+      else if (cargo == 2)
+      {
+        c = Cargo.DiputadoProvincial;
+      }
+      else
+      {
+        c = Cargo.SenadorNacional;
+      }
+      return c;
     }
   }
 }

@@ -70,10 +70,12 @@ namespace PPS.Data
       }
 
       //MESAS
-      Mesa m1 = new Mesa(context.Localidades.Find(2));
+      Mesa m1 = new Mesa(45,context.Localidades.Find(2));
+      Mesa m2 = new Mesa(50,context.Localidades.Find(2));
       if (!context.Mesas.Any())
       {
         context.Mesas.Add(m1);
+        context.Mesas.Add(m2);
         context.SaveChanges();
       }
 
@@ -84,10 +86,12 @@ namespace PPS.Data
         Recuento r2 = new Recuento(senador1p, 10, m1);
         Recuento r3 = new Recuento(senadorUc, 25, m1);
         Recuento r4 = new Recuento(senadorPro, 5, m1);
+        Recuento r5 = new Recuento(senadorPro, 45, m2);
         context.Recuentos.Add(r1);
         context.Recuentos.Add(r2);
         context.Recuentos.Add(r3);
         context.Recuentos.Add(r4);
+        context.Recuentos.Add(r5);
         context.SaveChanges();
       }
 
