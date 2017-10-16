@@ -14,6 +14,8 @@ export class TelegramaComponent implements OnInit {
   provincias: object[];
   localidades: object[];
   mesas: object[];
+  cargos = ["Concejal", "Diputado Provincial", "Diputado Nacional", "Senador Nacional"];
+  partidos: String[];
 
   hayTelegrama: boolean;
   alerta: boolean;
@@ -54,6 +56,10 @@ export class TelegramaComponent implements OnInit {
               this.hayTelegrama = false;
           }
           
+      });
+      this._httpService.get('/api/partidopolitico/getnombres').subscribe(values => {
+          this.partidos = values.json() as String[];
+          console.log(this.partidos);
       });
   }
 

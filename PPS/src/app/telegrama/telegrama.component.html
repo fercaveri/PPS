@@ -13,7 +13,23 @@
     <option *ngFor="let mesa of mesas" [value]="mesa.numero">{{mesa.numero}}</option>
   </select><br>
   <button class="btn btn-success  btn-lg pull-right" (click)="mostrarTelegrama()"> Ver Telegrama </button><br>
-  <img [src]="base64Image" class="img-thumbnail" *ngIf="hayTelegrama" /><br>
+  <div class="foto">
+    <img [src]="base64Image" class="img-thumbnail" *ngIf="hayTelegrama" /><br>
+  </div>
+  <div class="grilla" *ngIf="hayTelegrama">
+    <p>Grilla de votos por cargo:</p>
+    <div style="display: inline">
+      <label>{{name}}</label>
+      <label *ngFor="let cargo of cargos">{{cargo}}</label>
+    </div>
+    <div *ngFor="let name of partidos">
+      <div style="display: inline">
+        <label>{{name}}</label>
+        <input *ngFor="let cargo of cargos"/>
+      </div>
+    </div>
+    <button class="btn btn-success" > Guardar </button><br>
+  </div>
   <div class="alert alert-warning" *ngIf="alerta">
     <strong>No existe un telegrama cargado para esta mesa</strong>
   </div>

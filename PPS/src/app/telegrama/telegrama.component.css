@@ -1,0 +1,21 @@
+img{
+  width : 40%;
+}
+
+input{
+  width : 135px;
+}
+
+label{
+  width:135px;
+}
+
+.foto{
+
+}
+
+.grilla {
+  position: absolute;
+  right: 0px;
+  width: 60%;
+}
