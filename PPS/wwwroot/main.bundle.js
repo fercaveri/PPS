@@ -1209,7 +1209,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/telegrama/telegrama.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n  <h2>Vista de telegramas</h2>\r\n  <p>Seleccione una provincia</p>\r\n  <select class=\"form-control\" id=\"provincia\" [(ngModel)]=\"provincia\" (change)=\"loadLocalidad()\" required>\r\n    <option *ngFor=\"let provincia of provincias\" [value]=\"provincia.nombreProvincia\">{{provincia.nombreProvincia}}</option>\r\n  </select>\r\n  <p>Seleccione una localidad</p>\r\n  <select class=\"form-control\" id=\"localidad\" (change)=\"loadMesas()\" [(ngModel)]=\"localidad\" required>\r\n    <option *ngFor=\"let localidad of localidades\" [value]=\"localidad.nombreLocalidad\">{{localidad.nombreLocalidad}}</option>\r\n  </select>\r\n  <p>Seleccione una mesa</p>\r\n  <select class=\"form-control\" id=\"mesa\" [(ngModel)]=\"mesa\" required>\r\n    <option *ngFor=\"let mesa of mesas\" [value]=\"mesa.numero\">{{mesa.numero}}</option>\r\n  </select><br>\r\n  <button class=\"btn btn-success  btn-lg pull-right\" (click)=\"mostrarTelegrama()\"> Ver Telegrama </button><br>\r\n  <div class=\"foto\">\r\n    <img [src]=\"base64Image\" class=\"img-thumbnail\" *ngIf=\"hayTelegrama\" /><br>\r\n  </div>\r\n  <div class=\"grilla\" *ngIf=\"hayTelegrama\">\r\n    <p>Grilla de votos por cargo:</p>\r\n    <div style=\"display: inline\">\r\n      <label>{{name}}</label>\r\n      <label *ngFor=\"let cargo of cargos\">{{cargo}}</label>\r\n    </div>\r\n    <div *ngFor=\"let name of partidos\">\r\n      <div style=\"display: inline\">\r\n        <label>{{name}}</label>\r\n        <input *ngFor=\"let cargo of cargos\"/>\r\n      </div>\r\n    </div>\r\n    <button class=\"btn btn-success\" > Guardar </button><br>\r\n  </div>\r\n  <div class=\"alert alert-warning\" *ngIf=\"alerta\">\r\n    <strong>No existe un telegrama cargado para esta mesa</strong>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"container\">\r\n  <h2>Vista de telegramas</h2>\r\n  <p>Seleccione una provincia</p>\r\n  <select class=\"form-control\" id=\"provincia\" [(ngModel)]=\"provincia\" (change)=\"loadLocalidad()\" required>\r\n    <option *ngFor=\"let provincia of provincias\" [value]=\"provincia.nombreProvincia\">{{provincia.nombreProvincia}}</option>\r\n  </select>\r\n  <p>Seleccione una localidad</p>\r\n  <select class=\"form-control\" id=\"localidad\" (change)=\"loadMesas()\" [(ngModel)]=\"localidad\" required>\r\n    <option *ngFor=\"let localidad of localidades\" [value]=\"localidad.nombreLocalidad\">{{localidad.nombreLocalidad}}</option>\r\n  </select>\r\n  <p>Seleccione una mesa</p>\r\n  <select class=\"form-control\" id=\"mesa\" [(ngModel)]=\"mesa\" required>\r\n    <option *ngFor=\"let mesa of mesas\" [value]=\"mesa.id\">{{mesa.numero}}</option>\r\n  </select><br>\r\n  <button class=\"btn btn-success  btn-lg pull-right\" (click)=\"mostrarTelegrama()\"> Ver Telegrama </button><br>\r\n  <div class=\"foto\">\r\n    <img [src]=\"base64Image\" class=\"img-thumbnail\" *ngIf=\"hayTelegrama\" /><br>\r\n  </div>\r\n\r\n  <div class=\"grilla\" *ngIf=\"hayTelegrama\">\r\n    <p>Grilla de votos por cargo:</p>\r\n    <div style=\"display: inline\">\r\n      <label>{{name}}</label>\r\n      <label *ngFor=\"let cargo of cargos\">{{cargo}}</label>\r\n    </div>\r\n    <div *ngFor=\"let name of partidos; let i=index\">\r\n      <div style=\"display: inline\">\r\n        <label>{{name}}</label>\r\n        <input type=\"number\" name=\"{{name}}0\" [(ngModel)]=\"votos[i].votos0\"/>\r\n        <input type=\"number\" name=\"{{name}}1\" [(ngModel)]=\"votos[i].votos1\"/>\r\n        <input type=\"number\" name=\"{{name}}2\" [(ngModel)]=\"votos[i].votos2\"/>\r\n        <input type=\"number\" name=\"{{name}}3\" [(ngModel)]=\"votos[i].votos3\"/>\r\n      </div>\r\n    </div>\r\n    <button class=\"btn btn-success\" (click)=\"save()\"> Guardar </button><br>\r\n  </div>\r\n  <div class=\"alert alert-warning\" *ngIf=\"alerta\">\r\n    <strong>No existe un telegrama cargado para esta mesa</strong>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1217,6 +1217,7 @@ module.exports = "<div class=\"container\">\r\n  <h2>Vista de telegramas</h2>\r\
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export Partido */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TelegramaComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
@@ -1233,11 +1234,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+var Partido = (function () {
+    function Partido() {
+    }
+    return Partido;
+}());
+
 var TelegramaComponent = (function () {
     function TelegramaComponent(_httpService, _sanitizer) {
         this._httpService = _httpService;
         this._sanitizer = _sanitizer;
         this.cargos = ["Concejal", "Diputado Provincial", "Diputado Nacional", "Senador Nacional"];
+        this.votos = [];
     }
     TelegramaComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -1262,7 +1270,8 @@ var TelegramaComponent = (function () {
     };
     TelegramaComponent.prototype.mostrarTelegrama = function () {
         var _this = this;
-        this._httpService.get('/api/telegrama').subscribe(function (values) {
+        console.log(this.mesa);
+        this._httpService.get('/api/telegrama?numeroMesa=' + this.mesa).subscribe(function (values) {
             if (values != null) {
                 var body = values.text("legacy");
                 _this.base64Image = body;
@@ -1278,7 +1287,42 @@ var TelegramaComponent = (function () {
         this._httpService.get('/api/partidopolitico/getnombres').subscribe(function (values) {
             _this.partidos = values.json();
             console.log(_this.partidos);
+            for (var _i = 0, _a = _this.partidos; _i < _a.length; _i++) {
+                var partido = _a[_i];
+                _this.votos.push(new Partido());
+            }
+            for (var j = 0; j < _this.votos.length; j++) {
+                for (var i = 0; i < _this.cargos.length; i++) {
+                    var request = '/api/recuento/votoxmesa?idMesa=' + _this.mesa + '&cargo=' + i + '&partido=' + _this.partidos[j];
+                    console.log(request);
+                    var cantVotos = _this.pedirVotos(request, j, i);
+                }
+            }
         });
+    };
+    TelegramaComponent.prototype.save = function () {
+        console.log(this.votos);
+    };
+    TelegramaComponent.prototype.pedirVotos = function (request, pos, cargo) {
+        var _this = this;
+        var cantVotos;
+        this._httpService.get(request).subscribe(function (values) {
+            var cantVotos = +values.text('legacy');
+            console.log("Setie : " + cantVotos);
+            if (cargo == 0) {
+                _this.votos[pos].votos0 = cantVotos;
+            }
+            else if (cargo == 1) {
+                _this.votos[pos].votos1 = cantVotos;
+            }
+            else if (cargo == 2) {
+                _this.votos[pos].votos2 = cantVotos;
+            }
+            else {
+                _this.votos[pos].votos3 = cantVotos;
+            }
+        });
+        return cantVotos;
     };
     return TelegramaComponent;
 }());

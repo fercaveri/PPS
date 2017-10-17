@@ -10,25 +10,29 @@
   </select>
   <p>Seleccione una mesa</p>
   <select class="form-control" id="mesa" [(ngModel)]="mesa" required>
-    <option *ngFor="let mesa of mesas" [value]="mesa.numero">{{mesa.numero}}</option>
+    <option *ngFor="let mesa of mesas" [value]="mesa.id">{{mesa.numero}}</option>
   </select><br>
   <button class="btn btn-success  btn-lg pull-right" (click)="mostrarTelegrama()"> Ver Telegrama </button><br>
   <div class="foto">
     <img [src]="base64Image" class="img-thumbnail" *ngIf="hayTelegrama" /><br>
   </div>
+
   <div class="grilla" *ngIf="hayTelegrama">
     <p>Grilla de votos por cargo:</p>
     <div style="display: inline">
       <label>{{name}}</label>
       <label *ngFor="let cargo of cargos">{{cargo}}</label>
     </div>
-    <div *ngFor="let name of partidos">
+    <div *ngFor="let name of partidos; let i=index">
       <div style="display: inline">
         <label>{{name}}</label>
-        <input *ngFor="let cargo of cargos"/>
+        <input type="number" name="{{name}}0" [(ngModel)]="votos[i].votos0"/>
+        <input type="number" name="{{name}}1" [(ngModel)]="votos[i].votos1"/>
+        <input type="number" name="{{name}}2" [(ngModel)]="votos[i].votos2"/>
+        <input type="number" name="{{name}}3" [(ngModel)]="votos[i].votos3"/>
       </div>
     </div>
-    <button class="btn btn-success" > Guardar </button><br>
+    <button class="btn btn-success" (click)="save()"> Editar </button><br>
   </div>
   <div class="alert alert-warning" *ngIf="alerta">
     <strong>No existe un telegrama cargado para esta mesa</strong>
