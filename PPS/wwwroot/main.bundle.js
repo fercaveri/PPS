@@ -561,6 +561,28 @@ var _a;
 
 /***/ }),
 
+/***/ "../../../../../src/app/model.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export Mesa */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Usuario; });
+var Mesa = (function () {
+    function Mesa() {
+    }
+    return Mesa;
+}());
+
+var Usuario = (function () {
+    function Usuario() {
+    }
+    return Usuario;
+}());
+
+//# sourceMappingURL=model.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/partido-details/partido-details.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -952,7 +974,6 @@ module.exports = "<div class=\"container\">\r\n  <h2>Recuento de votos</h2>\r\n 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export Mesa */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RecuentoComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
@@ -966,12 +987,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-
-var Mesa = (function () {
-    function Mesa() {
-    }
-    return Mesa;
-}());
 
 var RecuentoComponent = (function () {
     function RecuentoComponent(_httpService) {
@@ -1302,7 +1317,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/usuario/usuario.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n  <h2>Alta de usuario</h2>\r\n  <label>Usuario</label>\r\n  <input name=\"user\" [(ngModel)]=\"user.user\"  class=\"form-control\" required><br>\r\n  <label>Contraseña</label>\r\n  <input name=\"pass\" [(ngModel)]=\"user.pass\"  class=\"form-control\" required><br>\r\n  <label>Nombre completo</label>\r\n  <input name=\"fullName\" [(ngModel)]=\"user.fullName\"  class=\"form-control\" required><br>\r\n  <label>Rol</label>\r\n  <select class=\"form-control\" id=\"role\"\r\n          required\r\n          [(ngModel)]=\"role\" name=\"role\">\r\n    <option *ngFor=\"let rol of roles\" [value]=\"rol\">{{rol}}</option>\r\n  </select><br>\r\n  <button (click)=\"submit()\" type=\"submit\" class=\"btn btn-success\">Submit</button>\r\n\r\n</div>\r\n"
+module.exports = "<div class=\"container\">\r\n  <h2>Alta de usuario</h2>\r\n  <label>Usuario</label>\r\n  <input name=\"user\" [(ngModel)]=\"user.user\"  class=\"form-control\" required><br>\r\n  <label>Contraseña</label>\r\n  <input name=\"pass\" [(ngModel)]=\"user.pass\"  class=\"form-control\" required><br>\r\n  <label>Nombre completo</label>\r\n  <input name=\"fullName\" [(ngModel)]=\"user.fullName\"  class=\"form-control\" required><br>\r\n  <label>Rol</label>\r\n  <select class=\"form-control\" id=\"role\"\r\n          required\r\n          [(ngModel)]=\"role\" name=\"role\">\r\n    <option *ngFor=\"let rol of roles\" [value]=\"rol\">{{rol}}</option>\r\n  </select><br>\r\n  <div *ngIf=\"role == 'Normal'\">\r\n    <label>Escoja que clase de permisos tendra dicho usuario:</label><br>\r\n    <button class=\"btn btn-info\" (click)=\"mostrarForm('provincia')\"> Permisos sobre una provincia </button>\r\n    <button class=\"btn btn-info\" (click)=\"mostrarForm('localidad')\"> Permisos sobre una localidad </button>\r\n    <button class=\"btn btn-info\" (click)=\"mostrarForm('mesa')\"> Permisos sobre una mesa </button>\r\n    <div *ngIf=\"eligioPermiso == true\">\r\n      <div *ngIf=\"permiso=='provincia'||permiso=='localidad'||permiso=='mesa'\">\r\n        <p>Seleccione una provincia</p>\r\n        <select class=\"form-control\" id=\"provincia\" [(ngModel)]=\"provincia\" (change)=\"loadLocalidad()\" required>\r\n          <option *ngFor=\"let provincia of provincias\" [value]=\"provincia.nombreProvincia\">{{provincia.nombreProvincia}}</option>\r\n        </select>\r\n      </div>\r\n      <div *ngIf=\"permiso=='localidad'||permiso=='mesa'\">\r\n        <p>Seleccione una localidad</p>\r\n        <select class=\"form-control\" id=\"localidad\" (change)=\"loadMesas()\" [(ngModel)]=\"localidad\" required>\r\n          <option *ngFor=\"let localidad of localidades\" [value]=\"localidad.nombreLocalidad\">{{localidad.nombreLocalidad}}</option>\r\n        </select>\r\n      </div>\r\n      <div *ngIf=\"permiso=='mesa'\">\r\n        <p>Seleccione una mesa</p>\r\n        <select class=\"form-control\" id=\"mesa\" [(ngModel)]=\"mesa\" required>\r\n          <option *ngFor=\"let mesa of mesas\" [value]=\"mesa.id\">{{mesa.numero}}</option>\r\n        </select>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <button (click)=\"submit()\" type=\"submit\" class=\"btn btn-success btn-lg pull-right\">Submit</button>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1310,10 +1325,10 @@ module.exports = "<div class=\"container\">\r\n  <h2>Alta de usuario</h2>\r\n  <
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export Usuario */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UsuarioComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__model__ = __webpack_require__("../../../../../src/app/model.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1325,16 +1340,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var Usuario = (function () {
-    function Usuario() {
-    }
-    return Usuario;
-}());
 
 var UsuarioComponent = (function () {
     function UsuarioComponent(_httpService) {
         this._httpService = _httpService;
-        this.user = new Usuario();
+        this.user = new __WEBPACK_IMPORTED_MODULE_2__model__["a" /* Usuario */]();
         this.roles = ['Normal', 'Admin', 'SuperAdmin'];
     }
     UsuarioComponent.prototype.ngOnInit = function () {
@@ -1348,6 +1358,60 @@ var UsuarioComponent = (function () {
         this._httpService.post('api/usuario', this.user).subscribe(function (response) {
             var body = JSON.parse(response.text("legacy"));
             console.log(body.statusCode);
+        });
+        if (this.role == 'Normal') {
+            var c;
+            if (this.permiso == 'provincia') {
+                c = { usuario: this.user, provincia: this.provincia };
+            }
+            else if (this.permiso == 'localidad') {
+                c = { usuario: this.user, localidad: this.localidad };
+            }
+            else {
+                c = { usuario: this.user, mesa: this.mesa };
+            }
+            var request = this.getRequest();
+            console.log(c);
+            console.log(request);
+            this._httpService.post('/api/fiscalizacion/' + request, c).subscribe(function (response) {
+                var body = JSON.parse(response.text("legacy"));
+                console.log(body.statusCode);
+            });
+        }
+    };
+    UsuarioComponent.prototype.getRequest = function () {
+        if (this.permiso == 'provincia') {
+            return 'xprov';
+        }
+        else if (this.permiso == 'localidad') {
+            return 'xlocalidad';
+        }
+        else {
+            return 'xmesa';
+        }
+    };
+    UsuarioComponent.prototype.mostrarForm = function (permiso) {
+        var _this = this;
+        this.permiso = permiso;
+        this.eligioPermiso = true;
+        console.log(this.permiso);
+        this._httpService.get('/api/provincia').subscribe(function (values) {
+            _this.provincias = values.json();
+            console.log(_this.provincias);
+        });
+    };
+    UsuarioComponent.prototype.loadLocalidad = function () {
+        var _this = this;
+        this._httpService.get('/api/localidad/getbyprov?provincia=' + this.provincia).subscribe(function (values) {
+            _this.localidades = values.json();
+            console.log(values);
+        });
+    };
+    UsuarioComponent.prototype.loadMesas = function () {
+        var _this = this;
+        this._httpService.get('/api/mesa/' + this.localidad).subscribe(function (values) {
+            _this.mesas = values.json();
+            console.log(values);
         });
     };
     return UsuarioComponent;

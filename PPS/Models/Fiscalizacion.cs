@@ -11,21 +11,23 @@ namespace PPS.Models
         [Key]
         public int id { get; set; }
         public Usuario user { get; set; }
-        public Mesa mesa { get; set; }
-        public Localidad localidad { get; set; }
+        public int mesa { get; set; }
+        public int localidad { get; set; }
 
-        //Los user solo podran subir a la mesa seleccionada
-        public Fiscalizacion(Usuario user, Mesa m)
+        //Cuando puedan subir datos solo a una mesa
+        public Fiscalizacion(Usuario user, int m)
         {
           this.user = user;
           this.mesa = m;
+          this.localidad = -1;
         }
 
-        //Los admin podran subir fotos de telegrama de cualquier mesa correspondiente a su localidad
-        public Fiscalizacion(Usuario user, Localidad l)
+        //Cuando puedan subir datos solo a una localidad o provincia
+        public Fiscalizacion(int l, Usuario user)
         {
           this.user = user;
           this.localidad = l;
+          this.mesa = -1;
         }
   }
 }

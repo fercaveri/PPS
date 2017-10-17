@@ -2,11 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js';
 import { ChartsModule } from 'ng2-charts';
 import { Http } from '@angular/http'
-export class Mesa {
-    id: number;
-    numero: number;
-    localidad: object;
-}
+import { Mesa } from '../model';
+
 @Component({
   selector: 'app-recuento',
   templateUrl: './recuento.component.html',
