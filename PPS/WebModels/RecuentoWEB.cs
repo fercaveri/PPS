@@ -10,5 +10,6 @@ namespace PPS.WebModels
     public int mesa { get; set; }
     public int votos { get; set; }
     public int candidato { get; set; }
-  }
+    public String partido { get; set; }
+    }
 }

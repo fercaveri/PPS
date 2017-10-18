@@ -25,14 +25,25 @@
     </div>
     <div *ngFor="let name of partidos; let i=index">
       <div style="display: inline">
-        <label>{{name}}</label>
-        <input type="number" name="{{name}}0" [(ngModel)]="votos[i].votos0"/>
-        <input type="number" name="{{name}}1" [(ngModel)]="votos[i].votos1"/>
-        <input type="number" name="{{name}}2" [(ngModel)]="votos[i].votos2"/>
-        <input type="number" name="{{name}}3" [(ngModel)]="votos[i].votos3"/>
+        <div *ngIf="edicion==true">
+          <label>{{name}}</label>
+          <input type="number" name="{{name}}0" [(ngModel)]="votos[i].votos0" />
+          <input type="number" name="{{name}}1" [(ngModel)]="votos[i].votos1" />
+          <input type="number" name="{{name}}2" [(ngModel)]="votos[i].votos2" />
+          <input type="number" name="{{name}}3" [(ngModel)]="votos[i].votos3" />
+        </div>
+        <div *ngIf="edicion==false">
+          <label>{{name}}</label>
+          <label>{{votos[i].votos0}}</label>
+          <label>{{votos[i].votos1}}</label>
+          <label>{{votos[i].votos2}}</label>
+          <label>{{votos[i].votos3}}</label>
+        </div>
       </div>
     </div>
-    <button class="btn btn-success" (click)="save()"> Editar </button><br>
+    <button class="btn btn-success" *ngIf="edicion==false" (click)="habilitarEdicion()"> Editar </button><br>
+    <button class="btn btn-warning" *ngIf="edicion==true" (click)="save()"> Guardar </button>
+    <button class="btn btn-default" *ngIf="edicion==true" (click)="atras()"> Atras </button><br>
   </div>
   <div class="alert alert-warning" *ngIf="alerta">
     <strong>No existe un telegrama cargado para esta mesa</strong>

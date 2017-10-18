@@ -85,12 +85,10 @@ namespace PPS.Data
         Recuento r1 = new Recuento(senadorPro, 50, m1);
         Recuento r2 = new Recuento(senador1p, 10, m1);
         Recuento r3 = new Recuento(senadorUc, 25, m1);
-        Recuento r4 = new Recuento(senadorPro, 5, m1);
         Recuento r5 = new Recuento(senadorPro, 45, m2);
         context.Recuentos.Add(r1);
         context.Recuentos.Add(r2);
         context.Recuentos.Add(r3);
-        context.Recuentos.Add(r4);
         context.Recuentos.Add(r5);
         context.SaveChanges();
       }

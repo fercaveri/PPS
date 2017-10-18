@@ -39,14 +39,14 @@ namespace PPS.Controllers
     public int getVotosMesa(int idMesa, int cargo, String partido)
     {
       Cargo c = this.getCargo(cargo);
-      List<Recuento> recuentos = (_db.Recuentos.Where(x => x.candidato.partido.nombre == partido && x.candidato.cargo == c && x.mesa.id == idMesa).ToList());
-      int cantVotos = 0;
-      for (int i = 0; i < recuentos.Count; i++)
+      Recuento recuento = (_db.Recuentos.Where(x => x.candidato.partido.nombre == partido && x.candidato.cargo == c && x.mesa.id == idMesa).FirstOrDefault());
+      if (recuento != null)
       {
-        cantVotos += recuentos[i].votos;
+        Console.WriteLine("Devolvi " + recuento.votos + " votos");
+        return recuento.votos;
       }
-      Console.WriteLine("Devolvi "+ cantVotos+ " votos");
-      return cantVotos;
+      Console.WriteLine("Devolvi "+ 0 + " votos");
+      return 0;
     }
 
     //api/recuento/votoxlocalidad
@@ -136,6 +136,25 @@ namespace PPS.Controllers
         }
         return new HttpResponseMessage(HttpStatusCode.NotAcceptable);
       }
+    }
+    [HttpPatch]
+    [Route("editxmesa")]
+    public HttpResponseMessage editxMesa([FromBody]RecuentoWEB r)
+    {
+      Console.WriteLine(r.mesa);
+      Console.WriteLine(r.votos);
+      Console.WriteLine(r.candidato);
+      Console.WriteLine(r.partido);
+      Cargo c = this.getCargo(r.candidato);
+      Recuento recuento = (_db.Recuentos.Where(x => x.candidato.partido.nombre == r.partido && x.candidato.cargo == c && x.mesa.id == r.mesa).FirstOrDefault());
+      if (recuento != null)
+      {
+        recuento.votos = r.votos;
+        _db.Recuentos.Update(recuento);
+        _db.SaveChanges();
+        return new HttpResponseMessage(HttpStatusCode.OK);
+      }
+      return new HttpResponseMessage(HttpStatusCode.NotFound);
     }
     private Cargo getCargo(int cargo)
     {

@@ -25,6 +25,7 @@ export class TelegramaComponent implements OnInit {
   hayTelegrama: boolean;
   alerta: boolean;
   base64Image;
+  edicion: boolean = false;
   constructor(private _httpService: Http, private _sanitizer: DomSanitizer) { }
 
   ngOnInit() {
@@ -78,8 +79,35 @@ export class TelegramaComponent implements OnInit {
           }
       }); 
     }
+    habilitarEdicion() {
+      this.edicion = true;
+    }
+    atras() {
+      this.edicion = false;
+    }
     save() {
         console.log(this.votos);
+        /*const c = { mesa: 1, candidato: 3, votos: 69, partido: 'pro' };
+        this._httpService.patch('/api/recuento/editxmesa', c).subscribe(values => { console.log(values) });*/
+        for (var j = 0; j < this.votos.length; j++) {
+            for (var i = 0; i < this.cargos.length; i++) {
+                if (i == 0) {
+                    const c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos0, partido: this.partidos[j] };
+                    this._httpService.patch('/api/recuento/editxmesa', c).subscribe(values => { console.log(values) });
+                } else if (i == 1) {
+                    const c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos1, partido: this.partidos[j] };
+                    this._httpService.patch('/api/recuento/editxmesa', c).subscribe(values => { console.log(values) });
+                } else if (i == 2) {
+                    const c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos2, partido: this.partidos[j] };
+                    this._httpService.patch('/api/recuento/editxmesa', c).subscribe(values => { console.log(values) });
+                } else {
+                    const c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos3, partido: this.partidos[j] };
+                    this._httpService.patch('/api/recuento/editxmesa', c).subscribe(values => { console.log(values) });
+                }
+                
+            }
+        }
+        this.edicion = false;
     }
     pedirVotos(request: string, pos: number, cargo: number): number {
         var cantVotos;
