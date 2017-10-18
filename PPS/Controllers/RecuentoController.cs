@@ -153,6 +153,18 @@ namespace PPS.Controllers
         _db.Recuentos.Update(recuento);
         _db.SaveChanges();
         return new HttpResponseMessage(HttpStatusCode.OK);
+      } else if (recuento == null && r.votos > 0)
+      {
+        Candidato cand = _db.Candidatos.Where(x => x.cargo == getCargo(r.candidato) && x.partido.nombre == r.partido).FirstOrDefault();
+        Mesa m = _db.Mesas.Find(r.mesa);
+        Recuento nuevoRecuento = new Recuento(cand, r.votos, m);
+        if(cand != null && m!= null)
+        { 
+          _db.Recuentos.Add(nuevoRecuento);
+          _db.SaveChanges();
+          return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+        return new HttpResponseMessage(HttpStatusCode.NotFound);
       }
       return new HttpResponseMessage(HttpStatusCode.NotFound);
     }
