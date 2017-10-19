@@ -29,5 +29,14 @@ namespace PPS.Models
           this.localidad = l;
           this.mesa = -1;
         }
+
+        public Fiscalizacion() { }
+        public Fiscalizacion(int id, Usuario u, int l, int m)
+        {
+          this.id = id;
+          this.user = u;
+          this.localidad = l;
+          this.mesa = m;
+        }
   }
 }
