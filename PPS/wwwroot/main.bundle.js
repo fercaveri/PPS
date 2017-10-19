@@ -16,12 +16,12 @@ webpackEmptyAsyncContext.id = "../../../../../src/$$_gendir lazy recursive";
 /***/ "../../../../../src/app/app.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__("../../node_modules/css-loader/lib/css-base.js")(false);
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
 // imports
 
 
 // module
-exports.push([module.i, ".app-menu-wrapper {\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n      -ms-flex-direction: row;\r\n          flex-direction: row;\r\n  -webkit-box-pack: justify;\r\n      -ms-flex-pack: justify;\r\n          justify-content: space-between;\r\n}\r\n\r\n.selected-btn {\r\n  border: 2px solid #66ff66;\r\n}\r\n", ""]);
+exports.push([module.i, ".app-menu-wrapper {\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: normal;\r\n      -ms-flex-direction: row;\r\n          flex-direction: row;\r\n  -webkit-box-pack: justify;\r\n      -ms-flex-pack: justify;\r\n          justify-content: space-between;\r\n}\r\n\r\n.selected-btn {\r\n  border: 2px solid #66ff66;\r\n}\r\n\r\n.my-page-header {\r\n  padding-bottom: 9px;\r\n  margin: 5px 0 5px;\r\n  border-bottom: 1px solid #eee;\r\n}\r\n", ""]);
 
 // exports
 
@@ -34,7 +34,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page-header\">\r\n  <h1 align=\"center\">Bienvenido al Recuento del Escrutinio</h1>\r\n</div>\r\n  <nav class=\"navbar navbar-inverse\">\r\n    <div class=\"navbar-header\">\r\n      <a class=\"navbar-brand\"><span class=\"glyphicon glyphicon-envelope\"></span> Escrutinio Web</a>\r\n    </div>\r\n    <div *ngIf=\"rol==2||rol==1\">\r\n      <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='localidades')\" [ngClass]=\"{'selected-btn': show=='localidades'}\"> Localidades </button>\r\n      <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaPartido')\" [ngClass]=\"{'selected-btn': show=='altaPartido'}\"> Alta Partido Politico </button>\r\n      <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaPartido')\" [ngClass]=\"{'selected-btn': show=='consultaPartido'}\"> Consulta Partido Politico </button>\r\n      <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaCandidato')\" [ngClass]=\"{'selected-btn': show=='altaCandidato'}\"> Alta Candidato </button>\r\n      <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaCandidato')\" [ngClass]=\"{'selected-btn': show=='consultaCandidato'}\"> Consulta Candidato </button>\r\n      <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='telegramas')\" [ngClass]=\"{'selected-btn': show=='telegramas'}\"> Telegramas </button>\r\n      <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='recuentos')\" [ngClass]=\"{'selected-btn': show=='recuentos'}\"> Ver Recuento </button>\r\n      <button class=\"btn btn-info navbar-btn\" (click)=\"(show='usuario')\" [ngClass]=\"{'selected-btn': show=='usuario'}\">\r\n        <span class=\"glyphicon glyphicon-log-in\"></span> Crear usuarios\r\n      </button>\r\n      <button class=\"btn btn-info navbar-btn\" (click)=\"logout()\">\r\n        <span class=\"glyphicon glyphicon-remove\"></span> Logout\r\n      </button>\r\n    </div>\r\n    <div *ngIf=\"rol==0\">\r\n     <button class=\"btn btn-info navbar-btn\" (click)=\"(show='recuentos')\">\r\n        <span class=\"glyphicon glyphicon-envelope\"></span> Ver recuentos\r\n      </button>\r\n      <button class=\"btn btn-info navbar-btn\" (click)=\"logout()\">\r\n        <span class=\"glyphicon glyphicon-remove\"></span> Logout\r\n      </button>\r\n    </div>    \r\n  </nav>\r\n\r\n<div *ngIf=\"logeo==false\" class=\"container\">\r\n  <h2>Login</h2>\r\n  <table class=\"form-group\" style=\"width: 50%; margin: 20px;\">\r\n    <tbody>\r\n      <tr>\r\n        <td><label>Usuario</label></td>\r\n        <td><input name=\"user\" class=\"form-control\" [(ngModel)]=\"user\" required></td>\r\n      </tr>\r\n      <tr>\r\n        <td><label>Contraseña</label></td>\r\n        <td><input name=\"pass\" class=\"form-control\" [(ngModel)]=\"pass\" required></td>\r\n      </tr>\r\n      <tr>\r\n        <td>\r\n          <button class=\"btn btn-info\" (click)=\"login()\">Logearse<span class=\"glyphicon glyphicon-user\"></span></button>\r\n        </td>\r\n      </tr>\r\n    </tbody>\r\n  </table>\r\n  <div *ngIf=\"showAlert == true\">\r\n    <div class=\"alert alert-success\" *ngIf=\"rol==2\">\r\n      <strong>Usted es un superAdmin.</strong> Tendrá acceso a toda la funcionalidad de la web.\r\n    </div>\r\n    <div class=\"alert alert-info\" *ngIf=\"rol==1\">\r\n      <strong>Usted es un Admin.</strong> Tendrá restringido la posibilidad de crear nuevos administradores.\r\n    </div>\r\n    <div class=\"alert alert-info\" *ngIf=\"rol==0\">\r\n      <strong>Usted es un usuario normal.</strong> Tendrá acceso solo a poder ver los resultados del recuento.\r\n    </div>\r\n    <div class=\"alert alert-danger\" *ngIf=\"rol==-1\">\r\n      <strong>Contraseña o usuario incorrecto.</strong> Vuelva a intentar.\r\n    </div>\r\n    <button class=\"btn btn-succes\" (click)=\"ok()\">Entendido<span class=\"glyphicon glyphicon-ok\"></span></button>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"logeo==true\">\r\n  <div *ngIf=\"show == 'altaPartido'\">\r\n    <partido-politico>\r\n    </partido-politico>\r\n  </div>\r\n  <div *ngIf=\"show == 'localidades'\">\r\n    <localidad>\r\n    </localidad>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaCandidato'\">\r\n    <candidato>\r\n    </candidato>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaCandidato'\">\r\n    <candidato-details>\r\n    </candidato-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaPartido'\">\r\n    <partido-details>\r\n    </partido-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'usuario'\">\r\n    <app-usuario>\r\n    </app-usuario>\r\n  </div>\r\n  <div *ngIf=\"show == 'telegramas'\">\r\n    <app-telegrama>\r\n    </app-telegrama>\r\n  </div>\r\n  <div *ngIf=\"show == 'recuentos'\">\r\n    <app-recuento>\r\n    </app-recuento>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"my-page-header\">\r\n  <h1 align=\"center\" style=\"margin: 0\">Bienvenido al Recuento del Escrutinio</h1>\r\n</div>\r\n  <nav class=\"navbar navbar-inverse\" style=\"padding: 0 5px;\">\r\n    <div class=\"navbar-header\">\r\n      <!--<a class=\"navbar-brand\"><span class=\"glyphicon glyphicon-envelope\"></span> Escrutinio Web</a>-->\r\n    </div>\r\n    <div *ngIf=\"rol==2||rol==1\">\r\n      <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='localidades')\" [ngClass]=\"{'selected-btn': show=='localidades'}\"> Localidades </button>\r\n      <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaPartido')\" [ngClass]=\"{'selected-btn': show=='altaPartido'}\"> Alta Partido Politico </button>\r\n      <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaPartido')\" [ngClass]=\"{'selected-btn': show=='consultaPartido'}\"> Consulta Partido Politico </button>\r\n      <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='altaCandidato')\" [ngClass]=\"{'selected-btn': show=='altaCandidato'}\"> Alta Candidato </button>\r\n      <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='consultaCandidato')\" [ngClass]=\"{'selected-btn': show=='consultaCandidato'}\"> Consulta Candidato </button>\r\n      <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='telegramas')\" [ngClass]=\"{'selected-btn': show=='telegramas'}\"> Telegramas </button>\r\n      <button class=\"btn btn-danger navbar-btn\" (click)=\"(show='recuentos')\" [ngClass]=\"{'selected-btn': show=='recuentos'}\"> Ver Recuento </button>\r\n      <button class=\"btn btn-info navbar-btn\" (click)=\"(show='usuario')\" [ngClass]=\"{'selected-btn': show=='usuario'}\">\r\n        <span class=\"glyphicon glyphicon-log-in\"></span> Crear usuarios\r\n      </button>\r\n      <button class=\"btn btn-info navbar-btn\" (click)=\"logout()\">\r\n        <span class=\"glyphicon glyphicon-remove\"></span> Logout\r\n      </button>\r\n    </div>\r\n    <div *ngIf=\"rol==0\">\r\n     <button class=\"btn btn-info navbar-btn\" (click)=\"(show='recuentos')\">\r\n        <span class=\"glyphicon glyphicon-envelope\"></span> Ver recuentos\r\n      </button>\r\n      <button class=\"btn btn-info navbar-btn\" (click)=\"logout()\">\r\n        <span class=\"glyphicon glyphicon-remove\"></span> Logout\r\n      </button>\r\n    </div>    \r\n  </nav>\r\n\r\n<div *ngIf=\"logeo==false\" class=\"container\">\r\n  <h2>Login</h2>\r\n  <table class=\"form-group\" style=\"width: 50%; margin: 20px;\">\r\n    <tbody>\r\n      <tr>\r\n        <td><label>Usuario</label></td>\r\n        <td><input name=\"user\" class=\"form-control\" [(ngModel)]=\"user\" required></td>\r\n      </tr>\r\n      <tr>\r\n        <td><label>Contraseña</label></td>\r\n        <td><input name=\"pass\" class=\"form-control\" [(ngModel)]=\"pass\" required></td>\r\n      </tr>\r\n      <tr>\r\n        <td>\r\n          <button class=\"btn btn-info\" (click)=\"login()\">Logearse<span class=\"glyphicon glyphicon-user\"></span></button>\r\n        </td>\r\n      </tr>\r\n    </tbody>\r\n  </table>\r\n  <div *ngIf=\"showAlert == true\">\r\n    <div class=\"alert alert-success\" *ngIf=\"rol==2\">\r\n      <strong>Usted es un superAdmin.</strong> Tendrá acceso a toda la funcionalidad de la web.\r\n    </div>\r\n    <div class=\"alert alert-info\" *ngIf=\"rol==1\">\r\n      <strong>Usted es un Admin.</strong> Tendrá restringido la posibilidad de crear nuevos administradores.\r\n    </div>\r\n    <div class=\"alert alert-info\" *ngIf=\"rol==0\">\r\n      <strong>Usted es un usuario normal.</strong> Tendrá acceso solo a poder ver los resultados del recuento.\r\n    </div>\r\n    <div class=\"alert alert-danger\" *ngIf=\"rol==-1\">\r\n      <strong>Contraseña o usuario incorrecto.</strong> Vuelva a intentar.\r\n    </div>\r\n    <button class=\"btn btn-succes\" (click)=\"ok()\">Entendido<span class=\"glyphicon glyphicon-ok\"></span></button>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"logeo==true\">\r\n  <div *ngIf=\"show == 'altaPartido'\">\r\n    <partido-politico>\r\n    </partido-politico>\r\n  </div>\r\n  <div *ngIf=\"show == 'localidades'\">\r\n    <localidad>\r\n    </localidad>\r\n  </div>\r\n  <div *ngIf=\"show == 'altaCandidato'\">\r\n    <candidato>\r\n    </candidato>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaCandidato'\">\r\n    <candidato-details>\r\n    </candidato-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'consultaPartido'\">\r\n    <partido-details>\r\n    </partido-details>\r\n  </div>\r\n  <div *ngIf=\"show == 'usuario'\">\r\n    <app-usuario>\r\n    </app-usuario>\r\n  </div>\r\n  <div *ngIf=\"show == 'telegramas'\">\r\n    <app-telegrama>\r\n    </app-telegrama>\r\n  </div>\r\n  <div *ngIf=\"show == 'recuentos'\">\r\n    <app-recuento>\r\n    </app-recuento>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -193,7 +193,7 @@ AppModule = __decorate([
 /***/ "../../../../../src/app/candidato-details/candidato-details.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__("../../node_modules/css-loader/lib/css-base.js")(false);
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
 // imports
 
 
@@ -352,7 +352,7 @@ var _a;
 /***/ "../../../../../src/app/candidato/candidato.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__("../../node_modules/css-loader/lib/css-base.js")(false);
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
 // imports
 
 
@@ -495,7 +495,7 @@ var _a;
 /***/ "../../../../../src/app/login/login.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__("../../node_modules/css-loader/lib/css-base.js")(false);
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
 // imports
 
 
@@ -513,7 +513,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/login/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Login</h2>\n<table class=\"form-group\" style=\"width: 50%; margin: 20px;\">\r\n  <tbody>\r\n    <tr>\r\n      <td><label>Usuario</label></td>\r\n      <td><input name=\"user\" class=\"form-control\" [(ngModel)]=\"user\" required></td>\r\n    </tr>\r\n    <tr>\r\n      <td><label>Contraseña</label></td>\r\n      <td><input name=\"pass\" class=\"form-control\" [(ngModel)]=\"pass\" required></td>\r\n    </tr>\r\n    <tr>\r\n      <td>\r\n        <button class=\"btn btn-info\" (click)=\"login()\">Logearse<span class=\"glyphicon glyphicon-ok\"></span></button>\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n\r\n<div *ngIf=\"showAlert == true\">\r\n  <div class=\"alert alert-success\" *ngIf=\"rol==2\">\r\n    <strong>Usted es un superAdmin.</strong> Tendrá acceso a toda la funcionalidad de la web.\r\n  </div>\r\n  <div class=\"alert alert-info\" *ngIf=\"rol==1\">\r\n    <strong>Usted es un Admin.</strong> Tendrá restringido la posibilidad de crear nuevos administradores.\r\n  </div>\r\n  <div class=\"alert alert-info\" *ngIf=\"rol==0\">\r\n    <strong>Usted es un usuario normal.</strong> Tendrá acceso solo a poder ver los resultados del recuento.\r\n  </div>\r\n  <div class=\"alert alert-danger\" *ngIf=\"rol==-1\">\r\n    <strong>Contraseña o usuario incorrecto.</strong> Vuelva a intentar.\r\n  </div>\r\n</div>\r\n"
+module.exports = "<h2>Login</h2>\r\n<table class=\"form-group\" style=\"width: 50%; margin: 20px;\">\r\n  <tbody>\r\n    <tr>\r\n      <td><label>Usuario</label></td>\r\n      <td><input name=\"user\" class=\"form-control\" [(ngModel)]=\"user\" required></td>\r\n    </tr>\r\n    <tr>\r\n      <td><label>Contraseña</label></td>\r\n      <td><input name=\"pass\" class=\"form-control\" [(ngModel)]=\"pass\" required></td>\r\n    </tr>\r\n    <tr>\r\n      <td>\r\n        <button class=\"btn btn-info\" (click)=\"login()\">Logearse<span class=\"glyphicon glyphicon-ok\"></span></button>\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n\r\n<div *ngIf=\"showAlert == true\">\r\n  <div class=\"alert alert-success\" *ngIf=\"rol==2\">\r\n    <strong>Usted es un superAdmin.</strong> Tendrá acceso a toda la funcionalidad de la web.\r\n  </div>\r\n  <div class=\"alert alert-info\" *ngIf=\"rol==1\">\r\n    <strong>Usted es un Admin.</strong> Tendrá restringido la posibilidad de crear nuevos administradores.\r\n  </div>\r\n  <div class=\"alert alert-info\" *ngIf=\"rol==0\">\r\n    <strong>Usted es un usuario normal.</strong> Tendrá acceso solo a poder ver los resultados del recuento.\r\n  </div>\r\n  <div class=\"alert alert-danger\" *ngIf=\"rol==-1\">\r\n    <strong>Contraseña o usuario incorrecto.</strong> Vuelva a intentar.\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -590,7 +590,7 @@ var Usuario = (function () {
 /***/ "../../../../../src/app/partido-details/partido-details.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__("../../node_modules/css-loader/lib/css-base.js")(false);
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
 // imports
 
 
@@ -861,7 +861,7 @@ module.exports = "<p><strong class=\"localidad-lista-titulo\">Listado de localid
 /***/ "../../../../../src/app/partido/partido.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__("../../node_modules/css-loader/lib/css-base.js")(false);
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
 // imports
 
 
@@ -953,7 +953,7 @@ var _a;
 /***/ "../../../../../src/app/recuento/recuento.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__("../../node_modules/css-loader/lib/css-base.js")(false);
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
 // imports
 
 
@@ -1195,7 +1195,7 @@ var _a;
 /***/ "../../../../../src/app/spinner/spinner.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__("../../node_modules/css-loader/lib/css-base.js")(false);
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
 // imports
 
 
@@ -1256,12 +1256,12 @@ SpinnerComponent = __decorate([
 /***/ "../../../../../src/app/telegrama/telegrama.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__("../../node_modules/css-loader/lib/css-base.js")(false);
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
 // imports
 
 
 // module
-exports.push([module.i, "img{\r\n  width : 40%;\r\n}\r\n\r\ninput{\r\n  width : 135px;\r\n}\r\n\r\nlabel{\r\n  width:135px;\r\n}\r\n\r\n.foto{\r\n\r\n}\r\n\r\n.grilla {\r\n  position: absolute;\r\n  right: 0px;\r\n  width: 60%;\r\n}\r\n", ""]);
+exports.push([module.i, "img {\r\n  width: 40%;\r\n}\r\n\r\ninput {\r\n  width: 20%;\r\n}\r\n\r\nlabel {\r\n  width: 20%;\r\n}\r\n\r\n.foto {\r\n  margin: 10px;\r\n}\r\n\r\n  .foto img {\r\n    width: 100%;\r\n  }\r\n\r\n.grilla {\r\n  width: 70%;\r\n  margin: 10px;\r\n  border: 2px solid black;\r\n  padding: 10px;\r\n}\r\n\r\n.telegrama-bottom {\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  margin-top: 30px;\r\n}\r\n\r\n.grilla-row {\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  margin: 5px;\r\n}\r\n", ""]);
 
 // exports
 
@@ -1274,7 +1274,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/telegrama/telegrama.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n  <h2>Vista de telegramas</h2>\r\n  <p>Seleccione una provincia</p>\r\n  <select class=\"form-control\" id=\"provincia\" [(ngModel)]=\"provincia\" (change)=\"loadLocalidad()\" required>\r\n    <option *ngFor=\"let provincia of provincias\" [value]=\"provincia.nombreProvincia\">{{provincia.nombreProvincia}}</option>\r\n  </select>\r\n  <p>Seleccione una localidad</p>\r\n  <select class=\"form-control\" id=\"localidad\" (change)=\"loadMesas()\" [(ngModel)]=\"localidad\" required>\r\n    <option *ngFor=\"let localidad of localidades\" [value]=\"localidad.nombreLocalidad\">{{localidad.nombreLocalidad}}</option>\r\n  </select>\r\n  <p>Seleccione una mesa</p>\r\n  <select class=\"form-control\" id=\"mesa\" [(ngModel)]=\"mesa\" required>\r\n    <option *ngFor=\"let mesa of mesas\" [value]=\"mesa.id\">{{mesa.numero}}</option>\r\n  </select><br>\r\n  <button class=\"btn btn-success  btn-lg pull-right\" (click)=\"mostrarTelegrama()\"> Ver Telegrama </button><br>\r\n  <div class=\"foto\">\r\n    <img [src]=\"base64Image\" class=\"img-thumbnail\" *ngIf=\"hayTelegrama\" /><br>\r\n  </div>\r\n\r\n  <div class=\"grilla\" *ngIf=\"hayTelegrama\">\r\n    <p>Grilla de votos por cargo:</p>\r\n    <div style=\"display: inline\">\r\n      <label>{{name}}</label>\r\n      <label *ngFor=\"let cargo of cargos\">{{cargo}}</label>\r\n    </div>\r\n    <div *ngFor=\"let name of partidos; let i=index\">\r\n      <div style=\"display: inline\">\r\n        <div *ngIf=\"edicion==true\">\r\n          <label>{{name}}</label>\r\n          <input type=\"number\" name=\"{{name}}0\" [(ngModel)]=\"votos[i].votos0\" />\r\n          <input type=\"number\" name=\"{{name}}1\" [(ngModel)]=\"votos[i].votos1\" />\r\n          <input type=\"number\" name=\"{{name}}2\" [(ngModel)]=\"votos[i].votos2\" />\r\n          <input type=\"number\" name=\"{{name}}3\" [(ngModel)]=\"votos[i].votos3\" />\r\n        </div>\r\n        <div *ngIf=\"edicion==false\">\r\n          <label>{{name}}</label>\r\n          <label>{{votos[i].votos0}}</label>\r\n          <label>{{votos[i].votos1}}</label>\r\n          <label>{{votos[i].votos2}}</label>\r\n          <label>{{votos[i].votos3}}</label>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <button class=\"btn btn-success\" *ngIf=\"edicion==false\" (click)=\"habilitarEdicion()\"> Editar </button><br>\r\n    <button class=\"btn btn-warning\" *ngIf=\"edicion==true\" (click)=\"save()\"> Guardar </button>\r\n    <button class=\"btn btn-default\" *ngIf=\"edicion==true\" (click)=\"atras()\"> Atras </button><br>\r\n  </div>\r\n  <div class=\"alert alert-warning\" *ngIf=\"alerta\">\r\n    <strong>No existe un telegrama cargado para esta mesa</strong>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"container\">\r\n  <h2>Vista de telegramas</h2>\r\n  <p>Seleccione una provincia</p>\r\n  <select class=\"form-control\" id=\"provincia\" [(ngModel)]=\"provincia\" (change)=\"loadLocalidad()\" required>\r\n    <option *ngFor=\"let provincia of provincias\" [value]=\"provincia.nombreProvincia\">{{provincia.nombreProvincia}}</option>\r\n  </select>\r\n  <p>Seleccione una localidad</p>\r\n  <select class=\"form-control\" id=\"localidad\" (change)=\"loadMesas()\" [(ngModel)]=\"localidad\" required>\r\n    <option *ngFor=\"let localidad of localidades\" [value]=\"localidad.nombreLocalidad\">{{localidad.nombreLocalidad}}</option>\r\n  </select>\r\n  <p>Seleccione una mesa</p>\r\n  <select class=\"form-control\" id=\"mesa\" [(ngModel)]=\"mesa\" required>\r\n    <option *ngFor=\"let mesa of mesas\" [value]=\"mesa.id\">{{mesa.numero}}</option>\r\n  </select><br>\r\n  <button class=\"btn btn-success  btn-lg pull-right\" (click)=\"mostrarTelegrama()\"> Ver Telegrama </button><br>\r\n  <div class=\"telegrama-bottom\">\r\n    <div class=\"foto\">\r\n      <img [src]=\"base64Image\" class=\"img-thumbnail\" *ngIf=\"hayTelegrama\" /><br>\r\n    </div>\r\n\r\n    <div class=\"grilla\" *ngIf=\"hayTelegrama\">\r\n      <p>Grilla de votos por cargo:</p>\r\n      <div class=\"grilla-row\">\r\n        <label>{{name}}</label>\r\n        <label *ngFor=\"let cargo of cargos\">{{cargo}}</label>\r\n      </div>\r\n      <div *ngFor=\"let part of partidos; let i=index\">\r\n        <div>\r\n          <div *ngIf=\"edicion==true\" class=\"grilla-row\">\r\n            <label [ngStyle]=\"{'background-color': part['color']}\">{{part['nombre']}}</label>\r\n            <input type=\"number\" name=\"{{part['nombre']}}0\" [(ngModel)]=\"votos[i].votos0\" />\r\n            <input type=\"number\" name=\"{{part['nombre']}}1\" [(ngModel)]=\"votos[i].votos1\" />\r\n            <input type=\"number\" name=\"{{part['nombre']}}2\" [(ngModel)]=\"votos[i].votos2\" />\r\n            <input type=\"number\" name=\"{{part['nombre']}}3\" [(ngModel)]=\"votos[i].votos3\" />\r\n          </div>\r\n          <div *ngIf=\"edicion==false\" class=\"grilla-row\">\r\n            <label [ngStyle]=\"{'background-color': part['color']}\">{{part['nombre']}}</label>\r\n            <label>{{votos[i].votos0}}</label>\r\n            <label>{{votos[i].votos1}}</label>\r\n            <label>{{votos[i].votos2}}</label>\r\n            <label>{{votos[i].votos3}}</label>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <button class=\"btn btn-success\" *ngIf=\"edicion==false\" (click)=\"habilitarEdicion()\"> Editar </button><br>\r\n      <button class=\"btn btn-warning\" *ngIf=\"edicion==true\" (click)=\"save()\"> Guardar </button>\r\n      <button class=\"btn btn-default\" *ngIf=\"edicion==true\" (click)=\"atras()\"> Atras </button><br>\r\n    </div>\r\n    <div class=\"alert alert-warning\" *ngIf=\"alerta\">\r\n      <strong>No existe un telegrama cargado para esta mesa</strong>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1350,7 +1350,7 @@ var TelegramaComponent = (function () {
                 _this.hayTelegrama = false;
             }
         });
-        this._httpService.get('/api/partidopolitico/getnombres').subscribe(function (values) {
+        this._httpService.get('/api/partidopolitico/gettodo').subscribe(function (values) {
             _this.partidos = values.json();
             console.log(_this.partidos);
             for (var _i = 0, _a = _this.partidos; _i < _a.length; _i++) {
@@ -1359,8 +1359,7 @@ var TelegramaComponent = (function () {
             }
             for (var j = 0; j < _this.votos.length; j++) {
                 for (var i = 0; i < _this.cargos.length; i++) {
-                    var request = '/api/recuento/votoxmesa?idMesa=' + _this.mesa + '&cargo=' + i + '&partido=' + _this.partidos[j];
-                    console.log(request);
+                    var request = '/api/recuento/votoxmesa?idMesa=' + _this.mesa + '&cargo=' + i + '&partido=' + _this.partidos[j]['nombre'];
                     var cantVotos = _this.pedirVotos(request, j, i);
                 }
             }
@@ -1379,19 +1378,19 @@ var TelegramaComponent = (function () {
         for (var j = 0; j < this.votos.length; j++) {
             for (var i = 0; i < this.cargos.length; i++) {
                 if (i == 0) {
-                    var c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos0, partido: this.partidos[j] };
+                    var c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos0, partido: this.partidos[j]['nombre'] };
                     this._httpService.patch('/api/recuento/editxmesa', c).subscribe(function (values) { console.log(values); });
                 }
                 else if (i == 1) {
-                    var c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos1, partido: this.partidos[j] };
+                    var c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos1, partido: this.partidos[j]['nombre'] };
                     this._httpService.patch('/api/recuento/editxmesa', c).subscribe(function (values) { console.log(values); });
                 }
                 else if (i == 2) {
-                    var c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos2, partido: this.partidos[j] };
+                    var c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos2, partido: this.partidos[j]['nombre'] };
                     this._httpService.patch('/api/recuento/editxmesa', c).subscribe(function (values) { console.log(values); });
                 }
                 else {
-                    var c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos3, partido: this.partidos[j] };
+                    var c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos3, partido: this.partidos[j]['nombre'] };
                     this._httpService.patch('/api/recuento/editxmesa', c).subscribe(function (values) { console.log(values); });
                 }
             }
@@ -1438,7 +1437,7 @@ var _a, _b;
 /***/ "../../../../../src/app/usuario/usuario.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__("../../node_modules/css-loader/lib/css-base.js")(false);
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
 // imports
 
 
