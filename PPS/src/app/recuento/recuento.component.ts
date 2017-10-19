@@ -140,6 +140,7 @@ export class RecuentoComponent implements OnInit {
         this._httpService.get(request + 'cargo=' + this.cargo).subscribe(values => {
             if (this.modo != 'provincia') {
                 let body = JSON.parse(values.text("legacy"));
+                this.pieChartData = new Array;
                 for (var i = 0; i < body.length; i++) {
                     this.pieChartData[this.pieChartIds.indexOf(body[i].id)] = body[i].votos;
                 }
@@ -188,7 +189,7 @@ export class RecuentoComponent implements OnInit {
             return '/api/recuento/todosporprovincia?'
         } else if (this.modo == 'localidad') {
             this.messageRecuento = 'Resultados de votacion sobre ' + this.cargos[this.cargo] + ' en la localidad de ' + this.localidad;
-            return '/api/recuento/todosporunalocalidad?localidad=' + this.localidadID + '&'
+            return '/api/recuento/todosporunalocalidad?localidadID=' + this.localidadID + '&'
         } else {
             var numeroMesa;
             for (let mesa of this.mesas) {
