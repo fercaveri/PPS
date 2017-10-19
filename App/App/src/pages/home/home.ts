@@ -4,7 +4,7 @@ import { AlertController, NavController } from 'ionic-angular';
 
 import { MainPage } from '../main/main';
 import { config } from '../../config';
-import { Usuario } from '../../model';
+import { Usuario, Fiscal } from '../../model';
 
 @Component({
   selector: 'page-home',
@@ -15,6 +15,10 @@ export class HomePage {
   pass: String = "";
   usuario: number;
   mesa: number = 0;
+
+  fiscal: Fiscal;
+  nombreLocalidad: String;
+  numeroMesa: number;
 
   constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController) {
   }
@@ -30,11 +34,43 @@ export class HomePage {
               subTitle: 'La contraseña o el usuario son incorrectos',
               buttons: ['OK']
           });
-      }
-      else {
+      } else {
+
+          if (role == 0) {
+              this.http.get('http://' + new config().ip + ':' + new config().port +
+                  '/api/fiscalizacion?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
+                      this.fiscal = data;
+                      if (this.fiscal.localidad == -1) {
+                          console.log("Tiene permiso sobre mesa")
+                          this.http.get('http://' + new config().ip + ':' + new config().port +
+                              '/api/fiscalizacion/getmesa?id=' + this.fiscal.mesa).map(res => res.json()).subscribe(data => {
+                                  this.numeroMesa = data;
+                                  console.log(data);
+                              });
+                      } else {
+                          console.log("Tiene permiso sobre localidad o provincia");
+                          this.http.get('http://' + new config().ip + ':' + new config().port +
+                              '/api/fiscalizacion/getloc?id=' + this.fiscal.localidad).map(res => res.text()).subscribe(data => {
+                                  this.nombreLocalidad = data;
+                                  console.log(this.nombreLocalidad);
+                              });
+                      }
+                      console.log(data);
+                  }, error => {
+                      console.log(error);
+                  });
+          }
+          var subtitle;
+          if (role == 1 || role == 2) {
+              subtitle = 'Al ser administrador usted podra utilizar toda la funcionalidad de la app';
+          } else if (this.fiscal.mesa == -1) {
+              subtitle = 'Tiene permisos sobre la localidad:' + this.nombreLocalidad;
+          } else {
+              subtitle = 'Tiene asignada la mesa :' + this.numeroMesa;
+          }
           alert = this.alertCtrl.create({
               title: 'Login exitoso',
-              subTitle: 'Has logrado iniciar sesion correctamente',
+              subTitle: subtitle,
               buttons: [
                   {
                       text: 'OK',

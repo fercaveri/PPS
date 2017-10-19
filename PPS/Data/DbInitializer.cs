@@ -96,9 +96,14 @@ namespace PPS.Data
       //USUARIOS
       if (!context.Usuarios.Any())
       {
+        Usuario u = new Usuario("user", "user", "Usuario", 0);
+        Usuario g = new Usuario("gaston", "sturla", "User", 0);
         context.Usuarios.Add(new Usuario("sadmin", "sadmin", "Super Administrador", 2));
         context.Usuarios.Add(new Usuario("admin", "admin", "Administrador", 1));
-        context.Usuarios.Add(new Usuario("user", "user", "Usuario", 0));
+        context.Usuarios.Add(u);
+        context.Usuarios.Add(g);
+        context.Fiscales.Add(new Fiscalizacion(2, u));
+        context.Fiscales.Add(new Fiscalizacion(g, 2));
         context.SaveChanges();
       }
 

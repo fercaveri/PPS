@@ -22,12 +22,28 @@ namespace PPS.Controllers
         }
 
         [HttpGet]
-        public Fiscalizacion Get(UsuarioWEB user)
+        public Fiscalizacion Get(String usuario, String pass)
         {
-          var fiscalizacion = _db.Fiscales.Select(x => new Fiscalizacion(x.user, x.mesa)).Where( x => x.user.usuario == user.user && x.user.contraseña == user.pass).FirstOrDefault();
+          var fiscalizacion = _db.Fiscales.Select(x => new Fiscalizacion(x.id,x.user,x.localidad,x.mesa)).Where( x => x.user.usuario == usuario && x.user.contraseña == pass).FirstOrDefault();
+          Console.WriteLine(fiscalizacion.id);
           return fiscalizacion;
         }
 
+        [HttpGet]
+        [Route("getLoc")]
+        public String getLocalidad(int id)
+        {
+            var localidad = _db.Localidades.Find(id);
+            Console.WriteLine("devolvi:" +localidad.nombreLocalidad);
+            return localidad.nombreLocalidad;
+        }
+        [HttpGet]
+        [Route("getMesa")]
+        public int getMesa(int id)
+        {
+            var mesa = _db.Mesas.Find(id);
+            return mesa.numero;
+        }
     [HttpPost]
     [Route("xprov")]
     public HttpResponseMessage PostProvincia([FromBody] FiscalizacionWEB obj)
