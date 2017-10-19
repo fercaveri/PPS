@@ -16,6 +16,12 @@
       </tr>
       <tr>
         <td>
+          <input class="form-control" [(colorPicker)]="color"
+                 [style.background]="color" />
+        </td>
+      </tr>
+      <tr>
+        <td>
           <button type="submit" class="btn btn-success" (click)="onSubmit()"> Submit </button>
         </td>
       </tr>

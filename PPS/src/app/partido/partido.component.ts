@@ -13,6 +13,7 @@ export class PartidoComponent implements OnInit {
     submitted: boolean = false;
     nombrePartido: String = "";
     provincia: String = "";
+    color: String = "#ffffff";
     ngOnInit() {
         this._httpService.get('/api/partidopolitico').subscribe(values => {
             this.apiValues = values.json() as object[];
@@ -22,7 +23,7 @@ export class PartidoComponent implements OnInit {
         });
     }
     onSubmit() {
-        const c = { nombrePartido: this.nombrePartido, nombreProvincia: this.provincia };
+        const c = { nombrePartido: this.nombrePartido, nombreProvincia: this.provincia, color: this.color };
         this._httpService.post('/api/partidopolitico', c).subscribe(response => {
             let body = JSON.parse(response.text("legacy"));
             console.log(body.statusCode);

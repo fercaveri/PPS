@@ -26,16 +26,34 @@ namespace PPS.Controllers
     [HttpGet]
     public IEnumerable<PartidoPolitico> Get()
     {
-      var Partidos = _db.Partidos.Select(x => new PartidoPolitico(x.numeroLista, x.nombre, x.provincia)).ToList();
+      var Partidos = _db.Partidos.Select(x => new PartidoPolitico(x.numeroLista, x.nombre, x.provincia, x.color)).ToList();
       return Partidos;
     }
 
-    // GET api/candidato/getnombres
+    // GET api/partidopolitico/getnombres
     [HttpGet]
     [Route("getnombres")]
     public IEnumerable<String> GetNombres()
     {
       var Partidos = _db.Partidos.Select(x => x.nombre).ToList();
+      return Partidos;
+    }
+
+    // GET api/partidopolitico/gettodo
+    [HttpGet]
+    [Route("gettodo")]
+    public IEnumerable<Object> GetTodo()
+    {
+      var Partidos = _db.Partidos.Select( x => new {x.nombre, x.numeroLista, x.color }).ToList();
+      return Partidos;
+    }
+
+    // GET api/partidopolitico/getids
+    [HttpGet]
+    [Route("getids")]
+    public IEnumerable<int> GetIDs()
+    {
+      var Partidos = _db.Partidos.Select(x => x.numeroLista ).ToList();
       return Partidos;
     }
 

@@ -45,7 +45,7 @@ namespace PPS.Controllers
         Console.WriteLine("Devolvi " + recuento.votos + " votos");
         return recuento.votos;
       }
-      Console.WriteLine("Devolvi "+ 0 + " votos");
+      Console.WriteLine("Devolvi " + 0 + " votos");
       return 0;
     }
 
@@ -95,6 +95,77 @@ namespace PPS.Controllers
       }
       Console.WriteLine("Devolvi " + cantVotos + " votos");
       return cantVotos;
+    }
+
+    //api/recuento/todosporunalocalidad
+    [HttpGet]
+    [Route("todosporunalocalidad")]
+    public IEnumerable<Object> recuentosPorUnaLocalidad(int localidadID, int cargo)
+    {
+      Cargo c = this.getCargo(cargo);
+      List<int> idPartidos = _db.Partidos.Select(x => x.numeroLista).ToList();
+      List<Object> itemLocalidad = new List<Object>();
+      for (int i = 0; i < idPartidos.Count; i++)
+      {
+        var recuentos = _db.Recuentos.Where(x => x.candidato.cargo == c && x.candidato.partido.numeroLista == idPartidos[i]
+                                            && x.mesa.localidad.id == localidadID).ToList();
+        int total = 0;
+        for (int j = 0; j < recuentos.Count; j++)
+        {
+          total += recuentos[j].votos;
+        }
+        itemLocalidad.Add(new { votos = total, id = idPartidos[i] });
+      }
+      return itemLocalidad;
+    }
+
+    //api/recuento/todosporprovincia
+    [HttpGet]
+    [Route("todosporprovincia")]
+    public IEnumerable<Object> recuentosPorProvincia(int cargo)
+    {
+      Cargo c = this.getCargo(cargo);
+      List<int> idPartidos = _db.Partidos.Select(x => x.numeroLista).ToList();
+      List<String> provincias = _db.Provincias.Select(x => x.nombreProvincia).ToList();
+      List<Object> itemProvincia = new List<Object>();
+      for (int k = 0; k < provincias.Count; k++)
+      {
+        List<Object> itemPartido = new List<Object>();
+        for (int i = 0; i < idPartidos.Count; i++)
+        {
+          var recuentos = _db.Recuentos.Where(x => x.candidato.cargo == c && x.candidato.partido.numeroLista == idPartidos[i]
+                                              && x.mesa.localidad.provincia.nombreProvincia == provincias[k]).ToList();
+          int total = 0;
+          for (int j = 0; j < recuentos.Count; j++)
+          {
+            total += recuentos[j].votos;
+          }
+          itemPartido.Add(new { votos = total, id = idPartidos[i] });
+        }
+        itemProvincia.Add(new { provincia = provincias[k], partidos = itemPartido });
+      }
+      return itemProvincia;
+    }
+
+    //api/recuento/todosporpais
+    [HttpGet]
+    [Route("todosporpais")]
+    public IEnumerable<Object> recuentosPorPais(int cargo)
+    {
+      Cargo c = this.getCargo(cargo);
+      List<int> idPartidos = _db.Partidos.Select(x => x.numeroLista).ToList();
+      List<Object> totales = new List<Object>();
+      for (int i = 0; i < idPartidos.Count; i++)
+      {
+        var recuentos = _db.Recuentos.Where(x => x.candidato.cargo == c && x.candidato.partido.numeroLista == idPartidos[i]).ToList();
+        int total = 0;
+        for (int j = 0; j < recuentos.Count; j++)
+        {
+          total += recuentos[j].votos;
+        }
+        totales.Add(new { votos = total, id = idPartidos[i] });
+      }
+      return totales;
     }
 
     [HttpPost]
@@ -153,13 +224,14 @@ namespace PPS.Controllers
         _db.Recuentos.Update(recuento);
         _db.SaveChanges();
         return new HttpResponseMessage(HttpStatusCode.OK);
-      } else if (recuento == null && r.votos > 0)
+      }
+      else if (recuento == null && r.votos > 0)
       {
         Candidato cand = _db.Candidatos.Where(x => x.cargo == getCargo(r.candidato) && x.partido.nombre == r.partido).FirstOrDefault();
         Mesa m = _db.Mesas.Find(r.mesa);
         Recuento nuevoRecuento = new Recuento(cand, r.votos, m);
-        if(cand != null && m!= null)
-        { 
+        if (cand != null && m != null)
+        {
           _db.Recuentos.Add(nuevoRecuento);
           _db.SaveChanges();
           return new HttpResponseMessage(HttpStatusCode.OK);
