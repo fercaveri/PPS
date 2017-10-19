@@ -140,6 +140,7 @@ export class RecuentoComponent implements OnInit {
         this._httpService.get(request + 'cargo=' + this.cargo).subscribe(values => {
             if (this.modo != 'provincia') {
                 let body = JSON.parse(values.text("legacy"));
+                this.pieChartData = new Array;
                 for (var i = 0; i < body.length; i++) {
                     this.pieChartData[this.pieChartIds.indexOf(body[i].id)] = body[i].votos;
                 }
