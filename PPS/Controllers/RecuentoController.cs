@@ -99,6 +99,28 @@ namespace PPS.Controllers
 
     //api/recuento/todosporunalocalidad
     [HttpGet]
+    [Route("todosporunamesa")]
+    public IEnumerable<Object> recuentosPorUnaMesa(int mesa , int localidadID, int cargo)
+    {
+      Cargo c = this.getCargo(cargo);
+      List<int> idPartidos = _db.Partidos.Select(x => x.numeroLista).ToList();
+      List<Object> itemLocalidad = new List<Object>();
+      for (int i = 0; i < idPartidos.Count; i++)
+      {
+        var recuentos = _db.Recuentos.Where(x => x.candidato.cargo == c && x.candidato.partido.numeroLista == idPartidos[i]
+                                            && x.mesa.id == mesa).ToList();
+        int total = 0;
+        for (int j = 0; j < recuentos.Count; j++)
+        {
+          total += recuentos[j].votos;
+        }
+        itemLocalidad.Add(new { votos = total, id = idPartidos[i] });
+      }
+      return itemLocalidad;
+    }
+
+    //api/recuento/todosporunalocalidad
+    [HttpGet]
     [Route("todosporunalocalidad")]
     public IEnumerable<Object> recuentosPorUnaLocalidad(int localidadID, int cargo)
     {

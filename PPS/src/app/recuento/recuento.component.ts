@@ -188,7 +188,7 @@ export class RecuentoComponent implements OnInit {
             return '/api/recuento/todosporprovincia?'
         } else if (this.modo == 'localidad') {
             this.messageRecuento = 'Resultados de votacion sobre ' + this.cargos[this.cargo] + ' en la localidad de ' + this.localidad;
-            return '/api/recuento/todosporunalocalidad?localidad=' + this.localidadID + '&'
+            return '/api/recuento/todosporunalocalidad?localidadID=' + this.localidadID + '&'
         } else {
             var numeroMesa;
             for (let mesa of this.mesas) {
@@ -197,7 +197,7 @@ export class RecuentoComponent implements OnInit {
                 }
             }
             this.messageRecuento = 'Resultados de votacion sobre ' + this.cargos[this.cargo] + ' en la mesa ' + numeroMesa + ' de la localidad  ' + this.localidad;
-            return '/api/recuento/votoxmesa?idMesa=' + this.mesa + '&'
+            return '/api/recuento/todosporunamesa?mesa=' + this.mesa + '&localidadID=' + this.localidadID + '&'
         }
     }
 }
