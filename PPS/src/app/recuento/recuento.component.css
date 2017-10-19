@@ -1,0 +1,8 @@
+.recuento-top-wrapper{
+  display: flex;
+}
+
+.prov-seleccionada {
+  stroke: black;
+  stroke-width: 15;
+}

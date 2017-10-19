@@ -10,5 +10,6 @@ namespace PPS.WebModels
       public int numeroLista { get; set; }
       public String nombrePartido { get; set; }
       public String nombreProvincia { get; set; }
+      public String color { get; set; }
     }
 }

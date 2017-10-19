@@ -13,11 +13,13 @@ namespace PPS.Models
     public int numeroLista { get; set; }
     public String nombre { get; set; }
     public Provincia provincia { get; set; }
+    public String color { get; set; }
 
     public PartidoPolitico(String nombre, Provincia provincia)
     {
       this.nombre = nombre;
       this.provincia = provincia;
+      this.color = "#ffffff";
     }
 
     public PartidoPolitico(int numeroLista, String nombre, Provincia provincia)
@@ -25,6 +27,22 @@ namespace PPS.Models
       this.numeroLista = numeroLista;
       this.nombre = nombre;
       this.provincia = provincia;
+      this.color = "#ffffff";
+    }
+
+    public PartidoPolitico(String nombre, Provincia provincia, String color)
+    {
+      this.nombre = nombre;
+      this.provincia = provincia;
+      this.color = color;
+    }
+
+    public PartidoPolitico(int numeroLista, String nombre, Provincia provincia, String color)
+    {
+      this.numeroLista = numeroLista;
+      this.nombre = nombre;
+      this.provincia = provincia;
+      this.color = color;
     }
 
     public PartidoPolitico() { }
