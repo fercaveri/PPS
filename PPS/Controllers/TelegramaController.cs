@@ -24,9 +24,13 @@ namespace PPS.Controllers
       [HttpGet]
       public String Get(int numeroMesa)
       {
-          Console.WriteLine("Llego el pedido para la mesa: " + numeroMesa);
           var telegrama = _db.Telegramas.Select(x => new Telegrama(x.data, x.mesa)).Where( x => x.mesa.id == numeroMesa).FirstOrDefault();
-          return telegrama.data;
+          if(telegrama != null)
+          {
+              return telegrama.data;
+          }
+          return null;
+          
       }
 
       [HttpPost]

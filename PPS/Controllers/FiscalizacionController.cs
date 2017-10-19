@@ -25,7 +25,6 @@ namespace PPS.Controllers
         public Fiscalizacion Get(String usuario, String pass)
         {
           var fiscalizacion = _db.Fiscales.Select(x => new Fiscalizacion(x.id,x.user,x.localidad,x.mesa)).Where( x => x.user.usuario == usuario && x.user.contraseña == pass).FirstOrDefault();
-          Console.WriteLine(fiscalizacion.id);
           return fiscalizacion;
         }
 
@@ -34,7 +33,6 @@ namespace PPS.Controllers
         public String getLocalidad(int id)
         {
             var localidad = _db.Localidades.Find(id);
-            Console.WriteLine("devolvi:" +localidad.nombreLocalidad);
             return localidad.nombreLocalidad;
         }
         [HttpGet]

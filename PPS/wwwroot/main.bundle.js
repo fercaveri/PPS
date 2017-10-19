@@ -1109,6 +1109,7 @@ var RecuentoComponent = (function () {
         this._httpService.get(request + 'cargo=' + this.cargo).subscribe(function (values) {
             if (_this.modo != 'provincia') {
                 var body = JSON.parse(values.text("legacy"));
+                _this.pieChartData = new Array;
                 for (var i = 0; i < body.length; i++) {
                     _this.pieChartData[_this.pieChartIds.indexOf(body[i].id)] = body[i].votos;
                 }
@@ -1172,7 +1173,7 @@ var RecuentoComponent = (function () {
                 }
             }
             this.messageRecuento = 'Resultados de votacion sobre ' + this.cargos[this.cargo] + ' en la mesa ' + numeroMesa + ' de la localidad  ' + this.localidad;
-            return '/api/recuento/todosporunamesa?idMesa=' + this.mesa + '&localidadID=' + this.localidadID + '&';
+            return '/api/recuento/todosporunamesa?mesa=' + this.mesa + '&localidadID=' + this.localidadID + '&';
         }
     };
     return RecuentoComponent;
