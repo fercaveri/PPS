@@ -173,8 +173,8 @@ namespace PPS.Data
         context.Usuarios.Add(new Usuario("admin", "admin", "Administrador", 1));
         context.Usuarios.Add(u);
         context.Usuarios.Add(g);
-        context.Fiscales.Add(new Fiscalizacion(2, u));
-        context.Fiscales.Add(new Fiscalizacion(g, 2));
+        context.Fiscales.Add(new Fiscalizacion(u, context.Mesas.Find(1)));
+        context.Fiscales.Add(new Fiscalizacion(g, context.Localidades.Find(1)));
         context.SaveChanges();
       }
 

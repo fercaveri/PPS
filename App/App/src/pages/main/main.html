@@ -14,16 +14,36 @@
     <p class="ionic-logo"></p>
   </div>
 
+  <div *ngIf="rol==0">
+    <div *ngIf="localidad!=''">
+      <ion-label>Usted cuenta con permisos sobre {{localidad}}</ion-label>
+    </div>
+    <div *ngIf="mesa!=0">
+      <ion-label>Usted cuenta con permisos sobre la mesa {{mesa}}</ion-label>
+    </div>
+  </div>
+  <div *ngIf="rol!= 0">
+    <ion-label>Usted cuenta con permisos sobre toda la pagina</ion-label>
+  </div>
+
   <ion-card>
     <ion-card-header>
       Seleccione mesa y cargue datos
     </ion-card-header>
 
     <ion-list>
-      <button ion-item (click)="navToMesas()">
-        <ion-icon name="jet" item-left></ion-icon>
-        Seleccion de mesas
-      </button>
+      <div *ngIf="mesa!=0">
+        <button ion-item (click)="navToTelegrama()">
+          <ion-icon name="edit" item-left></ion-icon>
+          Llenado de telegrama
+        </button>
+      </div>
+      <div *ngIf="rol!=0||localidad!=''"">
+        <button ion-item (click)="navToMesas()">
+          <ion-icon name="jet" item-left></ion-icon>
+          Seleccion de mesas
+        </button>
+      </div>
       <button ion-item (click)="navToCargaFoto()">
         <ion-icon name="camera" item-left></ion-icon>
         Carga de foto de telegrama

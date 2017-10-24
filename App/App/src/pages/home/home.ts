@@ -15,10 +15,9 @@ export class HomePage {
   pass: String = "";
   usuario: number;
   mesa: number = 0;
-
   fiscal: Fiscal;
-  nombreLocalidad: String;
-  numeroMesa: number;
+  nombreLocalidad: String = "";
+  numeroMesa: number = 0;
 
   constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController) {
   }
@@ -27,62 +26,73 @@ export class HomePage {
       window.open(url);
   }
   showAlert(role: number) {
-      let alert;
-      if (role == -1) {
-          alert = this.alertCtrl.create({
-              title: 'Login fallido',
-              subTitle: 'La contraseña o el usuario son incorrectos',
-              buttons: ['OK']
-          });
-      } else {
-
-          if (role == 0) {
-              this.http.get('http://' + new config().ip + ':' + new config().port +
-                  '/api/fiscalizacion?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
-                      this.fiscal = data;
-                      if (this.fiscal.localidad == -1) {
-                          console.log("Tiene permiso sobre mesa")
-                          this.http.get('http://' + new config().ip + ':' + new config().port +
-                              '/api/fiscalizacion/getmesa?id=' + this.fiscal.mesa).map(res => res.json()).subscribe(data => {
-                                  this.numeroMesa = data;
-                                  console.log(data);
-                              });
-                      } else {
-                          console.log("Tiene permiso sobre localidad o provincia");
-                          this.http.get('http://' + new config().ip + ':' + new config().port +
-                              '/api/fiscalizacion/getloc?id=' + this.fiscal.localidad).map(res => res.text()).subscribe(data => {
-                                  this.nombreLocalidad = data;
-                                  console.log(this.nombreLocalidad);
-                              });
-                      }
-                      console.log(data);
-                  }, error => {
-                      console.log(error);
-                  });
-          }
-          var subtitle;
-          if (role == 1 || role == 2) {
-              subtitle = 'Al ser administrador usted podra utilizar toda la funcionalidad de la app';
-          } else if (this.fiscal.mesa == -1) {
-              subtitle = 'Tiene permisos sobre la localidad:' + this.nombreLocalidad;
-          } else {
-              subtitle = 'Tiene asignada la mesa :' + this.numeroMesa;
-          }
-          alert = this.alertCtrl.create({
-              title: 'Login exitoso',
-              subTitle: subtitle,
-              buttons: [
-                  {
-                      text: 'OK',
-                      handler: () => {
-
-                          this.navToMain();
-                      }
-                  }
-              ]
-          });
-      }
+    let alert;
+    if (role == -1) {
+      alert = this.alertCtrl.create({
+        title: 'Login fallido',
+        subTitle: 'La contraseña o el usuario son incorrectos',
+        buttons: ['OK']
+      });
       alert.present();
+    } else if (role == 0) {
+      this.http.get('http://' + new config().ip + ':' + new config().port +
+        '/api/fiscalizacion?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
+          console.log(data.mesa);
+          console.log(data.localidad);
+          if (data.mesa == null) {
+            this.nombreLocalidad = data.localidad.nombreLocalidad;
+            console.log(this.nombreLocalidad);
+            alert = this.alertCtrl.create({
+              title: 'Login exitoso',
+              subTitle: 'Tiene permisos sobre la localidad:' + this.nombreLocalidad,
+              buttons: [
+                {
+                  text: 'OK',
+                  handler: () => {
+
+                    this.navToMain();
+                  }
+                }
+              ]
+            });
+            alert.present();
+          } else {
+            this.numeroMesa = data.mesa.numero;
+            this.mesa = data.mesa.id;
+            console.log(this.mesa);
+            alert = this.alertCtrl.create({
+              title: 'Login exitoso',
+              subTitle: 'Tiene asignada la mesa :' + this.numeroMesa,
+              buttons: [
+                {
+                  text: 'OK',
+                  handler: () => {
+
+                    this.navToMain();
+                  }
+                }
+              ]
+            });
+            alert.present();
+          }
+        });
+    }
+    else {
+      alert = this.alertCtrl.create({
+        title: 'Login exitoso',
+        subTitle: 'Al ser administrador usted podra utilizar toda la funcionalidad de la app',
+        buttons: [
+          {
+            text: 'OK',
+            handler: () => {
+
+              this.navToMain();
+            }
+          }
+        ]
+      });
+      alert.present();
+    } 
   }
   login() {
       console.log("CALL A http://" + new config().ip + ':' + new config().port +
@@ -98,6 +108,6 @@ export class HomePage {
   }
 
   navToMain() {
-      this.navCtrl.push(MainPage, {mesa: this.mesa});
+    this.navCtrl.push(MainPage, { mesa: this.numeroMesa, rol: this.usuario, localidad: this.nombreLocalidad, mesaId: this.mesa});
   }
 }

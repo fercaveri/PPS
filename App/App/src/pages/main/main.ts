@@ -4,6 +4,7 @@ import { AlertController, NavController, NavParams } from 'ionic-angular';
 
 import { MesasPage } from '../mesas/mesas';
 import { FotoTelegramaPage } from '../fotoTelegrama/fotoTelegrama';
+import { TelegramaPage } from '../telegrama/telegrama';
 
 @Component({
     selector: 'page-main',
@@ -11,8 +12,12 @@ import { FotoTelegramaPage } from '../fotoTelegrama/fotoTelegrama';
 })
 export class MainPage {
     mesa: number;
+    localidad: String;
+    rol: number;
     constructor(public navCtrl: NavController, public http: Http, public navParams: NavParams) {
-        this.mesa = navParams.get('mesa');
+      this.mesa = navParams.get('mesa');
+      this.rol = navParams.get('rol');
+      this.localidad = navParams.get('localidad');
     }
 
     onLink(url: string) {
@@ -25,5 +30,9 @@ export class MainPage {
 
     navToCargaFoto() {
         this.navCtrl.push(FotoTelegramaPage, { mesa: this.mesa });
+    }
+
+    navToTelegrama() {
+      this.navCtrl.push(TelegramaPage, { mesa: this.mesa, localidad: this.localidad });
     }
 }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PPS.Data;
 using PPS.Models;
 using PPS.WebModels;
@@ -24,7 +25,7 @@ namespace PPS.Controllers
         [HttpGet]
         public Fiscalizacion Get(String usuario, String pass)
         {
-          var fiscalizacion = _db.Fiscales.Select(x => new Fiscalizacion(x.id,x.user,x.localidad,x.mesa)).Where( x => x.user.usuario == usuario && x.user.contraseña == pass).FirstOrDefault();
+          var fiscalizacion = _db.Fiscales.Select(x => new Fiscalizacion(x.id,x.user,x.localidad,x.mesa)).Where( x => x.user.usuario == usuario && x.user.contraseña == pass).Include(x => x.mesa.localidad).Include(x => x.localidad.provincia).FirstOrDefault();
           return fiscalizacion;
         }
 
@@ -48,7 +49,7 @@ namespace PPS.Controllers
     {
       Localidad l = _db.Localidades.Select(x => new Localidad(x.id , x.nombreLocalidad, x.provincia)).Where(x => x.nombreLocalidad == "" && x.provincia.nombreProvincia == obj.provincia).FirstOrDefault();
       Usuario u = _db.Usuarios.Where(x => x.usuario == obj.usuario.user && x.contraseña == obj.usuario.pass).FirstOrDefault();
-      Fiscalizacion f = new Fiscalizacion(l.id , u);
+      Fiscalizacion f = new Fiscalizacion(u , l);
       _db.Fiscales.Add(f);
       _db.SaveChanges();
       return new HttpResponseMessage(HttpStatusCode.OK);
@@ -61,7 +62,7 @@ namespace PPS.Controllers
       Localidad l = _db.Localidades.Select(x => new Localidad(x.id , x.nombreLocalidad, x.provincia)).Where(x => x.nombreLocalidad == obj.localidad).FirstOrDefault();
       Usuario u = _db.Usuarios.Where(x => x.usuario == obj.usuario.user && x.contraseña == obj.usuario.pass).FirstOrDefault();
       Console.WriteLine("Usuario es:"+u.id);
-      Fiscalizacion f = new Fiscalizacion(l.id , u);
+      Fiscalizacion f = new Fiscalizacion(u, l);
       _db.Fiscales.Add(f);
       _db.SaveChanges();
       return new HttpResponseMessage(HttpStatusCode.OK);
@@ -72,7 +73,8 @@ namespace PPS.Controllers
     public HttpResponseMessage PostMesa([FromBody] FiscalizacionWEB obj)
     {
       Usuario u = _db.Usuarios.Where(x => x.usuario == obj.usuario.user && x.contraseña == obj.usuario.pass).FirstOrDefault();
-      Fiscalizacion f = new Fiscalizacion(u, obj.mesa);
+      Mesa m = _db.Mesas.Find(obj.mesa);
+      Fiscalizacion f = new Fiscalizacion(u, m);
       _db.Fiscales.Add(f);
       _db.SaveChanges();
       return new HttpResponseMessage(HttpStatusCode.OK);
