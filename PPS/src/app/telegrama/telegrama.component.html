@@ -13,39 +13,41 @@
     <option *ngFor="let mesa of mesas" [value]="mesa.id">{{mesa.numero}}</option>
   </select><br>
   <button class="btn btn-success  btn-lg pull-right" (click)="mostrarTelegrama()"> Ver Telegrama </button><br>
-  <div class="foto">
-    <img [src]="base64Image" class="img-thumbnail" *ngIf="hayTelegrama" /><br>
-  </div>
-
-  <div class="grilla" *ngIf="hayTelegrama">
-    <p>Grilla de votos por cargo:</p>
-    <div style="display: inline">
-      <label>{{name}}</label>
-      <label *ngFor="let cargo of cargos">{{cargo}}</label>
+  <div class="telegrama-bottom">
+    <div class="foto">
+      <img [src]="base64Image" class="img-thumbnail" *ngIf="hayTelegrama" /><br>
     </div>
-    <div *ngFor="let name of partidos; let i=index">
-      <div style="display: inline">
-        <div *ngIf="edicion==true">
-          <label>{{name}}</label>
-          <input type="number" name="{{name}}0" [(ngModel)]="votos[i].votos0" />
-          <input type="number" name="{{name}}1" [(ngModel)]="votos[i].votos1" />
-          <input type="number" name="{{name}}2" [(ngModel)]="votos[i].votos2" />
-          <input type="number" name="{{name}}3" [(ngModel)]="votos[i].votos3" />
-        </div>
-        <div *ngIf="edicion==false">
-          <label>{{name}}</label>
-          <label>{{votos[i].votos0}}</label>
-          <label>{{votos[i].votos1}}</label>
-          <label>{{votos[i].votos2}}</label>
-          <label>{{votos[i].votos3}}</label>
+
+    <div class="grilla" *ngIf="hayTelegrama">
+      <p>Grilla de votos por cargo:</p>
+      <div class="grilla-row">
+        <label>{{name}}</label>
+        <label *ngFor="let cargo of cargos">{{cargo}}</label>
+      </div>
+      <div *ngFor="let part of partidos; let i=index">
+        <div>
+          <div *ngIf="edicion==true" class="grilla-row">
+            <label [ngStyle]="{'background-color': part['color']}">{{part['nombre']}}</label>
+            <input type="number" name="{{part['nombre']}}0" [(ngModel)]="votos[i].votos0" />
+            <input type="number" name="{{part['nombre']}}1" [(ngModel)]="votos[i].votos1" />
+            <input type="number" name="{{part['nombre']}}2" [(ngModel)]="votos[i].votos2" />
+            <input type="number" name="{{part['nombre']}}3" [(ngModel)]="votos[i].votos3" />
+          </div>
+          <div *ngIf="edicion==false" class="grilla-row">
+            <label [ngStyle]="{'background-color': part['color']}">{{part['nombre']}}</label>
+            <label>{{votos[i].votos0}}</label>
+            <label>{{votos[i].votos1}}</label>
+            <label>{{votos[i].votos2}}</label>
+            <label>{{votos[i].votos3}}</label>
+          </div>
         </div>
       </div>
+      <button class="btn btn-success" *ngIf="edicion==false" (click)="habilitarEdicion()"> Editar </button><br>
+      <button class="btn btn-warning" *ngIf="edicion==true" (click)="save()"> Guardar </button>
+      <button class="btn btn-default" *ngIf="edicion==true" (click)="atras()"> Atras </button><br>
     </div>
-    <button class="btn btn-success" *ngIf="edicion==false" (click)="habilitarEdicion()"> Editar </button><br>
-    <button class="btn btn-warning" *ngIf="edicion==true" (click)="save()"> Guardar </button>
-    <button class="btn btn-default" *ngIf="edicion==true" (click)="atras()"> Atras </button><br>
-  </div>
-  <div class="alert alert-warning" *ngIf="alerta">
-    <strong>No existe un telegrama cargado para esta mesa</strong>
+    <div class="alert alert-warning" *ngIf="alerta">
+      <strong>No existe un telegrama cargado para esta mesa</strong>
+    </div>
   </div>
 </div>

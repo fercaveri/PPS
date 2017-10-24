@@ -20,7 +20,7 @@ export class TelegramaComponent implements OnInit {
   localidades: object[];
   mesas: object[];
   cargos = ["Concejal", "Diputado Provincial", "Diputado Nacional", "Senador Nacional"];
-  partidos: String[];
+  partidos: object[];
   votos: Partido[] = [];
   hayTelegrama: boolean;
   alerta: boolean;
@@ -64,16 +64,15 @@ export class TelegramaComponent implements OnInit {
           }
           
       });
-      this._httpService.get('/api/partidopolitico/getnombres').subscribe(values => {
-          this.partidos = values.json() as String[];
+      this._httpService.get('/api/partidopolitico/gettodo').subscribe(values => {
+          this.partidos = values.json() as object[];
           console.log(this.partidos);
           for (let partido of this.partidos) {
               this.votos.push(new Partido());
           }
           for (var j = 0; j < this.votos.length ; j++) {
               for (var i = 0; i < this.cargos.length; i++) {
-                  var request = '/api/recuento/votoxmesa?idMesa=' + this.mesa + '&cargo=' + i + '&partido=' + this.partidos[j];
-                  console.log(request);
+                  var request = '/api/recuento/votoxmesa?idMesa=' + this.mesa + '&cargo=' + i + '&partido=' + this.partidos[j]['nombre'];
                   var cantVotos = this.pedirVotos(request,j,i);
               }
           }
@@ -92,16 +91,16 @@ export class TelegramaComponent implements OnInit {
         for (var j = 0; j < this.votos.length; j++) {
             for (var i = 0; i < this.cargos.length; i++) {
                 if (i == 0) {
-                    const c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos0, partido: this.partidos[j] };
+                    const c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos0, partido: this.partidos[j]['nombre'] };
                     this._httpService.patch('/api/recuento/editxmesa', c).subscribe(values => { console.log(values) });
                 } else if (i == 1) {
-                    const c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos1, partido: this.partidos[j] };
+                    const c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos1, partido: this.partidos[j]['nombre'] };
                     this._httpService.patch('/api/recuento/editxmesa', c).subscribe(values => { console.log(values) });
                 } else if (i == 2) {
-                    const c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos2, partido: this.partidos[j] };
+                    const c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos2, partido: this.partidos[j]['nombre'] };
                     this._httpService.patch('/api/recuento/editxmesa', c).subscribe(values => { console.log(values) });
                 } else {
-                    const c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos3, partido: this.partidos[j] };
+                    const c = { mesa: this.mesa, candidato: i, votos: this.votos[j].votos3, partido: this.partidos[j]['nombre'] };
                     this._httpService.patch('/api/recuento/editxmesa', c).subscribe(values => { console.log(values) });
                 }
                 

@@ -1,9 +1,9 @@
-<div class="page-header">
-  <h1 align="center">Bienvenido al Recuento del Escrutinio</h1>
+<div class="my-page-header">
+  <h1 align="center" style="margin: 0">Bienvenido al Recuento del Escrutinio</h1>
 </div>
-  <nav class="navbar navbar-inverse">
+  <nav class="navbar navbar-inverse" style="padding: 0 5px;">
     <div class="navbar-header">
-      <a class="navbar-brand"><span class="glyphicon glyphicon-envelope"></span> Escrutinio Web</a>
+      <!--<a class="navbar-brand"><span class="glyphicon glyphicon-envelope"></span> Escrutinio Web</a>-->
     </div>
     <div *ngIf="rol==2||rol==1">
       <button class="btn btn-danger navbar-btn" (click)="(show='localidades')" [ngClass]="{'selected-btn': show=='localidades'}"> Localidades </button>
