@@ -93,4 +93,5 @@
     <content src="index.html" />
     <allow-navigation href="http://192.168.1.2:8100" />
     <engine name="android" spec="~6.1.2" />
+    <allow-navigation href="http://192.168.1.9:8100" />
 </widget>
