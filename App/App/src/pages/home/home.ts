@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { Http } from "@angular/http";
 import { AlertController, NavController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 import { MainPage } from '../main/main';
+import { ConfigPage } from '../configpage/configpage'
 import { config } from '../../config';
 import { Usuario, Fiscal } from '../../model';
 
@@ -11,6 +13,8 @@ import { Usuario, Fiscal } from '../../model';
   templateUrl: 'home.html'
 })
 export class HomePage {
+  ip: String = "";
+  port: String = "";
   user: String = "";
   pass: String = "";
   usuario: number;
@@ -19,7 +23,13 @@ export class HomePage {
   nombreLocalidad: String = "";
   numeroMesa: number = 0;
 
-  constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, storage: Storage) {
+      storage.get('ip').then((val) => {
+          this.ip = val;
+      })
+      storage.get('port').then((val) => {
+          this.port = val;
+      })
   }
   
   onLink(url: string) {
@@ -35,7 +45,7 @@ export class HomePage {
       });
       alert.present();
     } else if (role == 0) {
-      this.http.get('http://' + new config().ip + ':' + new config().port +
+      this.http.get('http://' + this.ip + ':' + this.port +
         '/api/fiscalizacion?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
           console.log(data.mesa);
           console.log(data.localidad);
@@ -95,9 +105,9 @@ export class HomePage {
     } 
   }
   login() {
-      console.log("CALL A http://" + new config().ip + ':' + new config().port +
+      console.log("CALL A http://" + this.ip + ':' + this.port +
           '/api/usuario?usuario=' + this.user + '&pass=' + this.pass);
-      this.http.get('http://' +new config().ip +':'+ new config().port +
+      this.http.get('http://' + this.ip +':'+ this.port +
           '/api/usuario?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
               this.usuario = data;
               console.log(this.usuario);
@@ -109,5 +119,9 @@ export class HomePage {
 
   navToMain() {
     this.navCtrl.push(MainPage, { mesa: this.numeroMesa, rol: this.usuario, localidad: this.nombreLocalidad, mesaId: this.mesa});
+  }
+
+  navToConfig() {
+      this.navCtrl.push(ConfigPage);
   }
 }

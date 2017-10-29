@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Escrutinio App
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="home" padding>
+
+    <h2 class="center">Escrutinio App</h2> 
+
+  <ion-input type="text" [(ngModel)]="ip" name="ip" placeholder="IP"></ion-input>
+  <ion-input type="text" [(ngModel)]="port" name="port" placeholder="Puerto"></ion-input>
+  <button ion-button full color="green"  (click)="saveConfig()">
+    <ion-icon name="checkmark" item-left></ion-icon>
+    Guardar Configuracion
+  </button>
+</ion-content>
