@@ -14,8 +14,10 @@ export class FotoTelegramaPage {
 
     base64Image
     mesa: number;
+    apiUrl: String;
     constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, public navParams: NavParams) {
         this.mesa = this.navParams.get('mesa');
+        this.apiUrl = navParams.get('apiUrl');
     }
 
     onLink(url: string) {
@@ -38,7 +40,7 @@ export class FotoTelegramaPage {
             mesa: this.mesa,
             foto: this.base64Image
         };
-        this.http.post('http://' + new config().ip + ':' + + new config().port + '/api/telegrama', c).subscribe(response => {
+        this.http.post(this.apiUrl + '/api/telegrama', c).subscribe(response => {
             console.log(response.status);
         });
     }

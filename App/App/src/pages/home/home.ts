@@ -15,6 +15,7 @@ import { Usuario, Fiscal } from '../../model';
 export class HomePage {
   ip: String = "";
   port: String = "";
+  apiUrl: String = "";
   user: String = "";
   pass: String = "";
   usuario: number;
@@ -26,9 +27,10 @@ export class HomePage {
   constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, storage: Storage) {
       storage.get('ip').then((val) => {
           this.ip = val;
-      })
-      storage.get('port').then((val) => {
-          this.port = val;
+          storage.get('port').then((val) => {
+              this.port = val;
+              this.apiUrl = "http://" + this.ip + ":" + this.port;
+          })
       })
   }
   
@@ -45,7 +47,7 @@ export class HomePage {
       });
       alert.present();
     } else if (role == 0) {
-      this.http.get('http://' + this.ip + ':' + this.port +
+        this.http.get(this.apiUrl +
         '/api/fiscalizacion?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
           console.log(data.mesa);
           console.log(data.localidad);
@@ -105,9 +107,7 @@ export class HomePage {
     } 
   }
   login() {
-      console.log("CALL A http://" + this.ip + ':' + this.port +
-          '/api/usuario?usuario=' + this.user + '&pass=' + this.pass);
-      this.http.get('http://' + this.ip +':'+ this.port +
+      this.http.get(this.apiUrl +
           '/api/usuario?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
               this.usuario = data;
               console.log(this.usuario);
@@ -118,7 +118,7 @@ export class HomePage {
   }
 
   navToMain() {
-    this.navCtrl.push(MainPage, { mesa: this.numeroMesa, rol: this.usuario, localidad: this.nombreLocalidad, mesaId: this.mesa});
+    this.navCtrl.push(MainPage, { mesa: this.numeroMesa, rol: this.usuario, localidad: this.nombreLocalidad, mesaId: this.mesa, apiUrl: this.apiUrl});
   }
 
   navToConfig() {
