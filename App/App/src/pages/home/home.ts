@@ -73,7 +73,7 @@ export class HomePage {
             this.mesa = data.mesa.id;
             console.log('id mesa'+this.mesa);
             console.log('numeroMesa:' + this.numeroMesa);
-            this.http.get(this.apiUrl +
+            this.http.get(this.globalVars.apiUrl +
               '/api/fiscalizacion/getLocMesa?id=' + this.mesa).map(res => res.text()).subscribe(data => {
                 this.nombreLocalidad = data;
                 console.log('localidadname:' + this.nombreLocalidad);
