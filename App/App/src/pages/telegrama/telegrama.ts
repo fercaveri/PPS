@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { GlobalVariables } from '../../providers/global-variables-provider';
 import { NavController, NavParams } from 'ionic-angular';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -18,10 +18,9 @@ export class TelegramaPage{
     localidad: String = "";
     isEdit: boolean = false;
     apiUrl: String;
-    constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public globalVars: GlobalVariables) {
         this.mesa = navParams.get('mesa');
         this.localidad = navParams.get('localidad');
-        this.apiUrl = navParams.get('apiUrl');
         console.log(this.localidad);
         this.getPartidos();
         this.getCandidatos();
@@ -36,31 +35,31 @@ export class TelegramaPage{
                 candidato: cand.id
             };
             if (this.isEdit) {
-                this.http.patch(this.apiUrl +'/api/recuento', c).subscribe(response => {
+                this.http.patch(this.globalVars.apiUrl +'/api/recuento', c).subscribe(response => {
                     console.log(response.status);
                 });
             }
             else {
-                this.http.post(this.apiUrl +'/api/recuento', c).subscribe(response => {
+                this.http.post(this.globalVars.apiUrl +'/api/recuento', c).subscribe(response => {
                     console.log(response.status);
                 });
             }
         }
     }
     getPartidos() {
-        this.http.get(this.apiUrl +'/api/partidopolitico').map(res => res.json()).subscribe(data => {
+        this.http.get(this.globalVars.apiUrl +'/api/partidopolitico').map(res => res.json()).subscribe(data => {
             this.partidos = data;
             console.log(this.partidos);
         });
     }
     getCandidatos() {
-        this.http.get(this.apiUrl +'/api/candidato/' + this.localidad + '/').map(res => res.json()).subscribe(data => {
+        this.http.get(this.globalVars.apiUrl +'/api/candidato/' + this.localidad + '/').map(res => res.json()).subscribe(data => {
             this.candidatos = data;
             console.log(this.candidatos);
         });
     }
     getRecuento() {
-        this.http.get(this.apiUrl +'/api/recuento?idMesa=' + this.mesa).map(res => res.json()).subscribe(data => {
+        this.http.get(this.globalVars.apiUrl +'/api/recuento?idMesa=' + this.mesa).map(res => res.json()).subscribe(data => {
             this.recuento = data;
             console.log(this.recuento);
             if (this.recuento.length > 0) {

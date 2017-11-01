@@ -1,6 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { GlobalVariables } from '../providers/global-variables-provider';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { MesasPage } from '../pages/mesas/mesas';
@@ -32,6 +33,6 @@ import { FotoTelegramaPage } from '../pages/fotoTelegrama/fotoTelegrama';
         FotoTelegramaPage,
         ConfigPage
     ],
-    providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, Storage]
+    providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, Storage, GlobalVariables]
 })
 export class AppModule { }

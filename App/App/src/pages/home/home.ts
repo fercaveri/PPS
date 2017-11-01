@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Http } from "@angular/http";
 import { AlertController, NavController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-
+import { GlobalVariables } from '../../providers/global-variables-provider';
 import { MainPage } from '../main/main';
 import { ConfigPage } from '../configpage/configpage'
 import { config } from '../../config';
@@ -13,9 +13,6 @@ import { Usuario, Fiscal } from '../../model';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  ip: String = "";
-  port: String = "";
-  apiUrl: String = "";
   user: String = "";
   pass: String = "";
   usuario: number;
@@ -24,12 +21,12 @@ export class HomePage {
   nombreLocalidad: String = "";
   numeroMesa: number = 0;
 
-  constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, storage: Storage) {
+  constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, storage: Storage, public globalVars: GlobalVariables) {
       storage.get('ip').then((val) => {
-          this.ip = val;
+          this.globalVars.ip = val;
           storage.get('port').then((val) => {
-              this.port = val;
-              this.apiUrl = "http://" + this.ip + ":" + this.port;
+              this.globalVars.port = val;
+              this.globalVars.apiUrl = "http://" + this.globalVars.ip + ":" + this.globalVars.port;
           })
       })
   }
@@ -47,7 +44,7 @@ export class HomePage {
       });
       alert.present();
     } else if (role == 0) {
-        this.http.get(this.apiUrl +
+        this.http.get(this.globalVars.apiUrl +
         '/api/fiscalizacion?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
           console.log(data.mesa);
           console.log(data.localidad);
@@ -56,7 +53,7 @@ export class HomePage {
             console.log(this.nombreLocalidad);
             alert = this.alertCtrl.create({
               title: 'Login exitoso',
-              subTitle: 'Tiene permisos sobre la localidad:' + this.nombreLocalidad,
+              subTitle: 'Tiene permisos sobre la localidad: ' + this.nombreLocalidad,
               buttons: [
                 {
                   text: 'OK',
@@ -74,7 +71,7 @@ export class HomePage {
             console.log(this.mesa);
             alert = this.alertCtrl.create({
               title: 'Login exitoso',
-              subTitle: 'Tiene asignada la mesa :' + this.numeroMesa,
+              subTitle: 'Tiene asignada la mesa: ' + this.numeroMesa,
               buttons: [
                 {
                   text: 'OK',
@@ -107,7 +104,7 @@ export class HomePage {
     } 
   }
   login() {
-      this.http.get(this.apiUrl +
+      this.http.get(this.globalVars.apiUrl +
           '/api/usuario?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
               this.usuario = data;
               console.log(this.usuario);
@@ -118,7 +115,7 @@ export class HomePage {
   }
 
   navToMain() {
-    this.navCtrl.push(MainPage, { mesa: this.numeroMesa, rol: this.usuario, localidad: this.nombreLocalidad, mesaId: this.mesa, apiUrl: this.apiUrl});
+    this.navCtrl.push(MainPage, { mesa: this.numeroMesa, rol: this.usuario, localidad: this.nombreLocalidad, mesaId: this.mesa});
   }
 
   navToConfig() {

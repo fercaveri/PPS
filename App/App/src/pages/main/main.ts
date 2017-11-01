@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Http } from "@angular/http";
 import { AlertController, NavController, NavParams } from 'ionic-angular';
-
+import { GlobalVariables } from '../../providers/global-variables-provider';
 import { MesasPage } from '../mesas/mesas';
 import { FotoTelegramaPage } from '../fotoTelegrama/fotoTelegrama';
 import { TelegramaPage } from '../telegrama/telegrama';
@@ -15,11 +15,10 @@ export class MainPage {
     localidad: String;
     rol: number;
     apiUrl: String;
-    constructor(public navCtrl: NavController, public http: Http, public navParams: NavParams) {
+    constructor(public navCtrl: NavController, public http: Http, public navParams: NavParams, public globalVars: GlobalVariables) {
       this.mesa = navParams.get('mesa');
       this.rol = navParams.get('rol');
       this.localidad = navParams.get('localidad');
-      this.apiUrl = navParams.get('apiUrl');
     }
 
     onLink(url: string) {
@@ -27,14 +26,14 @@ export class MainPage {
     }
 
     navToMesas() {
-        this.navCtrl.push(MesasPage, {apiUrl: this.apiUrl});
+        this.navCtrl.push(MesasPage);
     }
 
     navToCargaFoto() {
-        this.navCtrl.push(FotoTelegramaPage, { mesa: this.mesa, apiUrl: this.apiUrl });
+        this.navCtrl.push(FotoTelegramaPage, { mesa: this.mesa });
     }
 
     navToTelegrama() {
-        this.navCtrl.push(TelegramaPage, { mesa: this.mesa, localidad: this.localidad, apiUrl: this.apiUrl });
+        this.navCtrl.push(TelegramaPage, { mesa: this.mesa, localidad: this.localidad });
     }
 }
