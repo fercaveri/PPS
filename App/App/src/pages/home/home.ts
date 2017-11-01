@@ -4,7 +4,8 @@ import { AlertController, NavController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { GlobalVariables } from '../../providers/global-variables-provider';
 import { MainPage } from '../main/main';
-import { ConfigPage } from '../configpage/configpage'
+import { ConfigPage } from '../configpage/configpage';
+import { DatabaseProvider } from '../../providers/database-provider';
 import { config } from '../../config';
 import { Usuario, Fiscal } from '../../model';
 
@@ -22,7 +23,7 @@ export class HomePage {
   idLocalidad: number = -1;
   numeroMesa: number = -1;
 
-  constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, storage: Storage, public globalVars: GlobalVariables) {
+  constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, storage: Storage, public db: DatabaseProvider, public globalVars: GlobalVariables) {
       storage.get('ip').then((val) => {
           this.globalVars.ip = val;
           storage.get('port').then((val) => {
@@ -30,6 +31,18 @@ export class HomePage {
               this.globalVars.apiUrl = "http://" + this.globalVars.ip + ":" + this.globalVars.port;
           })
       })
+
+      //send requests from db
+      if (this.globalVars.isConnected) {
+          this.db.query("SELECT * FROM requests WHERE done = 0")
+              .then(res => {
+                  console.log("Result: ", res);
+                  //NO SE COMO SERA RES DIOS XD
+              })
+              .catch(err => {
+                  console.log("Error: ", err);
+              });
+      }
   }
   
   onLink(url: string) {

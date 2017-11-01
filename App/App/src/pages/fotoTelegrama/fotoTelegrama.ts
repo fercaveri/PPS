@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Http } from "@angular/http";
 import { AlertController, NavController, NavParams } from 'ionic-angular';
 import { GlobalVariables } from '../../providers/global-variables-provider';
+import { DatabaseProvider } from '../../providers/database-provider';
 import { config } from '../../config';
 import { Camera } from 'ionic-native';
 
@@ -16,7 +17,7 @@ export class FotoTelegramaPage {
     mesa: number;
     localidad: String;
     apiUrl: String;
-    constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, public navParams: NavParams, public globalVars: GlobalVariables) {
+    constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, public navParams: NavParams, public db: DatabaseProvider, public globalVars: GlobalVariables) {
         this.mesa = this.navParams.get('mesa');
         console.log('mesa:' + this.mesa);
         this.localidad = this.navParams.get('localidad');
@@ -42,8 +43,19 @@ export class FotoTelegramaPage {
             foto: this.base64Image,
             mesa: this.mesa
         };
-        this.http.post(this.globalVars.apiUrl + '/api/telegrama', c).subscribe(response => {
-            console.log(response.status);
-        });
+        if (this.globalVars.isConnected) {
+            this.http.post(this.globalVars.apiUrl + '/api/telegrama', c).subscribe(response => {
+                console.log(response.status);
+            });
+        }
+        else {
+            this.db.query("INSERT INTO TABLE requests values ('post', '" + this.globalVars.apiUrl + "/api/recuento', '" + JSON.stringify(c), + "', 0);")
+                .then(res => {
+                    console.log("Result: ", res);
+                })
+                .catch(err => {
+                    console.log("Error: ", err);
+                });
+        }
     }
 }

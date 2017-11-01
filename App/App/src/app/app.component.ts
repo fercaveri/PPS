@@ -16,7 +16,7 @@ export class MyApp {
         platform.ready().then(() => {
             this.db.init();
 
-            this.db.query("CREATE TABLE IF NOT EXISTS requests (id INTEGER, type TEXT, url TEXT, data TEXT, done INTEGER)")
+            this.db.query("CREATE TABLE IF NOT EXISTS requests (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, type TEXT, url TEXT, data TEXT, done INTEGER)")
                 .then(res => {
                     console.log("Result: ", res);
                 })

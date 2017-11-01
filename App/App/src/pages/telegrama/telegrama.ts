@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { GlobalVariables } from '../../providers/global-variables-provider';
+import { DatabaseProvider } from '../../providers/database-provider';
 import { NavController, NavParams } from 'ionic-angular';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -18,7 +19,7 @@ export class TelegramaPage{
     localidad: String = "";
     isEdit: boolean = false;
     apiUrl: String;
-    constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public globalVars: GlobalVariables) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public db: DatabaseProvider, public globalVars: GlobalVariables) {
         this.mesa = navParams.get('mesa');
         this.localidad = navParams.get('localidad');
         console.log(this.localidad);
@@ -35,14 +36,36 @@ export class TelegramaPage{
                 candidato: cand.id
             };
             if (this.isEdit) {
-                this.http.patch(this.globalVars.apiUrl +'/api/recuento', c).subscribe(response => {
-                    console.log(response.status);
-                });
+                if (this.globalVars.isConnected) {
+                    this.http.patch(this.globalVars.apiUrl + '/api/recuento', c).subscribe(response => {
+                        console.log(response.status);
+                    });
+                }
+                else {
+                    this.db.query("INSERT INTO TABLE requests values ('patch', '" + this.globalVars.apiUrl + "/api/recuento', '" + JSON.stringify(c), + "', 0);")
+                        .then(res => {
+                            console.log("Result: ", res);
+                        })
+                        .catch(err => {
+                            console.log("Error: ", err);
+                        });
+                }
             }
             else {
-                this.http.post(this.globalVars.apiUrl +'/api/recuento', c).subscribe(response => {
-                    console.log(response.status);
-                });
+                if (this.globalVars.isConnected) {
+                    this.http.post(this.globalVars.apiUrl + '/api/recuento', c).subscribe(response => {
+                        console.log(response.status);
+                    });
+                }
+                else {
+                    this.db.query("INSERT INTO TABLE requests values ('post', '" + this.globalVars.apiUrl + "/api/recuento', '" + JSON.stringify(c), + "', 0);")
+                        .then(res => {
+                            console.log("Result: ", res);
+                        })
+                        .catch(err => {
+                            console.log("Error: ", err);
+                        });
+                }
             }
         }
     }
