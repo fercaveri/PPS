@@ -15,10 +15,10 @@
   </div>
 
   <div *ngIf="rol==0">
-    <div *ngIf="localidad!=''">
+    <div *ngIf="idLocalidad!=-1">
       <ion-label>Usted cuenta con permisos sobre {{localidad}}</ion-label>
     </div>
-    <div *ngIf="mesa!=0">
+    <div *ngIf="mesaId!=0">
       <ion-label>Usted cuenta con permisos sobre la mesa {{mesa}}</ion-label>
     </div>
   </div>
@@ -32,22 +32,22 @@
     </ion-card-header>
 
     <ion-list>
-      <div *ngIf="mesa!=0">
+      <div *ngIf="mesaId!=0">
         <button ion-item (click)="navToTelegrama()">
-          <ion-icon name="edit" item-left></ion-icon>
+          <ion-icon name="email" item-left></ion-icon>
           Llenado de telegrama
         </button>
+        <button ion-item (click)="navToCargaFoto()">
+          <ion-icon name="camera" item-left></ion-icon>
+          Envio de foto
+        </button>
       </div>
-      <div *ngIf="rol!=0||localidad!=''">
+      <div *ngIf="rol!=0||idLocalidad!=-1">
         <button ion-item (click)="navToMesas()">
           <ion-icon name="jet" item-left></ion-icon>
           Seleccion de mesas
         </button>
       </div>
-      <button ion-item (click)="navToCargaFoto()">
-        <ion-icon name="camera" item-left></ion-icon>
-        Carga de foto de telegrama
-      </button>
     </ion-list>
   </ion-card>
 </ion-content>
