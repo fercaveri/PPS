@@ -5,6 +5,7 @@ import { Http } from '@angular/http';
 import { TelegramaPage } from '../telegrama/telegrama';
 import 'rxjs/add/operator/map';
 import { config } from "../../config";
+import { FotoTelegramaPage } from '../fotoTelegrama/fotoTelegrama';
 
 @Component({
     selector: 'page-mesas',
@@ -18,11 +19,22 @@ export class MesasPage {
     mesa: number = 0;
     mesasLocalidades: object[] = [];
     apiUrl: String;
+    tienePermisos: boolean = true;
     constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public globalVars: GlobalVariables) {
-        this.http.get(this.globalVars.apiUrl+'/api/provincia').map(res => res.json()).subscribe(data => {
+        console.log('localidadid:' + navParams.get('idLocalidad'));
+
+        console.log('localidad:' + navParams.get('localidad'));
+        if (navParams.get('idLocalidad') != -1) {
+          this.localidad = navParams.get('localidad');
+          this.buscarMesas(this.localidad);
+          this.tienePermisos = false;
+        }
+        else {
+          this.http.get(this.globalVars.apiUrl + '/api/provincia').map(res => res.json()).subscribe(data => {
             console.log(data);
             this.provincias = data;
-        });
+          });
+        }
     }
 
     onChange(nombre: String) {
@@ -49,5 +61,8 @@ export class MesasPage {
 
     nav() {
         this.navCtrl.push(TelegramaPage, { mesa: this.mesa, localidad: this.localidad });
+    }
+    photo() {
+      this.navCtrl.push(FotoTelegramaPage, { mesa: this.mesa, localidad: this.localidad,  apiUrl: this.apiUrl });
     }
 }

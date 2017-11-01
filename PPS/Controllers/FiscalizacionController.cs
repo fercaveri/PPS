@@ -26,7 +26,19 @@ namespace PPS.Controllers
         public Fiscalizacion Get(String usuario, String pass)
         {
           var fiscalizacion = _db.Fiscales.Select(x => new Fiscalizacion(x.id,x.user,x.localidad,x.mesa)).Where( x => x.user.usuario == usuario && x.user.contraseña == pass).Include(x => x.mesa.localidad).Include(x => x.localidad.provincia).FirstOrDefault();
-          return fiscalizacion;
+      Console.WriteLine("retorne id:"+ fiscalizacion.id);
+      if(fiscalizacion.localidad!= null)
+      {
+        Console.WriteLine("retorne localidad:" + fiscalizacion.localidad.nombreLocalidad);
+      }
+      if ( fiscalizacion.mesa != null)
+      {
+        Console.WriteLine("retorne mesa:" + fiscalizacion.mesa.numero);
+      }
+
+      Console.WriteLine("retorne user:" + fiscalizacion.user.usuario);
+
+      return fiscalizacion;
         }
 
         [HttpGet]
@@ -42,6 +54,14 @@ namespace PPS.Controllers
         {
             var mesa = _db.Mesas.Find(id);
             return mesa.numero;
+        }
+        [HttpGet]
+        [Route("getLocMesa")]
+        public String getMesaLocalidad(int id)
+        {
+          String nombreLocalidad = _db.Mesas.Select(x => new Mesa(x.id,x.numero, x.localidad)).Where(x => x.id == id).First().localidad.nombreLocalidad;
+          Console.WriteLine("Retorne:"+ nombreLocalidad);
+          return nombreLocalidad;
         }
     [HttpPost]
     [Route("xprov")]

@@ -14,11 +14,15 @@ export class MainPage {
     mesa: number;
     localidad: String;
     rol: number;
+    mesaId: number;
     apiUrl: String;
+    idLocalidad: number;
     constructor(public navCtrl: NavController, public http: Http, public navParams: NavParams, public globalVars: GlobalVariables) {
       this.mesa = navParams.get('mesa');
       this.rol = navParams.get('rol');
+      this.mesaId = navParams.get('mesaId');
       this.localidad = navParams.get('localidad');
+      this.idLocalidad = navParams.get('idLocalidad');
     }
 
     onLink(url: string) {
@@ -26,14 +30,14 @@ export class MainPage {
     }
 
     navToMesas() {
-        this.navCtrl.push(MesasPage);
+      this.navCtrl.push(MesasPage, { idLocalidad: this.idLocalidad, localidad: this.localidad });
     }
 
     navToCargaFoto() {
-        this.navCtrl.push(FotoTelegramaPage, { mesa: this.mesa });
+        this.navCtrl.push(FotoTelegramaPage, { mesa: this.mesa, mesaId:this.mesaId });
     }
 
     navToTelegrama() {
-        this.navCtrl.push(TelegramaPage, { mesa: this.mesa, localidad: this.localidad });
+      this.navCtrl.push(TelegramaPage, { mesa: this.mesa, mesaId: this.mesaId, localidad: this.localidad });
     }
 }

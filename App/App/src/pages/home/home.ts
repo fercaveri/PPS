@@ -19,7 +19,8 @@ export class HomePage {
   mesa: number = 0;
   fiscal: Fiscal;
   nombreLocalidad: String = "";
-  numeroMesa: number = 0;
+  idLocalidad: number = -1;
+  numeroMesa: number = -1;
 
   constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, storage: Storage, public globalVars: GlobalVariables) {
       storage.get('ip').then((val) => {
@@ -50,7 +51,9 @@ export class HomePage {
           console.log(data.localidad);
           if (data.mesa == null) {
             this.nombreLocalidad = data.localidad.nombreLocalidad;
-            console.log(this.nombreLocalidad);
+            this.idLocalidad = data.localidad.id;
+            console.log('nombreLocalidad' + this.nombreLocalidad);
+            console.log('id localidad' + data.localidad.id);
             alert = this.alertCtrl.create({
               title: 'Login exitoso',
               subTitle: 'Tiene permisos sobre la localidad: ' + this.nombreLocalidad,
@@ -68,7 +71,13 @@ export class HomePage {
           } else {
             this.numeroMesa = data.mesa.numero;
             this.mesa = data.mesa.id;
-            console.log(this.mesa);
+            console.log('id mesa'+this.mesa);
+            console.log('numeroMesa:' + this.numeroMesa);
+            this.http.get(this.apiUrl +
+              '/api/fiscalizacion/getLocMesa?id=' + this.mesa).map(res => res.text()).subscribe(data => {
+                this.nombreLocalidad = data;
+                console.log('localidadname:' + this.nombreLocalidad);
+              });
             alert = this.alertCtrl.create({
               title: 'Login exitoso',
               subTitle: 'Tiene asignada la mesa: ' + this.numeroMesa,
@@ -115,7 +124,7 @@ export class HomePage {
   }
 
   navToMain() {
-    this.navCtrl.push(MainPage, { mesa: this.numeroMesa, rol: this.usuario, localidad: this.nombreLocalidad, mesaId: this.mesa});
+    this.navCtrl.push(MainPage, { mesa: this.numeroMesa, rol: this.usuario, localidad: this.nombreLocalidad, idLocalidad: this.idLocalidad , mesaId: this.mesa });
   }
 
   navToConfig() {

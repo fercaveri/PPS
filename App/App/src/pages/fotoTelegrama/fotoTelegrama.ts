@@ -14,9 +14,12 @@ export class FotoTelegramaPage {
 
     base64Image: String;
     mesa: number;
+    localidad: String;
     apiUrl: String;
     constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, public navParams: NavParams, public globalVars: GlobalVariables) {
         this.mesa = this.navParams.get('mesa');
+        console.log('mesa:' + this.mesa);
+        this.localidad = this.navParams.get('localidad');
     }
 
     onLink(url: string) {

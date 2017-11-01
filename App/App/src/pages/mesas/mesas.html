@@ -15,20 +15,24 @@
       Seleccione una provincia, una localidad y una mesa
     </ion-card-header>
   </ion-card>
+  <div *ngIf="tienePermisos">
+    <ion-item>
+      <ion-label>Provincia</ion-label>
+      <ion-select>
+        <ion-option (ionSelect)="onChange(provincia.nombreProvincia)" *ngFor="let provincia of provincias" [value]="provincia.nombreProvincia">{{provincia.nombreProvincia}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Localidad</ion-label>
+      <ion-select>
+        <ion-option (ionSelect)="buscarMesas(localidad.nombreLocalidad)" *ngFor="let localidad of localidadesProvincia" [value]="localidad.nombreLocalidad">{{localidad.nombreLocalidad}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </div>
 
-  <ion-item>
-    <ion-label>Provincia</ion-label>
-    <ion-select>
-      <ion-option (ionSelect)="onChange(provincia.nombreProvincia)" *ngFor="let provincia of provincias" [value]="provincia.nombreProvincia">{{provincia.nombreProvincia}}</ion-option>
-    </ion-select>
-  </ion-item>
-
-  <ion-item>
-    <ion-label>Localidad</ion-label>
-    <ion-select>
-      <ion-option (ionSelect)="buscarMesas(localidad.nombreLocalidad)" *ngFor="let localidad of localidadesProvincia" [value]="localidad.nombreLocalidad">{{localidad.nombreLocalidad}}</ion-option>
-    </ion-select>
-  </ion-item>
+  <div *ngIf="tienePermisos==false">
+    <ion-label>Localidad: {{localidad}}</ion-label>
+  </div>
 
   <ion-item>
     <ion-label>Mesa</ion-label>
@@ -38,4 +42,5 @@
   </ion-item>
 
   <button ion-button color="secondary" (click)="nav()">Submit</button>
+  <button ion-button color="default" (click)="photo()">Subir foto</button>
 </ion-content>
