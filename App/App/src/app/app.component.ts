@@ -14,6 +14,11 @@ export class MyApp {
 
     constructor(platform: Platform, public db: DatabaseProvider, public globalVars: GlobalVariables) {
         platform.ready().then(() => {
+
+            // Okay, so the platform is ready and our plugins are available.
+            // Here you can do any higher level native things you might need.
+            Splashscreen.hide();
+            StatusBar.styleDefault();
             this.db.init();
 
             this.db.query("CREATE TABLE IF NOT EXISTS requests (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, type TEXT, url TEXT, data TEXT, done INTEGER)")
@@ -23,20 +28,15 @@ export class MyApp {
                 .catch(err => {
                     console.log("Error: ", err);
                 });
-            // Okay, so the platform is ready and our plugins are available.
-            // Here you can do any higher level native things you might need.
-            StatusBar.styleDefault();
-            Splashscreen.hide();
+        });
+        let disconnectSub = Network.onDisconnect().subscribe(() => {
+            console.log('you are offline');
+            this.globalVars.isConnected = false;
+        });
 
-            let disconnectSub = Network.onDisconnect().subscribe(() => {
-                console.log('you are offline');
-                this.globalVars.isConnected = false;
-            });
-
-            let connectSub = Network.onConnect().subscribe(() => {
-                console.log('you are online');
-                this.globalVars.isConnected = true;
-            });
+        let connectSub = Network.onConnect().subscribe(() => {
+            console.log('you are online');
+            this.globalVars.isConnected = true;
         });
     }
 }

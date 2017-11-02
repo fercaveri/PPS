@@ -10,8 +10,8 @@
 
     <h2 class="center">Escrutinio App</h2> 
 
-  <ion-input type="text" [(ngModel)]="ip" name="ip" placeholder="IP"></ion-input>
-  <ion-input type="text" [(ngModel)]="port" name="port" placeholder="Puerto"></ion-input>
+  <ion-input type="text" [(ngModel)]="globalVars.ip" name="ip" placeholder="IP"></ion-input>
+  <ion-input type="text" [(ngModel)]="globalVars.port" name="port" placeholder="Puerto"></ion-input>
   <button ion-button full color="green"  (click)="saveConfig()">
     <ion-icon name="checkmark" item-left></ion-icon>
     Guardar Configuracion
