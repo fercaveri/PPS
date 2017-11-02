@@ -37,7 +37,7 @@
   <ion-item>
     <ion-label>Mesa</ion-label>
     <ion-select >
-      <ion-option (ionSelect)="buscarCandidatos(mesa.numero)" *ngFor="let mesa of mesasLocalidades" [value]="mesa.numero">{{mesa.numero}}</ion-option>
+      <ion-option (ionSelect)="buscarCandidatos(mesa.id)" *ngFor="let mesa of mesasLocalidades" [value]="mesa.numero">{{mesa.numero}}</ion-option>
     </ion-select>
   </ion-item>
 

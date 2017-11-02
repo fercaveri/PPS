@@ -63,6 +63,6 @@ export class MesasPage {
         this.navCtrl.push(TelegramaPage, { mesa: this.mesa, localidad: this.localidad });
     }
     photo() {
-      this.navCtrl.push(FotoTelegramaPage, { mesa: this.mesa, localidad: this.localidad,  apiUrl: this.apiUrl });
+      this.navCtrl.push(FotoTelegramaPage, { mesaId: this.mesa, localidad: this.localidad,  apiUrl: this.apiUrl });
     }
 }

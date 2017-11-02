@@ -36,15 +36,15 @@ namespace PPS.Controllers
       [HttpPost]
       public HttpResponseMessage Post([FromBody] TelegramaWEB tel)
       {
-          var telegrama = _db.Telegramas.Select(x => new Telegrama(x.data, x.mesa)).Where(x => x.mesa.numero == tel.mesa);
+          var telegrama = _db.Telegramas.Where(x => x.mesa.id == tel.mesa).FirstOrDefault();
           if(telegrama == null)
           {
-             Mesa mesa = _db.Mesas.Select(x => new Mesa(x.numero, x.localidad)).Where(x => x.numero == tel.mesa).First();
+            Mesa mesa = _db.Mesas.Find(tel.mesa);
             _db.Telegramas.Add(new Telegrama(tel.foto, mesa));
             _db.SaveChanges();
             return new HttpResponseMessage(HttpStatusCode.OK);
           }
-          return new HttpResponseMessage(HttpStatusCode.NotAcceptable);
+           return new HttpResponseMessage(HttpStatusCode.NotAcceptable);
       } 
     }
 }
