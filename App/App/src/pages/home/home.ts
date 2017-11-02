@@ -24,30 +24,34 @@ export class HomePage {
   numeroMesa: number = -1;
 
   constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, storage: Storage, public db: DatabaseProvider, public globalVars: GlobalVariables) {
-      storage.get('ip').then((val) => {
-          this.globalVars.ip = val;
-          storage.get('port').then((val) => {
-              this.globalVars.port = val;
-              this.globalVars.apiUrl = "http://" + this.globalVars.ip + ":" + this.globalVars.port;
-          })
+    storage.get('ip').then((val) => {
+      this.globalVars.ip = val;
+      storage.get('port').then((val) => {
+        this.globalVars.port = val;
+        this.globalVars.apiUrl = "http://" + this.globalVars.ip + ":" + this.globalVars.port;
       })
+    })
 
-      //send requests from db
-      if (this.globalVars.isConnected) {
-          this.db.query("SELECT * FROM requests WHERE done = 0")
-              .then(res => {
-                  console.log("Result: ", res);
-                  //NO SE COMO SERA RES DIOS XD
-              })
-              .catch(err => {
-                  console.log("Error: ", err);
-          });
-          this.importDb(this.db);
-      }
+    // Send requests from db
+    if (this.globalVars.isConnected) {
+      this.db.query("SELECT * FROM requests WHERE done = 0")
+        .then(res => {
+          console.log("Result: ", res);
+          for (var i = 0; i < res.length; i++) {
+            this.http.request(res[i]['url'], new Headers({ method: res[i]['type'], body: res[i]['data'] })).subscribe(res => {
+              this.db.query("UPDATE requests SET done = 1 WHERE id = ?", res[i]['id']);
+            });
+          }
+        })
+        .catch(err => {
+          console.log("Error: ", err);
+        });
+      this.importDb(this.db, storage);
+    }
   }
-  
+
   onLink(url: string) {
-      window.open(url);
+    window.open(url);
   }
   showAlert(role: number) {
     let alert;
@@ -59,7 +63,7 @@ export class HomePage {
       });
       alert.present();
     } else if (role == 0) {
-        this.http.get(this.globalVars.apiUrl +
+      this.http.get(this.globalVars.apiUrl +
         '/api/fiscalizacion?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
           console.log(data.mesa);
           console.log(data.localidad);
@@ -85,7 +89,7 @@ export class HomePage {
           } else {
             this.numeroMesa = data.mesa.numero;
             this.mesa = data.mesa.id;
-            console.log('id mesa'+this.mesa);
+            console.log('id mesa' + this.mesa);
             console.log('numeroMesa:' + this.numeroMesa);
             this.http.get(this.globalVars.apiUrl +
               '/api/fiscalizacion/getLocMesa?id=' + this.mesa).map(res => res.text()).subscribe(data => {
@@ -124,101 +128,106 @@ export class HomePage {
         ]
       });
       alert.present();
-    } 
+    }
   }
   login() {
-      this.http.get(this.globalVars.apiUrl +
-          '/api/usuario?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
-              this.usuario = data;
-              console.log(this.usuario);
-              this.showAlert(this.usuario);
-          }, error => {
-              console.log(error);
-          });
+    this.http.get(this.globalVars.apiUrl +
+      '/api/usuario?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
+        this.usuario = data;
+        console.log(this.usuario);
+        this.showAlert(this.usuario);
+      }, error => {
+        console.log(error);
+      });
   }
 
   navToMain() {
-    this.navCtrl.push(MainPage, { mesa: this.numeroMesa, rol: this.usuario, localidad: this.nombreLocalidad, idLocalidad: this.idLocalidad , mesaId: this.mesa });
+    this.navCtrl.push(MainPage, { mesa: this.numeroMesa, rol: this.usuario, localidad: this.nombreLocalidad, idLocalidad: this.idLocalidad, mesaId: this.mesa });
   }
 
   navToConfig() {
-      this.navCtrl.push(ConfigPage);
+    this.navCtrl.push(ConfigPage);
   }
 
-  importDb(db: DatabaseProvider) {
-    if (this.globalVars.isConnected) {
-      this.http.get(this.globalVars.apiUrl +
-        '/api/provincia').map(res => res.json()).subscribe(data => {
-          for (let provincia of data) {
-            db.query('INSERT INTO PROVINCIA VALUES(' + provincia.nombreProvincia + ')');
-          }
-        }, error => {
-          console.log(error);
-        });
-      this.http.get(this.globalVars.apiUrl +
-        '/api/localidad').map(res => res.json()).subscribe(data => {
-          for (let localidad of data) {
-            db.query('INSERT INTO LOCALIDAD VALUES(' + localidad.id + ',' + localidad.nombreLocalidad + ',' + localidad.provincia + ')');
-          }
-        }, error => {
-          console.log(error);
-        });
-      this.http.get(this.globalVars.apiUrl +
-        '/api/partidopolitico').map(res => res.json()).subscribe(data => {
-          for (let partido of data) {
-            db.query('INSERT INTO PARTIDOPOLITICO VALUES (' + partido.numeroLista + ',' + partido.nombre + ',' + partido.provincia + ',' + partido.color + ')');
-          }
-        }, error => {
-          console.log(error);
-        });
-      this.http.get(this.globalVars.apiUrl +
-        '/api/candidato').map(res => res.json()).subscribe(data => {
-          for (let candidato of data) {
-            db.query('INSERT INTO CANDIDATO VALUES(' + candidato.id + ',' + candidato.cargo + ',' + candidato.urlFoto + ',' + candidato.nombre + ',' + candidato.apellido + ',' + candidato.nombreCompleto + ',' + candidato.localidad + ',' + candidato.partido + ',' + candidato.votos + ',' + ')');
-          }
-        }, error => {
-          console.log(error);
-        });
-      this.http.get(this.globalVars.apiUrl +
-        '/api/mesa').map(res => res.json()).subscribe(data => {
-          for (let mesa of data) {
-            db.query('INSERT INTO MESA VALUES (' + mesa.id + ',' + mesa.numero + ',' + mesa.circuito + ',' + mesa.localidad +')');
-          }
-        }, error => {
-          console.log(error);
-        });
-      this.http.get(this.globalVars.apiUrl +
-        '/api/recuento').map(res => res.json()).subscribe(data => {
-          for (let recuento of data) {
-            db.query('INSERT INTO RECUENTO VALUES (' + recuento.id + ',' + recuento.candidato + ',' + recuento.votos + ',' + recuento.mesa +')');
-          }
-        }, error => {
-          console.log(error);
-        });
-      this.http.get(this.globalVars.apiUrl +
-        '/api/usuario').map(res => res.json()).subscribe(data => {
-          for (let user of data) {
-            db.query('INSERT INTO USUARIO VALUES(' + user.id + ',' + user.usuario + ',' + user.contraseña + ',' + user.nombreCompleto + ',' + user.rol + ')');
-          }
-        }, error => {
-          console.log(error);
-        });
-      this.http.get(this.globalVars.apiUrl +
-        '/api/telegrama').map(res => res.json()).subscribe(data => {
-          for (let telegrama of data) {
-            db.query('INSERT INTO TELEGRAMA VALUES(' + telegrama.id + ',' + telegrama.data + ',' + telegrama.mesa + ')');
-          }
-        }, error => {
-          console.log(error);
-        });
-      this.http.get(this.globalVars.apiUrl +
-        '/api/fiscalizacion').map(res => res.json()).subscribe(data => {
-          for (let fiscal of data) {
-            db.query('INSERT INTO FISCALIZACION VALUES(' + fiscal.id + ',' + fiscal.user + ',' + fiscal.mesa + ',' + fiscal.localidad + ',' + ')');
-          }
-        }, error => {
-          console.log(error);
-        });
-    }
+  importDb(db: DatabaseProvider, storage: Storage) {
+    storage.get('db_filled').then((filled) => {
+      // Si no se crearon ya antes y hay coneccion
+      if (!filled && this.globalVars.isConnected) {
+        this.http.get(this.globalVars.apiUrl +
+          '/api/provincia').map(res => res.json()).subscribe(data => {
+            for (let provincia of data) {
+              db.query('INSERT INTO PROVINCIA VALUES(' + provincia.nombreProvincia + ')');
+            }
+            this.http.get(this.globalVars.apiUrl +
+              '/api/localidad').map(res => res.json()).subscribe(data => {
+                for (let localidad of data) {
+                  db.query('INSERT INTO LOCALIDAD VALUES(' + localidad.id + ',' + localidad.nombreLocalidad + ',' + localidad.provincia + ')');
+                }
+                this.http.get(this.globalVars.apiUrl +
+                  '/api/partidopolitico').map(res => res.json()).subscribe(data => {
+                    for (let partido of data) {
+                      db.query('INSERT INTO PARTIDOPOLITICO VALUES (' + partido.numeroLista + ',' + partido.nombre + ',' + partido.provincia + ',' + partido.color + ')');
+                    }
+                    this.http.get(this.globalVars.apiUrl +
+                      '/api/candidato').map(res => res.json()).subscribe(data => {
+                        for (let candidato of data) {
+                          db.query('INSERT INTO CANDIDATO VALUES(' + candidato.id + ',' + candidato.cargo + ',' + candidato.urlFoto + ',' + candidato.nombre + ',' + candidato.apellido + ',' + candidato.nombreCompleto + ',' + candidato.localidad + ',' + candidato.partido + ',' + candidato.votos + ',' + ')');
+                        }
+                        this.http.get(this.globalVars.apiUrl +
+                          '/api/mesa').map(res => res.json()).subscribe(data => {
+                            for (let mesa of data) {
+                              db.query('INSERT INTO MESA VALUES (' + mesa.id + ',' + mesa.numero + ',' + mesa.circuito + ',' + mesa.localidad + ')');
+                            }
+                            this.http.get(this.globalVars.apiUrl +
+                              '/api/recuento').map(res => res.json()).subscribe(data => {
+                                for (let recuento of data) {
+                                  db.query('INSERT INTO RECUENTO VALUES (' + recuento.id + ',' + recuento.candidato + ',' + recuento.votos + ',' + recuento.mesa + ')');
+                                }
+                                this.http.get(this.globalVars.apiUrl +
+                                  '/api/usuario').map(res => res.json()).subscribe(data => {
+                                    for (let user of data) {
+                                      db.query('INSERT INTO USUARIO VALUES(' + user.id + ',' + user.usuario + ',' + user.contraseña + ',' + user.nombreCompleto + ',' + user.rol + ')');
+                                    }
+                                    this.http.get(this.globalVars.apiUrl +
+                                      '/api/telegrama').map(res => res.json()).subscribe(data => {
+                                        for (let telegrama of data) {
+                                          db.query('INSERT INTO TELEGRAMA VALUES(' + telegrama.id + ',' + telegrama.data + ',' + telegrama.mesa + ')');
+                                        }
+                                        this.http.get(this.globalVars.apiUrl +
+                                          '/api/fiscalizacion').map(res => res.json()).subscribe(data => {
+                                            for (let fiscal of data) {
+                                              db.query('INSERT INTO FISCALIZACION VALUES(' + fiscal.id + ',' + fiscal.user + ',' + fiscal.mesa + ',' + fiscal.localidad + ',' + ')');
+                                            }
+                                            // Guardo en el storage que ya me traje todo
+                                            storage.set('db_filled', true);
+                                          }, error => {
+                                            console.log(error);
+                                          });
+                                      }, error => {
+                                        console.log(error);
+                                      });
+                                  }, error => {
+                                    console.log(error);
+                                  });
+                              }, error => {
+                                console.log(error);
+                              });
+                          }, error => {
+                            console.log(error);
+                          });
+                      }, error => {
+                        console.log(error);
+                      });
+                  }, error => {
+                    console.log(error);
+                  });
+              }, error => {
+                console.log(error);
+              });
+          }, error => {
+            console.log(error);
+          });
+      }
+    })
   }
 }
