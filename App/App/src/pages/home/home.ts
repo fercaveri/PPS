@@ -41,7 +41,8 @@ export class HomePage {
               })
               .catch(err => {
                   console.log("Error: ", err);
-              });
+          });
+          this.importDb(this.db);
       }
   }
   
@@ -142,5 +143,82 @@ export class HomePage {
 
   navToConfig() {
       this.navCtrl.push(ConfigPage);
+  }
+
+  importDb(db: DatabaseProvider) {
+    if (this.globalVars.isConnected) {
+      this.http.get(this.globalVars.apiUrl +
+        '/api/provincia').map(res => res.json()).subscribe(data => {
+          for (let provincia of data) {
+            db.query('INSERT INTO PROVINCIA VALUES(' + provincia.nombreProvincia + ')');
+          }
+        }, error => {
+          console.log(error);
+        });
+      this.http.get(this.globalVars.apiUrl +
+        '/api/localidad').map(res => res.json()).subscribe(data => {
+          for (let localidad of data) {
+            db.query('INSERT INTO LOCALIDAD VALUES(' + localidad.id + ',' + localidad.nombreLocalidad + ',' + localidad.provincia + ')');
+          }
+        }, error => {
+          console.log(error);
+        });
+      this.http.get(this.globalVars.apiUrl +
+        '/api/partidopolitico').map(res => res.json()).subscribe(data => {
+          for (let partido of data) {
+            db.query('INSERT INTO PARTIDOPOLITICO VALUES (' + partido.numeroLista + ',' + partido.nombre + ',' + partido.provincia + ',' + partido.color + ')');
+          }
+        }, error => {
+          console.log(error);
+        });
+      this.http.get(this.globalVars.apiUrl +
+        '/api/candidato').map(res => res.json()).subscribe(data => {
+          for (let candidato of data) {
+            db.query('INSERT INTO CANDIDATO VALUES(' + candidato.id + ',' + candidato.cargo + ',' + candidato.urlFoto + ',' + candidato.nombre + ',' + candidato.apellido + ',' + candidato.nombreCompleto + ',' + candidato.localidad + ',' + candidato.partido + ',' + candidato.votos + ',' + ')');
+          }
+        }, error => {
+          console.log(error);
+        });
+      this.http.get(this.globalVars.apiUrl +
+        '/api/mesa').map(res => res.json()).subscribe(data => {
+          for (let mesa of data) {
+            db.query('INSERT INTO MESA VALUES (' + mesa.id + ',' + mesa.numero + ',' + mesa.circuito + ',' + mesa.localidad +')');
+          }
+        }, error => {
+          console.log(error);
+        });
+      this.http.get(this.globalVars.apiUrl +
+        '/api/recuento').map(res => res.json()).subscribe(data => {
+          for (let recuento of data) {
+            db.query('INSERT INTO RECUENTO VALUES (' + recuento.id + ',' + recuento.candidato + ',' + recuento.votos + ',' + recuento.mesa +')');
+          }
+        }, error => {
+          console.log(error);
+        });
+      this.http.get(this.globalVars.apiUrl +
+        '/api/usuario').map(res => res.json()).subscribe(data => {
+          for (let user of data) {
+            db.query('INSERT INTO USUARIO VALUES(' + user.id + ',' + user.usuario + ',' + user.contraseña + ',' + user.nombreCompleto + ',' + user.rol + ')');
+          }
+        }, error => {
+          console.log(error);
+        });
+      this.http.get(this.globalVars.apiUrl +
+        '/api/telegrama').map(res => res.json()).subscribe(data => {
+          for (let telegrama of data) {
+            db.query('INSERT INTO TELEGRAMA VALUES(' + telegrama.id + ',' + telegrama.data + ',' + telegrama.mesa + ')');
+          }
+        }, error => {
+          console.log(error);
+        });
+      this.http.get(this.globalVars.apiUrl +
+        '/api/fiscalizacion').map(res => res.json()).subscribe(data => {
+          for (let fiscal of data) {
+            db.query('INSERT INTO FISCALIZACION VALUES(' + fiscal.id + ',' + fiscal.user + ',' + fiscal.mesa + ',' + fiscal.localidad + ',' + ')');
+          }
+        }, error => {
+          console.log(error);
+        });
+    }
   }
 }
