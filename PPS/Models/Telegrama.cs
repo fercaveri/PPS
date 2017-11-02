@@ -18,6 +18,7 @@ namespace PPS.Models
           this.data = foto;
           this.mesa = m;
         }
+        public Telegrama() { }
 
         public static string Base64Encode(string plainText)
         {

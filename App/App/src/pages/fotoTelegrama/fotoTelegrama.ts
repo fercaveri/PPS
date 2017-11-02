@@ -18,8 +18,8 @@ export class FotoTelegramaPage {
     localidad: String;
     apiUrl: String;
     constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, public navParams: NavParams, public db: DatabaseProvider, public globalVars: GlobalVariables) {
-        this.mesa = this.navParams.get('mesa');
-        console.log('mesa:' + this.mesa);
+        this.mesa = this.navParams.get('mesaId');
+        console.log('mesaId:' + this.mesa);
         this.localidad = this.navParams.get('localidad');
     }
 

@@ -21,11 +21,11 @@ export class AppComponent implements OnInit {
         });
     }
     login() {
-        this._httpService.get('/api/usuario?usuario=' + this.user + '&pass=' + this.pass).subscribe(values => {
-            this.rol = Number(values.text('legacy'));
-            console.log(this.rol);
-            this.showAlert = true;
-        });
+      this._httpService.get('/api/usuario?usuario=' + this.user + '&pass=' + this.pass).subscribe(values => {
+        this.rol = Number(values.text('legacy'));
+        console.log(this.rol);
+        this.showAlert = true;
+      });      
     }
     ok() {
         this.logeo = true;
