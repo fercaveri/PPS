@@ -23,6 +23,12 @@ namespace PPS.Controllers
         }
 
         [HttpGet]
+        public IEnumerable<Fiscalizacion> GetAll()
+        {
+          return _db.Fiscales.ToList();
+    }
+
+        [HttpGet]
         public Fiscalizacion Get(String usuario, String pass)
         {
           var fiscalizacion = _db.Fiscales.Select(x => new Fiscalizacion(x.id,x.user,x.localidad,x.mesa)).Where( x => x.user.usuario == usuario && x.user.contraseña == pass).Include(x => x.mesa.localidad).Include(x => x.localidad.provincia).FirstOrDefault();

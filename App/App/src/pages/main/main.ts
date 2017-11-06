@@ -5,6 +5,7 @@ import { GlobalVariables } from '../../providers/global-variables-provider';
 import { MesasPage } from '../mesas/mesas';
 import { FotoTelegramaPage } from '../fotoTelegrama/fotoTelegrama';
 import { TelegramaPage } from '../telegrama/telegrama';
+import { Storage } from '@ionic/storage';
 
 @Component({
     selector: 'page-main',
@@ -17,12 +18,14 @@ export class MainPage {
     mesaId: number;
     apiUrl: String;
     idLocalidad: number;
-    constructor(public navCtrl: NavController, public http: Http, public navParams: NavParams, public globalVars: GlobalVariables) {
+    storage: Storage;
+    constructor(public navCtrl: NavController, public http: Http, public navParams: NavParams, public globalVars: GlobalVariables, storage: Storage) {
       this.mesa = navParams.get('mesa');
       this.rol = navParams.get('rol');
       this.mesaId = navParams.get('mesaId');
       this.localidad = navParams.get('localidad');
       this.idLocalidad = navParams.get('idLocalidad');
+      this.storage = storage;
     }
 
     onLink(url: string) {
@@ -39,5 +42,15 @@ export class MainPage {
 
     navToTelegrama() {
       this.navCtrl.push(TelegramaPage, { mesa: this.mesa, mesaId: this.mesaId, localidad: this.localidad });
+    }
+
+    logout() {
+      this.storage.remove('user');
+      this.storage.remove('localidad');
+      this.storage.remove('idLocalidad');
+      this.storage.remove('mesa');
+      this.storage.remove('mesaId');
+      this.storage.set('login', false);
+      this.navCtrl.pop();
     }
 }
