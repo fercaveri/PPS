@@ -8,12 +8,14 @@ import { ConfigPage } from '../configpage/configpage';
 import { DatabaseProvider } from '../../providers/database-provider';
 import { config } from '../../config';
 import { Usuario, Fiscal } from '../../model';
+import { SQLite } from "ionic-native/dist/es5";
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
+  storage: SQLite;
   user: String = "";
   pass: String = "";
   usuario: number;
@@ -24,35 +26,112 @@ export class HomePage {
   numeroMesa: number = -1;
 
   constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, storage: Storage, public db: DatabaseProvider, public globalVars: GlobalVariables) {
-    storage.get('ip').then((val) => {
-      this.globalVars.ip = val;
-      storage.get('port').then((val) => {
-        this.globalVars.port = val;
-        this.globalVars.apiUrl = "http://" + this.globalVars.ip + ":" + this.globalVars.port;
-      })
-    })
 
     // Send requests from db
     if (this.globalVars.isConnected) {
-      this.db.query("SELECT * FROM requests WHERE done = 0")
-        .then(res => {
-          console.log("Result: ", res);
-          for (var i = 0; i < res.length; i++) {
-            this.http.request(res[i]['url'], new Headers({ method: res[i]['type'], body: res[i]['data'] })).subscribe(res => {
-              this.db.query("UPDATE requests SET done = 1 WHERE id = ?", res[i]['id']);
-            });
+      this.storage = new SQLite();
+      this.storage.openDatabase({
+        name: 'PPS',
+        location: 'default'
+      }).then(() => {
+        storage.get('ip').then((val) => {
+          this.globalVars.ip = val;
+          storage.get('port').then((val) => {
+            this.globalVars.port = val;
+            this.globalVars.apiUrl = "http://" + this.globalVars.ip + ":" + this.globalVars.port;
+            this.importDb(storage);
+          })
+        })
+        this.storage.executeSql("SELECT * FROM requests WHERE done = 0", {}).then((resp) => {
+          if (resp.res.rows.length > 0) {
+            for (var i = 0; i < resp.res.rows.length; i++) {
+              let item = resp.res.rows.item(i);
+              this.http.request(item['url'], new Headers({ method: item['type'], body: item['data'] })).subscribe(res => {
+                this.storage.executeSql("UPDATE requests SET done = 1 WHERE id = ?", item['id']);
+              });
+            }
           }
         })
-        .catch(err => {
-          console.log("Error: ", err);
-        });
-      this.importDb(this.db, storage);
+      });
     }
+  }
+
+  generar() {
+    this.storage = new SQLite();
+    this.storage.openDatabase({
+      name: 'PPS',
+      location: 'default'
+    }).then(() => {
+      var index = 0;
+      this.crearTablas(index);
+    });
+  }
+
+  insertar() {
+    this.storage = new SQLite();
+    this.storage.openDatabase({
+      name: 'PPS',
+      location: 'default'
+    }).then(() => {
+      this.storage.executeSql(`INSERT INTO requests (type, url, data, done) VALUES ('post', '/api/candidato', '{tumama: 69}', 0)`, {});
+    }).then((res) => {
+      console.log("SE INSETO HDP");
+      console.log(res);
+      this.storage.executeSql(`INSERT INTO requests (type, url, data, done) VALUES ('patch', '/api/candidato', '{tumama: 69}', 0)`, {});
+    }, (error) => { console.log("HUBO UN ERROR " + error) });
+  }
+
+  sendRequests() {
+    this.storage.executeSql("SELECT * FROM requests WHERE done = 0", {}).then((resp) => {
+      console.log(resp);
+      if (resp.rows.length > 0) {
+        for (var i = 0; i < resp.rows.length; i++) {
+          let item = resp.rows.item(i);
+          console.log(item);
+          this.http.request(item['url'], new Headers({ method: item['type'], body: item['data'] })).subscribe(res => {
+            this.storage.executeSql("UPDATE requests SET done = 1 WHERE id = ?", item['id']);
+          });
+        }
+      }
+    })
+  }
+
+  borrarTabla() {
+    this.storage.openDatabase({
+      name: 'PPS',
+      location: 'default'
+    }).then(() => {
+      this.storage.executeSql(`DROP TABLE IF EXISTS requests)`, {});
+    }).then((res) => {
+      console.log("LA PUTA TABLA SE BORRO")
+    }, (error) => { console.log("HUBO UN ERROR " + error) });
+  }
+
+  crearTablas(index: number) {
+    this.storage.executeSql(this.globalVars.tables[index], {}).then((res) => {
+      index++;
+      console.log("LA PUTA TABLA SE CREO");
+      console.log(res);
+      if (index < this.globalVars.tables.length) {
+        this.crearTablas(index);
+      }
+    }, (error) => { console.log("HUBO UN ERROR " + error) });
+  }
+
+  mirarCounts() {
+    this.storage.executeSql("SELECT COUNT(*) FROM provincias", {}).then((resp) => {
+      for (var i = 0; i < resp.rows.length; i++) {
+        let item = resp.rows.item(i);
+        console.log(item);
+      }
+    })
   }
 
   onLink(url: string) {
     window.open(url);
   }
+
+
   showAlert(role: number) {
     let alert;
     if (role == -1) {
@@ -149,60 +228,57 @@ export class HomePage {
     this.navCtrl.push(ConfigPage);
   }
 
-  importDb(db: DatabaseProvider, storage: Storage) {
+  importDb(storage: Storage) {
     storage.get('db_filled').then((filled) => {
       // Si no se crearon ya antes y hay coneccion
-      if (!filled && this.globalVars.isConnected) {
+      if (true || (!filled && this.globalVars.isConnected)) {
         this.http.get(this.globalVars.apiUrl +
           '/api/provincia').map(res => res.json()).subscribe(data => {
             for (let provincia of data) {
-              db.query('INSERT INTO PROVINCIA VALUES(' + provincia.nombreProvincia + ')');
+              this.storage.executeSql("INSERT INTO PROVINCIAS VALUES('" + provincia.nombreProvincia + "')", {});
             }
             this.http.get(this.globalVars.apiUrl +
-              '/api/localidad').map(res => res.json()).subscribe(data => {
+              "/api/localidad").map(res => res.json()).subscribe(data => {
                 for (let localidad of data) {
-                  db.query('INSERT INTO LOCALIDAD VALUES(' + localidad.id + ',' + localidad.nombreLocalidad + ',' + localidad.provincia + ')');
+                  this.storage.executeSql("INSERT INTO LOCALIDADES VALUES(" + localidad.id + ",'" + localidad.nombreLocalidad + "','" + localidad.provincia.nombreProvincia + "')", {});
                 }
                 this.http.get(this.globalVars.apiUrl +
-                  '/api/partidopolitico').map(res => res.json()).subscribe(data => {
+                  "/api/partidopolitico").map(res => res.json()).subscribe(data => {
                     for (let partido of data) {
-                      db.query('INSERT INTO PARTIDOPOLITICO VALUES (' + partido.numeroLista + ',' + partido.nombre + ',' + partido.provincia + ',' + partido.color + ')');
+                      this.storage.executeSql("INSERT INTO PARTIDOPOLITICOS VALUES (" + partido.numeroLista + ",'" + partido.nombre + "'," + partido.provincia.nombreProvincia + ",'" + partido.color + "')", {});
                     }
                     this.http.get(this.globalVars.apiUrl +
-                      '/api/candidato').map(res => res.json()).subscribe(data => {
+                      "/api/candidato").map(res => res.json()).subscribe(data => {
                         for (let candidato of data) {
-                          db.query('INSERT INTO CANDIDATO VALUES(' + candidato.id + ',' + candidato.cargo + ',' + candidato.urlFoto + ',' + candidato.nombre + ',' + candidato.apellido + ',' + candidato.nombreCompleto + ',' + candidato.localidad + ',' + candidato.partido + ',' + candidato.votos + ',' + ')');
+                          this.storage.executeSql("INSERT INTO CANDIDATOS VALUES(" + candidato.id + "," + candidato.cargo + ",'" + candidato.urlFoto + "','" + candidato.nombre + "','" + candidato.apellido + "','" + candidato.nombreCompleto + "'," + candidato.localidad.id + "," + candidato.partido.numeroLista + "," + candidato.votos + "," + ")", {});
                         }
                         this.http.get(this.globalVars.apiUrl +
-                          '/api/mesa').map(res => res.json()).subscribe(data => {
+                          "/api/mesa").map(res => res.json()).subscribe(data => {
                             for (let mesa of data) {
-                              db.query('INSERT INTO MESA VALUES (' + mesa.id + ',' + mesa.numero + ',' + mesa.circuito + ',' + mesa.localidad + ')');
+                              this.storage.executeSql("INSERT INTO MESAS VALUES (" + mesa.id + "," + mesa.numero + "," + mesa.circuito + "," + mesa.localidad.id + ")", {});
                             }
                             this.http.get(this.globalVars.apiUrl +
-                              '/api/recuento').map(res => res.json()).subscribe(data => {
+                              "/api/recuento").map(res => res.json()).subscribe(data => {
                                 for (let recuento of data) {
-                                  db.query('INSERT INTO RECUENTO VALUES (' + recuento.id + ',' + recuento.candidato + ',' + recuento.votos + ',' + recuento.mesa + ')');
+                                  this.storage.executeSql("INSERT INTO RECUENTOS VALUES (" + recuento.id + "," + recuento.candidato + "," + recuento.votos + "," + recuento.mesa + ")", {});
                                 }
+                                //this.http.get(this.globalVars.apiUrl +
+                                //  "/api/usuario").map(res => res.json()).subscribe(data => {
+                                //    for (let user of data) {
+                                //      this.storage.executeSql("INSERT INTO USUARIOS VALUES(" + user.id + "," + user.usuario + "," + user.contraseña + "," + user.nombreCompleto + "," + user.rol + ")", {});
+                                //    }
                                 this.http.get(this.globalVars.apiUrl +
-                                  '/api/usuario').map(res => res.json()).subscribe(data => {
-                                    for (let user of data) {
-                                      db.query('INSERT INTO USUARIO VALUES(' + user.id + ',' + user.usuario + ',' + user.contraseña + ',' + user.nombreCompleto + ',' + user.rol + ')');
+                                  "/api/telegrama").map(res => res.json()).subscribe(data => {
+                                    for (let telegrama of data) {
+                                      this.storage.executeSql("INSERT INTO TELEGRAMAS VALUES(" + telegrama.id + ",'" + telegrama.data + "', " + telegrama.mesa + ")", {});
                                     }
                                     this.http.get(this.globalVars.apiUrl +
-                                      '/api/telegrama').map(res => res.json()).subscribe(data => {
-                                        for (let telegrama of data) {
-                                          db.query('INSERT INTO TELEGRAMA VALUES(' + telegrama.id + ',' + telegrama.data + ',' + telegrama.mesa + ')');
+                                      "/api/fiscalizacion").map(res => res.json()).subscribe(data => {
+                                        for (let fiscal of data) {
+                                          this.storage.executeSql("INSERT INTO FISCALIZACIONES VALUES(" + fiscal.id + "," + fiscal.user + ", " + fiscal.mesa + ", " + fiscal.localidad + ")", {});
                                         }
-                                        this.http.get(this.globalVars.apiUrl +
-                                          '/api/fiscalizacion').map(res => res.json()).subscribe(data => {
-                                            for (let fiscal of data) {
-                                              db.query('INSERT INTO FISCALIZACION VALUES(' + fiscal.id + ',' + fiscal.user + ',' + fiscal.mesa + ',' + fiscal.localidad + ',' + ')');
-                                            }
-                                            // Guardo en el storage que ya me traje todo
-                                            storage.set('db_filled', true);
-                                          }, error => {
-                                            console.log(error);
-                                          });
+                                        // Guardo en el storage que ya me traje todo
+                                        storage.set("db_filled", true);
                                       }, error => {
                                         console.log(error);
                                       });
@@ -221,6 +297,9 @@ export class HomePage {
                   }, error => {
                     console.log(error);
                   });
+                //}, error => {
+                //  console.log(error);
+                //});
               }, error => {
                 console.log(error);
               });

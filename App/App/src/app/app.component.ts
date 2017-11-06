@@ -7,36 +7,27 @@ import { HomePage } from '../pages/home/home';
 
 
 @Component({
-    templateUrl: 'app.html'
+  templateUrl: 'app.html'
 })
 export class MyApp {
-    rootPage = HomePage;
+  rootPage = HomePage;
 
-    constructor(platform: Platform, public db: DatabaseProvider, public globalVars: GlobalVariables) {
-        platform.ready().then(() => {
+  constructor(platform: Platform, public db: DatabaseProvider, public globalVars: GlobalVariables) {
+    platform.ready().then(() => {
 
-            // Okay, so the platform is ready and our plugins are available.
-            // Here you can do any higher level native things you might need.
-            Splashscreen.hide();
-            StatusBar.styleDefault();
-            this.db.init();
+      // Okay, so the platform is ready and our plugins are available.
+      // Here you can do any higher level native things you might need.
+      Splashscreen.hide();
+      StatusBar.styleDefault();
+    });
+    let disconnectSub = Network.onDisconnect().subscribe(() => {
+      console.log('you are offline');
+      this.globalVars.isConnected = false;
+    });
 
-            this.db.query("CREATE TABLE IF NOT EXISTS requests (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, type TEXT, url TEXT, data TEXT, done INTEGER)")
-                .then(res => {
-                    console.log("Result: ", res);
-                })
-                .catch(err => {
-                    console.log("Error: ", err);
-                });
-        });
-        let disconnectSub = Network.onDisconnect().subscribe(() => {
-            console.log('you are offline');
-            this.globalVars.isConnected = false;
-        });
-
-        let connectSub = Network.onConnect().subscribe(() => {
-            console.log('you are online');
-            this.globalVars.isConnected = true;
-        });
-    }
+    let connectSub = Network.onConnect().subscribe(() => {
+      console.log('you are online');
+      this.globalVars.isConnected = true;
+    });
+  }
 }

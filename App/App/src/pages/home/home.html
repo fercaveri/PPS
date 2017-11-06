@@ -28,4 +28,24 @@
   <p> {{globalVars.ip}}</p>
   <p> {{globalVars.port}}</p>
   <p> Hay coneccion: {{globalVars.isConnected}}</p>
+  <button ion-button full color="orange" (click)="generar()">
+    <ion-icon name="gear-b" item-left></ion-icon>
+    GENERAME LA PUTA TABLA
+  </button>
+  <button ion-button full color="orange" (click)="insertar()">
+    <ion-icon name="gear-b" item-left></ion-icon>
+    INSERTAME LA BASURA
+  </button>
+  <button ion-button full color="orange" (click)="sendRequests()">
+    <ion-icon name="gear-b" item-left></ion-icon>
+    TRAE Y MANDA
+  </button>
+  <button ion-button full color="orange" (click)="generar()">
+    <ion-icon name="gear-b" item-left></ion-icon>
+    BORRAR TABLIX
+  </button>
+  <button ion-button full color="orange" (click)="mirarCounts()">
+    <ion-icon name="gear-b" item-left></ion-icon>
+    MIRAR COUNTS
+  </button>
 </ion-content>
