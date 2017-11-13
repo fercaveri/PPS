@@ -8,7 +8,7 @@ import { ConfigPage } from '../configpage/configpage';
 import { DatabaseProvider } from '../../providers/database-provider';
 import { config } from '../../config';
 import { Usuario, Fiscal } from '../../model';
-import { SQLite } from "ionic-native/dist/es5";
+import { SQLite } from "ionic-native";
 
 @Component({
   selector: 'page-home',
@@ -30,57 +30,60 @@ export class HomePage {
     this.storage = storage;
     // Send requests from db
     if (this.globalVars.isConnected) {
-      this.database = new SQLite();
-      this.database.openDatabase({
-        name: 'PPS',
-        location: 'default'
-      }).then(() => {
-        storage.get('ip').then((val) => {
-          this.globalVars.ip = val;
-          storage.get('port').then((val) => {
-            this.globalVars.port = val;
-            this.globalVars.apiUrl = "http://" + this.globalVars.ip + ":" + this.globalVars.port;
-            this.importDb(storage);
+      if (true) {
+        console.log("IS CONECTED: " + this.globalVars.isConnected);
+        this.database = new SQLite();
+        this.database.openDatabase({
+          name: 'PPS',
+          location: 'default'
+        }).then(() => {
+          storage.get('ip').then((val) => {
+            this.globalVars.ip = val;
+            storage.get('port').then((val) => {
+              this.globalVars.port = val;
+              this.globalVars.apiUrl = "http://" + this.globalVars.ip + ":" + this.globalVars.port;
+              this.crearTablas(0);
+              this.importDb(storage);
+            })
           })
-        })
-        this.database.executeSql("SELECT * FROM requests WHERE done = 0", {}).then((resp) => {
-          if (resp.res.rows.length > 0) {
-            for (var i = 0; i < resp.res.rows.length; i++) {
-              let item = resp.res.rows.item(i);
-              this.http.request(item['url'], new Headers({ method: item['type'], body: item['data'] })).subscribe(res => {
-                this.database.executeSql("UPDATE requests SET done = 1 WHERE id = ?", item['id']);
-              });
+          this.database.executeSql("SELECT * FROM requests WHERE done = 0", {}).then((resp) => {
+            if (resp.res.rows.length > 0) {
+              for (var i = 0; i < resp.res.rows.length; i++) {
+                let item = resp.res.rows.item(i);
+                this.http.request(item['url'], new Headers({ method: item['type'], body: item['data'] })).subscribe(res => {
+                  console.log(res);
+                  this.database.executeSql("UPDATE requests SET done = 1 WHERE id = ?", item['id']);
+                });
+              }
             }
+          })
+        });
+        //Chequear si ya hizo login
+        storage.get('login').then((val) => {
+          if (val == true) {
+            storage.get('user').then((val) => {
+              if (val == 0) {
+                this.usuario == val;
+                storage.get('mesaId').then((val) => {
+                  if (val == null) {
+                    storage.get('localidad').then((val) => { this.nombreLocalidad = val });
+                    storage.get('idLocalidad').then((val) => { this.idLocalidad = val });
+                  } else {
+                    storage.get('localidad').then((val) => { this.nombreLocalidad = val });
+                    storage.get('mesa').then((val) => { this.numeroMesa = val });
+                    storage.get('mesaId').then((val) => { this.mesa = val });
+                  }
+                });
+                this.navToMain();
+              }
+              else if (val == 1 || val == 2) {
+                this.usuario == val;
+                this.navToMain();
+              }
+            });
           }
-        })
-      });
-      //Chequear si ya hizo login
-      storage.get('login').then((val) => {
-        console.log(val);
-        if (val == true) {
-          storage.get('user').then((val) => {
-            console.log(val);
-            if (val == 0) {
-              this.usuario == val;
-              storage.get('mesaId').then((val) => {
-                if (val == null) {
-                  storage.get('localidad').then((val) => { this.nombreLocalidad = val });
-                  storage.get('idLocalidad').then((val) => { this.idLocalidad = val });
-                } else {
-                  storage.get('localidad').then((val) => { this.nombreLocalidad = val });
-                  storage.get('mesa').then((val) => { this.numeroMesa = val });
-                  storage.get('mesaId').then((val) => { this.mesa = val });
-                }
-              });
-              this.navToMain();
-            }
-            else if (val == 1 || val == 2) {
-              this.usuario == val;
-              this.navToMain();
-            }
-          });
-        }
-      });
+        });
+      }
     }
   }
 
@@ -249,6 +252,8 @@ export class HomePage {
     }
   }
   login() {
+    console.log(this.globalVars.apiUrl +
+      '/api/usuario?usuario=')
     this.http.get(this.globalVars.apiUrl +
       '/api/usuario?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
         this.usuario = data;
@@ -268,84 +273,125 @@ export class HomePage {
   }
 
   importDb(storage: Storage) {
-    storage.get('db_filled').then((filled) => {
-      // Si no se crearon ya antes y hay coneccion
-      if (true || (!filled && this.globalVars.isConnected)) {
+    storage.get('provincias_cached').then((filled) => {
+      if (filled) {
         this.http.get(this.globalVars.apiUrl +
           '/api/provincia').map(res => res.json()).subscribe(data => {
             for (let provincia of data) {
               this.database.executeSql("INSERT INTO PROVINCIAS VALUES('" + provincia.nombreProvincia + "')", {});
             }
-            this.http.get(this.globalVars.apiUrl +
-              "/api/localidad").map(res => res.json()).subscribe(data => {
-                for (let localidad of data) {
-                  this.database.executeSql("INSERT INTO LOCALIDADES VALUES(" + localidad.id + ",'" + localidad.nombreLocalidad + "','" + localidad.provincia.nombreProvincia + "')", {});
-                }
-                this.http.get(this.globalVars.apiUrl +
-                  "/api/partidopolitico").map(res => res.json()).subscribe(data => {
-                    for (let partido of data) {
-                      this.database.executeSql("INSERT INTO PARTIDOPOLITICOS VALUES (" + partido.numeroLista + ",'" + partido.nombre + "'," + partido.provincia.nombreProvincia + ",'" + partido.color + "')", {});
-                    }
-                    this.http.get(this.globalVars.apiUrl +
-                      "/api/candidato").map(res => res.json()).subscribe(data => {
-                        for (let candidato of data) {
-                          this.database.executeSql("INSERT INTO CANDIDATOS VALUES(" + candidato.id + "," + candidato.cargo + ",'" + candidato.urlFoto + "','" + candidato.nombre + "','" + candidato.apellido + "','" + candidato.nombreCompleto + "'," + candidato.localidad.id + "," + candidato.partido.numeroLista + "," + candidato.votos + "," + ")", {});
-                        }
-                        this.http.get(this.globalVars.apiUrl +
-                          "/api/mesa").map(res => res.json()).subscribe(data => {
-                            for (let mesa of data) {
-                              this.database.executeSql("INSERT INTO MESAS VALUES (" + mesa.id + "," + mesa.numero + "," + mesa.circuito + "," + mesa.localidad.id + ")", {});
-                            }
-                            this.http.get(this.globalVars.apiUrl +
-                              "/api/recuento").map(res => res.json()).subscribe(data => {
-                                for (let recuento of data) {
-                                  this.database.executeSql("INSERT INTO RECUENTOS VALUES (" + recuento.id + "," + recuento.candidato + "," + recuento.votos + "," + recuento.mesa + ")", {});
-                                }
-                                //this.http.get(this.globalVars.apiUrl +
-                                //  "/api/usuario").map(res => res.json()).subscribe(data => {
-                                //    for (let user of data) {
-                                //      this.storage.executeSql("INSERT INTO USUARIOS VALUES(" + user.id + "," + user.usuario + "," + user.contraseña + "," + user.nombreCompleto + "," + user.rol + ")", {});
-                                //    }
-                                this.http.get(this.globalVars.apiUrl +
-                                  "/api/telegrama").map(res => res.json()).subscribe(data => {
-                                    for (let telegrama of data) {
-                                      this.database.executeSql("INSERT INTO TELEGRAMAS VALUES(" + telegrama.id + ",'" + telegrama.data + "', " + telegrama.mesa + ")", {});
-                                    }
-                                    this.http.get(this.globalVars.apiUrl +
-                                      "/api/fiscalizacion").map(res => res.json()).subscribe(data => {
-                                        for (let fiscal of data) {
-                                          this.database.executeSql("INSERT INTO FISCALIZACIONES VALUES(" + fiscal.id + "," + fiscal.user + ", " + fiscal.mesa + ", " + fiscal.localidad + ")", {});
-                                        }
-                                        // Guardo en el storage que ya me traje todo
-                                        storage.set("db_filled", true);
-                                      }, error => {
-                                        console.log(error);
-                                      });
-                                  }, error => {
-                                    console.log(error);
-                                  });
-                              }, error => {
-                                console.log(error);
-                              });
-                          }, error => {
-                            console.log(error);
-                          });
-                      }, error => {
-                        console.log(error);
-                      });
-                  }, error => {
-                    console.log(error);
-                  });
-                //}, error => {
-                //  console.log(error);
-                //});
-              }, error => {
-                console.log(error);
-              });
+            storage.set("provincias_cached", true);
           }, error => {
             console.log(error);
           });
       }
     })
+
+    storage.get('localidades_cached').then((filled) => {
+      if (filled) {
+        this.http.get(this.globalVars.apiUrl +
+          "/api/localidad").map(res => res.json()).subscribe(data => {
+            for (let localidad of data) {
+              this.database.executeSql("INSERT INTO LOCALIDADES VALUES(" + localidad.id + ",'" + localidad.nombreLocalidad + "','" + localidad.provincia.nombreProvincia + "')", {});
+            }
+            storage.set("localidades_cached", true);
+          }, error => {
+            console.log(error);
+          });
+      }
+    })
+
+    storage.get('partidos_cached').then((filled) => {
+      if (filled) {
+        this.http.get(this.globalVars.apiUrl +
+          "/api/partidopolitico").map(res => res.json()).subscribe(data => {
+            for (let partido of data) {
+              this.database.executeSql("INSERT INTO PARTIDOPOLITICOS VALUES (" + partido.numeroLista + ",'" + partido.nombre + "'," + partido.provincia.nombreProvincia + ",'" + partido.color + "')", {});
+            }
+            storage.set("partidos_cached", true);
+          }, error => {
+            console.log(error);
+          });
+      }
+    })
+
+    storage.get('candidatos_cached').then((filled) => {
+      if (filled) {
+        this.http.get(this.globalVars.apiUrl +
+          "/api/candidato").map(res => res.json()).subscribe(data => {
+            for (let candidato of data) {
+              this.database.executeSql("INSERT INTO CANDIDATOS VALUES(" + candidato.id + "," + candidato.cargo + ",'" + candidato.urlFoto + "','" + candidato.nombre + "','" + candidato.apellido + "','" + candidato.nombreCompleto + "'," + candidato.localidad.id + "," + candidato.partido.numeroLista + "," + candidato.votos + "," + ")", {});
+            }
+            storage.set("candidatos_cached", true);
+          }, error => {
+            console.log(error);
+          });
+      }
+    })
+
+    storage.get('mesas_cached').then((filled) => {
+      if (filled) {
+        this.http.get(this.globalVars.apiUrl +
+          "/api/mesa").map(res => res.json()).subscribe(data => {
+            for (let mesa of data) {
+              this.database.executeSql("INSERT INTO MESAS VALUES (" + mesa.id + "," + mesa.numero + "," + mesa.circuito + "," + mesa.localidad.id + ")", {});
+            }
+            storage.set("mesas_cached", true);
+          }, error => {
+            console.log(error);
+          });
+      }
+    })
+
+    storage.get('recuentos_cached').then((filled) => {
+      if (filled) {
+        this.http.get(this.globalVars.apiUrl +
+          "/api/recuento").map(res => res.json()).subscribe(data => {
+            for (let recuento of data) {
+              this.database.executeSql("INSERT INTO RECUENTOS VALUES (" + recuento.id + "," + recuento.candidato + "," + recuento.votos + "," + recuento.mesa + ")", {});
+            }
+            storage.set("recuentos_cached", true);
+          }, error => {
+            console.log(error);
+          });
+      }
+    })
+
+    storage.get('telegramas_cached').then((filled) => {
+      if (filled) {
+        this.http.get(this.globalVars.apiUrl +
+          "/api/telegrama").map(res => res.json()).subscribe(data => {
+            for (let telegrama of data) {
+              this.database.executeSql("INSERT INTO TELEGRAMAS VALUES(" + telegrama.id + ",'" + telegrama.data + "', " + telegrama.mesa + ")", {});
+            }
+            storage.set("telegramas_cached", true);
+          }, error => {
+            console.log(error);
+          });
+      }
+    })
+
+    storage.get('fiscalizaciones_cached').then((filled) => {
+      if (filled) {
+        this.http.get(this.globalVars.apiUrl +
+          "/api/fiscalizacion").map(res => res.json()).subscribe(data => {
+            for (let fiscal of data) {
+              this.database.executeSql("INSERT INTO FISCALIZACIONES VALUES(" + fiscal.id + "," + fiscal.user + ", " + fiscal.mesa + ", " + fiscal.localidad + ")", {});
+            }
+            storage.set("fiscalizaciones_cached", true);
+          }, error => {
+            console.log(error);
+          });
+      }
+    })
+    //this.http.get(this.globalVars.apiUrl +
+    //  "/api/usuario").map(res => res.json()).subscribe(data => {
+    //    for (let user of data) {
+    //      this.storage.executeSql("INSERT INTO USUARIOS VALUES(" + user.id + "," + user.usuario + "," + user.contraseña + "," + user.nombreCompleto + "," + user.rol + ")", {});
+    //    }
+
+    //}, error => {
+    //  console.log(error);
+    //});
   }
 }
