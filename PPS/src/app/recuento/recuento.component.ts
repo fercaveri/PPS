@@ -31,6 +31,8 @@ export class RecuentoComponent implements OnInit {
     seleccionoModo: boolean = false;
     modo: String = "";
 
+    votosPredecidos: number[] = [69,65,89,120];
+    predije: boolean = false;
     mostrarForm(modo: String) {
         this.modo = modo;
         console.log(this.modo);
@@ -200,5 +202,16 @@ export class RecuentoComponent implements OnInit {
             this.messageRecuento = 'Resultados de votacion sobre ' + this.cargos[this.cargo] + ' en la mesa ' + numeroMesa + ' de la localidad  ' + this.localidad;
             return '/api/recuento/todosporunamesa?mesa=' + this.mesa + '&localidadID=' + this.localidadID + '&'
         }
+    }
+
+    predecir() {
+      console.log(this.mesa);
+      console.log(this.localidadID);
+      console.log(this.cargo);
+      this.predije = true;
+      this._httpService.get('/api/recuento/predecirMesa?idMesa=' + this.mesa + '&idLocalidad=' + this.localidadID + '&cargo=' + this.cargo).subscribe(values => {
+        this.votosPredecidos = values.json();
+      });
+
     }
 }
