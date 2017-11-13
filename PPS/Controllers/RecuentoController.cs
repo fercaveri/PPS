@@ -262,6 +262,38 @@ namespace PPS.Controllers
       }
       return new HttpResponseMessage(HttpStatusCode.NotFound);
     }
+
+    //api/recuento/predecirMesa?idMesa=X
+    [HttpGet]
+    [Route("predecirMesa")]
+    public IEnumerable<int> PredecirMesa(int idMesa, int idLocalidad, int cargo)
+    {
+      var partidos = _db.Partidos.ToList();
+      List<int> votosPredecidos = new List<int>();
+      foreach(PartidoPolitico p in partidos)
+      {
+        votosPredecidos.Add(predecir(p,idMesa,idLocalidad, cargo));
+      }
+      return votosPredecidos;
+    }
+
+    private int predecir(PartidoPolitico p , int idMesa, int idLocalidad, int cargo)
+    {
+      List<int> porcentajes = new List<int>();
+      List<Mesa> mesas = _db.Mesas.Select(x => new Mesa(x.id, x.numero, x.localidad)).Where(x => x.localidad.id == idLocalidad && x.id!=idMesa).ToList();
+      foreach(Mesa m in mesas){
+        var votos = this.getVotosMesa(m.id, cargo, p.nombre);
+        porcentajes.Add(votos);
+      }
+      var suma = 0;
+      foreach(int i in porcentajes)
+      {
+        suma += i;
+      }
+      var prediccion = suma / porcentajes.Count();
+      return prediccion;
+    }
+
     private Cargo getCargo(int cargo)
     {
       Cargo c;
