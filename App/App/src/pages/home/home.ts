@@ -28,6 +28,7 @@ export class HomePage {
 
   constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, storage: Storage, public db: DatabaseProvider, public globalVars: GlobalVariables) {
     this.storage = storage;
+    // this.storage.clear();
     // Send requests from db
     if (this.globalVars.isConnected) {
       if (true) {
@@ -62,22 +63,33 @@ export class HomePage {
         storage.get('login').then((val) => {
           if (val == true) {
             storage.get('user').then((val) => {
+              this.usuario = val;
+              console.log(val);
               if (val == 0) {
-                this.usuario == val;
                 storage.get('mesaId').then((val) => {
                   if (val == null) {
-                    storage.get('localidad').then((val) => { this.nombreLocalidad = val });
-                    storage.get('idLocalidad').then((val) => { this.idLocalidad = val });
+                    storage.get('localidad').then((val) => {
+                      this.nombreLocalidad = val;
+                      storage.get('idLocalidad').then((val) => {
+                        this.idLocalidad = val;
+                        this.navToMain();
+                      });
+                    });
                   } else {
-                    storage.get('localidad').then((val) => { this.nombreLocalidad = val });
-                    storage.get('mesa').then((val) => { this.numeroMesa = val });
-                    storage.get('mesaId').then((val) => { this.mesa = val });
+                    storage.get('localidad').then((val) => {
+                      this.nombreLocalidad = val;
+                      storage.get('mesa').then((val) => {
+                        this.numeroMesa = val;
+                        storage.get('mesaId').then((val) => {
+                          this.mesa = val;
+                          this.navToMain();
+                        });
+                      });
+                    });
                   }
                 });
-                this.navToMain();
               }
               else if (val == 1 || val == 2) {
-                this.usuario == val;
                 this.navToMain();
               }
             });
@@ -141,7 +153,6 @@ export class HomePage {
   crearTablas(index: number) {
     this.database.executeSql(this.globalVars.tables[index], {}).then((res) => {
       index++;
-      console.log("LA PUTA TABLA SE CREO");
       console.log(res);
       if (index < this.globalVars.tables.length) {
         this.crearTablas(index);
@@ -175,13 +186,9 @@ export class HomePage {
     } else if (role == 0) {
       this.http.get(this.globalVars.apiUrl +
         '/api/fiscalizacion?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
-          console.log(data.mesa);
-          console.log(data.localidad);
           if (data.mesa == null) {
             this.nombreLocalidad = data.localidad.nombreLocalidad;
             this.idLocalidad = data.localidad.id;
-            console.log('nombreLocalidad' + this.nombreLocalidad);
-            console.log('id localidad' + data.localidad.id);
             this.storage.set('user', role);
             this.storage.set('localidad', this.nombreLocalidad);
             this.storage.set('idLocalidad', this.idLocalidad);
@@ -212,8 +219,9 @@ export class HomePage {
               '/api/fiscalizacion/getLocMesa?id=' + this.mesa).map(res => res.text()).subscribe(data => {
                 this.nombreLocalidad = data;
                 console.log('localidadname:' + this.nombreLocalidad);
+                this.storage.set('localidad', this.nombreLocalidad);
               });
-            this.storage.set('localidad', this.nombreLocalidad);
+
             alert = this.alertCtrl.create({
               title: 'Login exitoso',
               subTitle: 'Tiene asignada la mesa: ' + this.numeroMesa,
@@ -285,6 +293,9 @@ export class HomePage {
             console.log(error);
           });
       }
+      else {
+        console.log("PROVINCIAS CARGADAS");
+      }
     })
 
     storage.get('localidades_cached').then((filled) => {
@@ -298,6 +309,9 @@ export class HomePage {
           }, error => {
             console.log(error);
           });
+      }
+      else {
+        console.log("LOCALIDADES CARGADAS");
       }
     })
 
@@ -313,6 +327,9 @@ export class HomePage {
             console.log(error);
           });
       }
+      else {
+        console.log("PARTIDOS CARGADAS");
+      }
     })
 
     storage.get('candidatos_cached').then((filled) => {
@@ -326,6 +343,9 @@ export class HomePage {
           }, error => {
             console.log(error);
           });
+      }
+      else {
+        console.log("CANDIDATOS CARGADAS");
       }
     })
 
@@ -341,6 +361,9 @@ export class HomePage {
             console.log(error);
           });
       }
+      else {
+        console.log("MESAS CARGADAS");
+      }
     })
 
     storage.get('recuentos_cached').then((filled) => {
@@ -354,6 +377,9 @@ export class HomePage {
           }, error => {
             console.log(error);
           });
+      }
+      else {
+        console.log("RECUENTOS CARGADAS");
       }
     })
 
@@ -369,12 +395,15 @@ export class HomePage {
             console.log(error);
           });
       }
+      else {
+        console.log("TELEGRAMAS CARGADAS");
+      }
     })
 
     storage.get('fiscalizaciones_cached').then((filled) => {
       if (filled) {
         this.http.get(this.globalVars.apiUrl +
-          "/api/fiscalizacion").map(res => res.json()).subscribe(data => {
+          "/api/fiscalizacion/getall").map(res => res.json()).subscribe(data => {
             for (let fiscal of data) {
               this.database.executeSql("INSERT INTO FISCALIZACIONES VALUES(" + fiscal.id + "," + fiscal.user + ", " + fiscal.mesa + ", " + fiscal.localidad + ")", {});
             }
@@ -382,6 +411,9 @@ export class HomePage {
           }, error => {
             console.log(error);
           });
+      }
+      else {
+        console.log("FISCALIZACIONES CARGADAS");
       }
     })
     //this.http.get(this.globalVars.apiUrl +
