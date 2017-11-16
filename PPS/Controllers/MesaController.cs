@@ -40,6 +40,33 @@ namespace PPS.Controllers
       return Mesas;
     }
 
+    // GET api/mesa/votantes?localidad
+    [HttpGet]
+    [Route("cantidad")]
+    public int CantidadMesas(int idLocalidad)
+    {
+      var cantidadMesas = _db.Mesas.Select(x => new Mesa(x.id, x.numero, x.localidad))
+                          .Where(x => x.localidad.id == idLocalidad).Count();
+      return cantidadMesas;
+    }
+
+    // GET api/mesa/votantes?localidad
+    [HttpGet]
+    [Route("cantidadProvincia")]
+    public int CantidadProvincia(String idProvincia)
+    {
+      var cantidadMesas = _db.Mesas.Where(x => x.localidad.provincia.nombreProvincia == idProvincia).Count();
+      return cantidadMesas;
+    }
+
+    [HttpGet]
+    [Route("cantidadPais")]
+    public int CantidadPais()
+    {
+      var cantidadMesas = _db.Mesas.Select(x => new Mesa(x.id, x.numero, x.localidad)).Count();
+      return cantidadMesas;
+    }
+
     [HttpPost]
     public HttpResponseMessage Post([FromBody] MesaWEB obj)
     {

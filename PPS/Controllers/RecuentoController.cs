@@ -272,7 +272,7 @@ namespace PPS.Controllers
       List<int> votosPredecidos = new List<int>();
       foreach(PartidoPolitico p in partidos)
       {
-        votosPredecidos.Add(predecir(p,idMesa,idLocalidad, cargo));
+        votosPredecidos.Add(predecirMesa(p,idMesa,idLocalidad, cargo));
       }
       List<int> porcentajes = new List<int>();
       int totalVotos=0;
@@ -288,7 +288,81 @@ namespace PPS.Controllers
       return porcentajes;
     }
 
-    private int predecir(PartidoPolitico p , int idMesa, int idLocalidad, int cargo)
+    //api/recuento/predecirLocalidad?idLocalidad=X
+    [HttpGet]
+    [Route("predecirLocalidad")]
+    public IEnumerable<int> PredecirLocalidad(int idLocalidad, int cargo)
+    {
+      var partidos = _db.Partidos.ToList();
+      List<int> votosPredecidos = new List<int>();
+      foreach (PartidoPolitico p in partidos)
+      {
+        votosPredecidos.Add(predecirLocalidad(p, idLocalidad, cargo));
+      }
+      List<int> porcentajes = new List<int>();
+      int totalVotos = 0;
+      foreach (int i in votosPredecidos)
+      {
+        totalVotos += i;
+      }
+      Console.WriteLine("Votos totales:" + totalVotos);
+      foreach (int i in votosPredecidos)
+      {
+        porcentajes.Add(i * 100 / totalVotos);
+      }
+      return porcentajes;
+    }
+
+    //api/recuento/predecirLocalidad?idLocalidad=X
+    [HttpGet]
+    [Route("predecirProvincia")]
+    public IEnumerable<int> PredecirProvincia(String idProvincia, int cargo)
+    {
+      var partidos = _db.Partidos.ToList();
+      List<int> votosPredecidos = new List<int>();
+      foreach (PartidoPolitico p in partidos)
+      {
+        votosPredecidos.Add(predecirProvincia(p, idProvincia, cargo));
+      }
+      List<int> porcentajes = new List<int>();
+      int totalVotos = 0;
+      foreach (int i in votosPredecidos)
+      {
+        totalVotos += i;
+      }
+      Console.WriteLine("Votos totales:" + totalVotos);
+      foreach (int i in votosPredecidos)
+      {
+        porcentajes.Add(i * 100 / totalVotos);
+      }
+      return porcentajes;
+    }
+
+    [HttpGet]
+    [Route("predecirPais")]
+    public IEnumerable<int> PredecirPais(int cargo)
+    {
+      var partidos = _db.Partidos.ToList();
+      List<int> votosPredecidos = new List<int>();
+      foreach (PartidoPolitico p in partidos)
+      {
+        votosPredecidos.Add(predecirPais(p, cargo));
+      }
+      List<int> porcentajes = new List<int>();
+      int totalVotos = 0;
+      foreach (int i in votosPredecidos)
+      {
+        totalVotos += i;
+      }
+      Console.WriteLine("Votos totales:" + totalVotos);
+      foreach (int i in votosPredecidos)
+      {
+        porcentajes.Add(i * 100 / totalVotos);
+      }
+      return porcentajes;
+    }
+
+    private int predecirMesa(PartidoPolitico p , int idMesa, int idLocalidad, int cargo)
     {
       List<int> porcentajes = new List<int>();
       List<Mesa> mesas = _db.Mesas.Select(x => new Mesa(x.id, x.numero, x.localidad)).Where(x => x.localidad.id == idLocalidad && x.id!=idMesa).ToList();
@@ -299,6 +373,63 @@ namespace PPS.Controllers
       }
       var suma = 0;
       foreach(int i in porcentajes)
+      {
+        suma += i;
+      }
+      var prediccion = suma / porcentajes.Count();
+      return prediccion;
+    }
+
+    private int predecirLocalidad(PartidoPolitico p, int idLocalidad, int cargo)
+    {
+      List<int> porcentajes = new List<int>();
+      List<Mesa> mesas = _db.Mesas.Select(x => new Mesa(x.id, x.numero, x.localidad)).Where(x => x.localidad.id == idLocalidad ).ToList();
+      foreach (Mesa m in mesas)
+      {
+        var votosMesa = this.predecirMesa(p, m.id, idLocalidad, cargo);
+
+        porcentajes.Add(votosMesa);
+      }
+      var suma = 0;
+      foreach (int i in porcentajes)
+      {
+        suma += i;
+      }
+      var prediccion = suma / porcentajes.Count();
+      return prediccion;
+    }
+
+    private int predecirProvincia(PartidoPolitico p, String idProvincia, int cargo)
+    {
+      List<int> porcentajes = new List<int>();
+      List<Mesa> mesas = _db.Mesas.Where(x => x.localidad.provincia.nombreProvincia == idProvincia).Include(x => x.localidad).ToList();
+      foreach (Mesa m in mesas)
+      {
+        var votosMesa = this.predecirMesa(p, m.id, m.localidad.id, cargo);
+
+        porcentajes.Add(votosMesa);
+      }
+      var suma = 0;
+      foreach (int i in porcentajes)
+      {
+        suma += i;
+      }
+      var prediccion = suma / porcentajes.Count();
+      return prediccion;
+    }
+
+    private int predecirPais(PartidoPolitico p, int cargo)
+    {
+      List<int> porcentajes = new List<int>();
+      List<Mesa> mesas = _db.Mesas.Include(x => x.localidad).ToList();
+      foreach (Mesa m in mesas)
+      {
+        var votosMesa = this.predecirMesa(p, m.id, m.localidad.id, cargo);
+
+        porcentajes.Add(votosMesa);
+      }
+      var suma = 0;
+      foreach (int i in porcentajes)
       {
         suma += i;
       }

@@ -30,10 +30,14 @@ export class RecuentoComponent implements OnInit {
 
     seleccionoModo: boolean = false;
     modo: String = "";
-    pocosVotos : boolean = false;
+    pocosVotos: boolean = false;
+    cantVotos: number = 0;
+    mesasTotales: number = 0;
+    escrute: boolean = false;
 
-    votosPredecidos: number[] = [69,65,89,120];
+    votosPredecidos: number[] = [0,0,0,0];
     predije: boolean = false;
+    votantes: number = 0;
     mostrarForm(modo: String) {
         this.modo = modo;
         console.log(this.modo);
@@ -110,6 +114,9 @@ export class RecuentoComponent implements OnInit {
     }
 
     seleccionarProv(prov) {
+        this.cantVotos = 0;
+        this.mesasTotales = 0;
+        this.votantes = 0;
         this.provinciaSeleccionada = prov;
         let votosPorPartido = [];
         for (let i = 0; i < this.provincias.length; i++) {
@@ -138,52 +145,96 @@ export class RecuentoComponent implements OnInit {
         console.log(prov);
         console.log(this.pieChartData);
         this.messageRecuento = 'Resultados de votacion sobre ' + this.cargos[this.cargo] + ' en la provincia de ' + prov;
+        for (let i of this.pieChartData) {
+          this.cantVotos += i;
+        }
+        console.log("cantidad votos:" + this.cantVotos);
+        this._httpService.get('/api/mesa/cantidadProvincia?idProvincia=' + prov).subscribe(values => {
+          this.mesasTotales = values.json();
+          console.log('cantidadMesas:' + this.mesasTotales);
+          console.log('cantidadVotantesTotales:' + this.mesasTotales * 350);
+          this.votantes = this.cantVotos * 100 / (this.mesasTotales * 350);
+          console.log('porcentaje:' + this.votantes);
+          this.escrute = true;
+        });
     }
 
     mostrarDatos() {
         this.data = "";
+        this.cantVotos = 0;
+        this.mesasTotales = 0;
+        this.votantes = 0;
         var request = this.getRequest();
         this._httpService.get(request + 'cargo=' + this.cargo).subscribe(values => {
-            if (this.modo != 'provincia') {
-                let body = JSON.parse(values.text("legacy"));
-                this.pieChartData = new Array;
-                for (var i = 0; i < body.length; i++) {
-                    this.pieChartData[this.pieChartIds.indexOf(body[i].id)] = body[i].votos;
-                }
-                var flag = false;
-                for (let i of this.pieChartData) {
-                    if (i > 0) {
-                        flag = true;
-                    }
-                }
-                if (flag == false) {
-                    this.noHayData = true;
-                    this.llegoData = false;
-                }
-                else {
-                    this.llegoData = true;
-                    this.noHayData = false;
-                }
+          if (this.modo != 'provincia') {
+            let body = JSON.parse(values.text("legacy"));
+            this.pieChartData = new Array;
+            for (var i = 0; i < body.length; i++) {
+              this.pieChartData[this.pieChartIds.indexOf(body[i].id)] = body[i].votos;
             }
-            else if (this.modo == 'provincia') {
-                this.votosPorProvincia = JSON.parse(values.text("legacy"));
-                this.llegoData = true;
-                for (let i = 0; i < this.votosPorProvincia.length; i++) {
-                    let htmlID = 'map-' + this.votosPorProvincia[i]['provincia'].toLowerCase().replace(/ /g, "-");
-                    if (htmlID == 'map-nacional') continue;
-                    let elem = document.getElementById(htmlID);
-                    let partidos = this.votosPorProvincia[i]['partidos'];
-                    let color = "";
-                    let higher = 0;
-                    for (let j = 0; j < partidos.length; j++) {
-                        if (higher < partidos[j]['votos']) {
-                            higher = partidos[j]['votos'];
-                            color = this.partidoColors[this.pieChartIds.indexOf(partidos[j]['id'])];
-                        }
-                    }
-                    elem.setAttribute('fill', color);
-                }
+            var flag = false;
+            for (let i of this.pieChartData) {
+              if (i > 0) {
+                flag = true;
+              }
             }
+            if (flag == false) {
+              this.noHayData = true;
+              this.llegoData = false;
+            }
+            else {
+              this.llegoData = true;
+              this.noHayData = false;
+            }
+          }
+          else if (this.modo == 'provincia') {
+            this.votosPorProvincia = JSON.parse(values.text("legacy"));
+            this.llegoData = true;
+            for (let i = 0; i < this.votosPorProvincia.length; i++) {
+              let htmlID = 'map-' + this.votosPorProvincia[i]['provincia'].toLowerCase().replace(/ /g, "-");
+              if (htmlID == 'map-nacional') continue;
+              let elem = document.getElementById(htmlID);
+              let partidos = this.votosPorProvincia[i]['partidos'];
+              let color = "";
+              let higher = 0;
+              for (let j = 0; j < partidos.length; j++) {
+                if (higher < partidos[j]['votos']) {
+                  higher = partidos[j]['votos'];
+                  color = this.partidoColors[this.pieChartIds.indexOf(partidos[j]['id'])];
+                }
+              }
+              elem.setAttribute('fill', color);
+            }
+          }
+          for (let i of this.pieChartData) {
+            this.cantVotos += i;
+          }
+          console.log("cantidad votos:" + this.cantVotos);
+          if (this.modo == 'pais') {
+            this._httpService.get('/api/mesa/cantidadPais').subscribe(values => {
+              this.mesasTotales = values.json();
+              console.log('cantidadMesas:' + this.mesasTotales);
+              console.log('cantidadVotantesTotales:' + this.mesasTotales * 350);
+              this.votantes = this.cantVotos * 100 / (this.mesasTotales * 350);
+              this.escrute = true;
+            });}
+          if (this.modo == 'localidad') {
+            this._httpService.get('/api/mesa/cantidad?idLocalidad=' + this.localidadID).subscribe(values => {
+              this.mesasTotales = values.json();
+              console.log('cantidadMesas:' + this.mesasTotales);
+              console.log('cantidadVotantesTotales:' + this.mesasTotales * 350);
+              this.votantes = this.cantVotos * 100 / (this.mesasTotales * 350);
+              this.escrute = true;
+            });}
+          else {
+            if (this.cantVotos > 350) {
+              this.votantes = 100;
+            }
+            else {
+              this.votantes = this.cantVotos * 100 / 350;
+            }
+            this.escrute = true;
+          }
         });
     }
     getRequest(): String {
@@ -212,25 +263,57 @@ export class RecuentoComponent implements OnInit {
       console.log(this.mesa);
       console.log(this.localidadID);
       console.log(this.cargo);
-      var cantVotos = 0;
-      for (let i of this.pieChartData) {
-        cantVotos += i;
-      }
-      console.log("cantidad votos:" + cantVotos);
-      if (cantVotos < 120) {
+      this.votosPredecidos = [0,0,0,0];
+      if (this.modo == 'pais') {
+        console.log("cantidad votos:" + this.cantVotos);
         this.predije = true;
         this.pocosVotos = false;
-        this._httpService.get('/api/recuento/predecirMesa?idMesa=' + this.mesa + '&idLocalidad=' + this.localidadID + '&cargo=' + this.cargo).subscribe(values => {
+        this._httpService.get('/api/recuento/predecirPais?cargo=' + this.cargo).subscribe(values => {
           this.votosPredecidos = values.json();
           for (var i = 0; i < this.votosPredecidos.length; i++) {
-            var porcentajeActual = (this.pieChartData[i] * 100 / cantVotos);
+            var porcentajeActual = (this.pieChartData[i] * 100 / this.cantVotos);
+            this.votosPredecidos[i] = (this.votosPredecidos[i] + porcentajeActual as number) / 2;
+          }
+        });
+      } else if (this.modo == 'provincia') {
+        console.log("cantidad votos:" + this.cantVotos);
+        this.predije = true;
+        this.pocosVotos = false;
+        this._httpService.get('/api/recuento/predecirProvincia?idProvincia=' + this.provinciaSeleccionada + '&cargo=' + this.cargo).subscribe(values => {
+          this.votosPredecidos = values.json();
+          for (var i = 0; i < this.votosPredecidos.length; i++) {
+            var porcentajeActual = (this.pieChartData[i] * 100 / this.cantVotos);
+            this.votosPredecidos[i] = (this.votosPredecidos[i] + porcentajeActual as number) / 2;
+          }
+        });
+      } else if (this.modo == 'localidad') {
+        console.log("cantidad votos:" + this.cantVotos);
+        this.predije = true;
+        this.pocosVotos = false;
+        this._httpService.get('/api/recuento/predecirLocalidad?idLocalidad=' + this.localidadID + '&cargo=' + this.cargo).subscribe(values => {
+          this.votosPredecidos = values.json();
+          for (var i = 0; i < this.votosPredecidos.length; i++) {
+            var porcentajeActual = (this.pieChartData[i] * 100 / this.cantVotos);
             this.votosPredecidos[i] = (this.votosPredecidos[i] + porcentajeActual as number) / 2;
           }
         });
       } else {
-        this.predije = false;
-        this.pocosVotos = true;
-      }
+        console.log("cantidad votos:" + this.cantVotos);
+        if (this.votantes < 60) {
+          this.predije = true;
+          this.pocosVotos = false;
+          this._httpService.get('/api/recuento/predecirMesa?idMesa=' + this.mesa + '&idLocalidad=' + this.localidadID + '&cargo=' + this.cargo).subscribe(values => {
+            this.votosPredecidos = values.json();
+            for (var i = 0; i < this.votosPredecidos.length; i++) {
+              var porcentajeActual = (this.pieChartData[i] * 100 / this.cantVotos);
+              this.votosPredecidos[i] = (this.votosPredecidos[i] + porcentajeActual as number) / 2;
+            }
+          });
+        } else {
+          this.predije = false;
+          this.pocosVotos = true;
+        }
 
+      }
     }
 }

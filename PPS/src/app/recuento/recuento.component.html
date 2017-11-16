@@ -70,6 +70,7 @@
     </div>
 
     <div *ngIf="llegoData">
+      <h5 *ngIf="escrute">Porcentaje de votantes escrutados: {{votantes}}% </h5>
       <label>{{messageRecuento}}</label>
       <div style="display: block">
         <canvas baseChart
@@ -87,8 +88,9 @@
   </div>
 
   <div *ngIf="predije">
+    <h4>Porcentajes esperado para final del recuento </h4>
     <div *ngFor="let partido of pieChartLabels; let i = index">
-      <label>Porcentaje esperado para final del recuento {{partido}}:</label>
+      <label>{{partido}}:</label>
       <label>{{votosPredecidos[i]}}%</label><br />
     </div>
   </div>
