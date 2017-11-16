@@ -22,7 +22,7 @@ export class TelegramaPage {
   apiUrl: String;
   database: SQLite;
   constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public db: DatabaseProvider, public globalVars: GlobalVariables) {
-    this.mesa = navParams.get('mesa');
+    this.mesa = navParams.get('mesaId');
     this.localidad = navParams.get('localidad');
     console.log(this.localidad);
     this.database = new SQLite();
@@ -120,8 +120,7 @@ export class TelegramaPage {
     else {
       let query = "SELECT * FROM candidatos WHERE localidadid = ?";
       let localidadid = this.localidad;
-      this.database.run
-      this.database.executeSql(query, { localidadid }).then((resp) => {
+      this.database.executeSql(query, [ localidadid ]).then((resp) => {
         console.log(resp);
         if (resp.rows.length > 0) {
           for (var i = 0; i < resp.rows.length; i++) {
@@ -134,24 +133,42 @@ export class TelegramaPage {
     }
   }
   getRecuento() {
-    this.http.get(this.globalVars.apiUrl + '/api/recuento?idMesa=' + this.mesa).map(res => res.json()).subscribe(data => {
-      this.recuento = data;
-      console.log(this.recuento);
-      if (this.recuento.length > 0) {
-
-        console.log(this.candidatos);
-        this.isEdit = true;
-        for (var i = 0; i < this.candidatos.length; i++) {
-          for (var j = 0; j < this.recuento.length; j++) {
-            if (this.candidatos[i].id == this.recuento[j].candidato.id) {
-              this.candidatos[i].votos = this.recuento[j].votos;
+    if (this.globalVars.isConnected) {
+      this.http.get(this.globalVars.apiUrl + '/api/recuento?idMesa=' + this.mesa).map(res => res.json()).subscribe(data => {
+        this.recuento = data;
+        console.log(this.recuento);
+        if (this.recuento.length > 0) {
+          console.log(this.candidatos);
+          this.isEdit = true;
+          for (var i = 0; i < this.candidatos.length; i++) {
+            for (var j = 0; j < this.recuento.length; j++) {
+              if (this.candidatos[i].id == this.recuento[j].candidato.id) {
+                this.candidatos[i].votos = this.recuento[j].votos;
+              }
             }
           }
+          console.log(this.candidatos);
         }
-
-        console.log(this.candidatos);
-      }
-    });
+      });
+    }
+    else {
+      let query = "SELECT * FROM recuentos WHERE mesaid = ?";
+      let mesaid = this.mesa;
+      this.database.executeSql(query, [mesaid]).then((resp) => {
+        console.log(resp);
+        if (resp.rows.length > 0) {
+          for (var i = 0; i < resp.rows.length; i++) {
+            let item = resp.rows.item(i);
+            for (var j = 0; j < this.candidatos.length; j++) {
+              if (this.candidatos[j].id == item.candidato.id) {
+                this.candidatos[j].votos = item.votos;
+              }
+            }
+          }
+          console.log(this.candidatos);
+        }
+      })
+    }
   }
 }
 
