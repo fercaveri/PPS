@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Http } from "@angular/http";
+import { Http, RequestOptions, Headers } from "@angular/http";
 import { AlertController, NavController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { GlobalVariables } from '../../providers/global-variables-provider';
@@ -47,17 +47,7 @@ export class HomePage {
               this.importDb(storage);
             })
           })
-          this.database.executeSql("SELECT * FROM requests WHERE done = 0", {}).then((resp) => {
-            if (resp.res.rows.length > 0) {
-              for (var i = 0; i < resp.res.rows.length; i++) {
-                let item = resp.res.rows.item(i);
-                this.http.request(item['url'], new Headers({ method: item['type'], body: item['data'] })).subscribe(res => {
-                  console.log(res);
-                  this.database.executeSql("UPDATE requests SET done = 1 WHERE id = ?", item['id']);
-                });
-              }
-            }
-          })
+          this.sendRequests();
         });
         //Chequear si ya hizo login
         storage.get('login').then((val) => {
@@ -116,26 +106,43 @@ export class HomePage {
       name: 'PPS',
       location: 'default'
     }).then(() => {
-      this.database.executeSql(`INSERT INTO requests (type, url, data, done) VALUES ('post', '/api/candidato', '{tumama: 69}', 0)`, {});
+      this.database.executeSql(`DELETE FROM requests WHERE done = 0`, {});
     }).then((res) => {
-      console.log("SE INSETO HDP");
+      console.log("BORRE TODO");
       console.log(res);
-      this.database.executeSql(`INSERT INTO requests (type, url, data, done) VALUES ('patch', '/api/candidato', '{tumama: 69}', 0)`, {});
     }, (error) => { console.log("HUBO UN ERROR " + error) });
   }
 
   sendRequests() {
+    var self = this;
     this.database.executeSql("SELECT * FROM requests WHERE done = 0", {}).then((resp) => {
-      console.log(resp);
-      if (resp.rows.length > 0) {
-        for (var i = 0; i < resp.rows.length; i++) {
-          let item = resp.rows.item(i);
-          console.log(item);
-          this.http.request(item['url'], new Headers({ method: item['type'], body: item['data'] })).subscribe(res => {
-            this.database.executeSql("UPDATE requests SET done = 1 WHERE id = ?", item['id']);
-          });
+      setTimeout(function () {
+        console.log(resp);
+        if (resp.rows.length > 0) {
+          for (var i = 0; i < resp.rows.length; i++) {
+            let item = resp.rows.item(i);
+            console.log(item);
+            if (item['type'] == 'post') {
+              var headers = new Headers();
+              headers.append("Accept", 'application/json');
+              headers.append('Content-Type', 'application/json');
+              let options = new RequestOptions({ headers: headers });
+              self.http.post(item['url'], item['data'], options).subscribe(res => {
+                self.database.executeSql("UPDATE requests SET done = 1 WHERE id = ?", [item['id']]);
+              });
+            }
+            else if (item['type'] == 'patch') {
+              var headers = new Headers();
+              headers.append("Accept", 'application/json');
+              headers.append('Content-Type', 'application/json');
+              let options = new RequestOptions({ headers: headers });
+              self.http.patch(item['url'], item['data'], options).subscribe(res => {
+                self.database.executeSql("UPDATE requests SET done = 1 WHERE id = ?", [item['id']]);
+              });
+            }
+          }
         }
-      }
+      }, 5000)
     })
   }
 
