@@ -32,7 +32,7 @@ namespace PPS.Controllers
     [HttpGet]
     public Fiscalizacion Get(String usuario, String pass)
       {
-      var fiscalizacion = _db.Fiscales.Select(x => new Fiscalizacion(x.id, x.user, x.localidad, x.mesa)).Where(x => x.user.usuario == usuario && x.user.contraseña == pass).Include(x => x.mesa.localidad).Include(x => x.localidad.provincia).FirstOrDefault();
+      var fiscalizacion = ( from fis in _db.Fiscales.Include(x => x.localidad).Include(x => x.user).Include(x => x.mesa.localidad).Include(x => x.localidad.provincia) where fis.user.usuario == usuario && fis.user.contraseña == pass select fis).FirstOrDefault();
       Console.WriteLine("retorne id:" + fiscalizacion.id);
       if (fiscalizacion.localidad != null)
         {

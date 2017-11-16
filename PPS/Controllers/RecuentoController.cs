@@ -24,6 +24,14 @@ namespace PPS.Controllers
     }
 
     [HttpGet]
+    [Route("getall")]
+    public IEnumerable<Recuento> GetAll(int idMesa)
+      {
+      var recuentos = (from row in _db.Recuentos select row).ToList();
+      return recuentos;
+      }
+
+    [HttpGet]
     public IEnumerable<Recuento> Get(int idMesa)
     {
       var recuentos = _db.Recuentos.Where(x => x.mesa.id == idMesa).Include(x => x.candidato).Include(x => x.candidato.localidad)
