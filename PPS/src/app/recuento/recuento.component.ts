@@ -30,6 +30,7 @@ export class RecuentoComponent implements OnInit {
 
     seleccionoModo: boolean = false;
     modo: String = "";
+    pocosVotos : boolean = false;
 
     votosPredecidos: number[] = [69,65,89,120];
     predije: boolean = false;
@@ -47,6 +48,9 @@ export class RecuentoComponent implements OnInit {
         this.localidadID = -1;
         this.mesa = "";
         this.cargo = -1;
+        this.predije = false;
+        this.pocosVotos = false;
+        this.localidades = [];
     }
 
     // Pie
@@ -208,10 +212,25 @@ export class RecuentoComponent implements OnInit {
       console.log(this.mesa);
       console.log(this.localidadID);
       console.log(this.cargo);
-      this.predije = true;
-      this._httpService.get('/api/recuento/predecirMesa?idMesa=' + this.mesa + '&idLocalidad=' + this.localidadID + '&cargo=' + this.cargo).subscribe(values => {
-        this.votosPredecidos = values.json();
-      });
+      var cantVotos = 0;
+      for (let i of this.pieChartData) {
+        cantVotos += i;
+      }
+      console.log("cantidad votos:" + cantVotos);
+      if (cantVotos < 120) {
+        this.predije = true;
+        this.pocosVotos = false;
+        this._httpService.get('/api/recuento/predecirMesa?idMesa=' + this.mesa + '&idLocalidad=' + this.localidadID + '&cargo=' + this.cargo).subscribe(values => {
+          this.votosPredecidos = values.json();
+          for (var i = 0; i < this.votosPredecidos.length; i++) {
+            var porcentajeActual = (this.pieChartData[i] * 100 / cantVotos);
+            this.votosPredecidos[i] = (this.votosPredecidos[i] + porcentajeActual as number) / 2;
+          }
+        });
+      } else {
+        this.predije = false;
+        this.pocosVotos = true;
+      }
 
     }
 }

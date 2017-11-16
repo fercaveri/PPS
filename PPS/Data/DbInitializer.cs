@@ -147,15 +147,27 @@ namespace PPS.Data
       List<Localidad> localidades = context.Localidades.Where(x => x.nombreLocalidad != "").Include(x => x.provincia).ToList();
       foreach (Localidad loc in localidades)
       {
-        for (int i = 0; i < 50; i++)
+        Random rnd = new Random();
+        int cantidadMesas = rnd.Next(10,50);
+        for (int i = 0; i < cantidadMesas; i++)
         {
+          int maximoVotantes = rnd.Next(340, 370);
+          int flag = rnd.Next(1, 5);
+          if (flag == 3 || flag == 4) { maximoVotantes = rnd.Next(100, 120); }
+          else{ maximoVotantes = rnd.Next(340, 370);}
           Mesa mesa = new Mesa(i, loc);
           context.Mesas.Add(mesa);
-          Random rnd = new Random();
-          Recuento r1 = new Recuento(senadorPro, rnd.Next(1,51), mesa);
-          Recuento r2 = new Recuento(senador1p, rnd.Next(1, 51), mesa);
-          Recuento r3 = new Recuento(senadorUc, rnd.Next(1, 51), mesa);
-          Recuento r4 = new Recuento(senadorUcr, rnd.Next(1, 51), mesa);
+          int cantidadVotos = rnd.Next(1, maximoVotantes);
+          Recuento r1 = new Recuento(senadorPro, cantidadVotos, mesa);
+          maximoVotantes -= cantidadVotos-1;
+          cantidadVotos = rnd.Next(1, maximoVotantes);
+          Recuento r2 = new Recuento(senador1p, cantidadVotos, mesa);
+          maximoVotantes -= cantidadVotos-1;
+          cantidadVotos = rnd.Next(1, maximoVotantes);
+          Recuento r3 = new Recuento(senadorUc, cantidadVotos, mesa);
+          maximoVotantes -= cantidadVotos-1;
+          cantidadVotos = rnd.Next(1, maximoVotantes);
+          Recuento r4 = new Recuento(senadorUcr, cantidadVotos, mesa);
           context.Recuentos.Add(r1);
           context.Recuentos.Add(r2);
           context.Recuentos.Add(r3);

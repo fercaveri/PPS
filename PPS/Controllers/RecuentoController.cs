@@ -274,7 +274,18 @@ namespace PPS.Controllers
       {
         votosPredecidos.Add(predecir(p,idMesa,idLocalidad, cargo));
       }
-      return votosPredecidos;
+      List<int> porcentajes = new List<int>();
+      int totalVotos=0;
+      foreach(int i in votosPredecidos)
+      {
+        totalVotos += i;
+      }
+      Console.WriteLine("Votos totales:" + totalVotos);
+      foreach (int i in votosPredecidos)
+      {
+        porcentajes.Add(i*100/totalVotos);
+      }
+      return porcentajes;
     }
 
     private int predecir(PartidoPolitico p , int idMesa, int idLocalidad, int cargo)
@@ -283,6 +294,7 @@ namespace PPS.Controllers
       List<Mesa> mesas = _db.Mesas.Select(x => new Mesa(x.id, x.numero, x.localidad)).Where(x => x.localidad.id == idLocalidad && x.id!=idMesa).ToList();
       foreach(Mesa m in mesas){
         var votos = this.getVotosMesa(m.id, cargo, p.nombre);
+
         porcentajes.Add(votos);
       }
       var suma = 0;
