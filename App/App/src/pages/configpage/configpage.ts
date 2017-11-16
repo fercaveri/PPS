@@ -24,6 +24,7 @@ export class ConfigPage {
   saveConfig() {
       this.storage.set('ip', this.globalVars.ip);
       this.storage.set('port', this.globalVars.port);
+      this.globalVars.apiUrl = "http://" + this.globalVars.ip + ":" + this.globalVars.port;
       this.navController.pop();
   }
 }

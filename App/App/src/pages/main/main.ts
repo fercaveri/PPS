@@ -26,6 +26,14 @@ export class MainPage {
       this.localidad = navParams.get('localidad');
       this.idLocalidad = navParams.get('idLocalidad');
       this.storage = storage;
+      var self = this;
+      setTimeout(function () {
+        console.log(self.mesa);
+        console.log(self.rol);
+        console.log(self.mesaId);
+        console.log(self.localidad);
+        console.log(self.idLocalidad);
+      }, 5000)
     }
 
     onLink(url: string) {

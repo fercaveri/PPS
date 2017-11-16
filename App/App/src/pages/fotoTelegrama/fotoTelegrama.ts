@@ -5,6 +5,7 @@ import { GlobalVariables } from '../../providers/global-variables-provider';
 import { DatabaseProvider } from '../../providers/database-provider';
 import { config } from '../../config';
 import { Camera } from 'ionic-native';
+import { SQLite } from "ionic-native";
 
 @Component({
     selector: 'foto-telegrama',
@@ -12,7 +13,7 @@ import { Camera } from 'ionic-native';
 })
 
 export class FotoTelegramaPage {
-
+    database: SQLite;
     base64Image: String;
     mesa: number;
     localidad: String;
@@ -49,13 +50,19 @@ export class FotoTelegramaPage {
             });
         }
         else {
-            this.db.query("INSERT INTO TABLE requests values ('post', '" + this.globalVars.apiUrl + "/api/recuento', '" + JSON.stringify(c), + "', 0);")
-                .then(res => {
-                    console.log("Result: ", res);
-                })
-                .catch(err => {
-                    console.log("Error: ", err);
-                });
+          this.database = new SQLite();
+          this.database.openDatabase({
+            name: 'PPS',
+            location: 'default'
+          }).then(() => {
+            this.database.executeSql("INSERT INTO requests (type, url, data, done) values ('post', '" + this.globalVars.apiUrl + "/api/telegrama', '" + JSON.stringify(c) + "', 0);", {})
+              .then(res => {
+                console.log("Result: ", res);
+              })
+              .catch(err => {
+                console.log("Error: ", err);
+              });
+          })
         }
     }
 }
