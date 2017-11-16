@@ -1035,6 +1035,10 @@ var RecuentoComponent = (function () {
         this.predije = false;
         this.pocosVotos = false;
         this.localidades = [];
+        this.votantes = 0;
+        this.escrute = false;
+        this.cantVotos = 0;
+        this.mesasTotales = 0;
     };
     // events
     RecuentoComponent.prototype.chartClicked = function (e) {

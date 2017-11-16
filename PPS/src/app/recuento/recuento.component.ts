@@ -55,6 +55,10 @@ export class RecuentoComponent implements OnInit {
         this.predije = false;
         this.pocosVotos = false;
         this.localidades = [];
+        this.votantes = 0;
+        this.escrute = false;
+        this.cantVotos = 0;
+        this.mesasTotales = 0;
     }
 
     // Pie

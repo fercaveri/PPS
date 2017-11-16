@@ -153,25 +153,22 @@ namespace PPS.Data
         {
           int maximoVotantes = rnd.Next(340, 370);
           int flag = rnd.Next(1, 5);
-          if (flag == 3 || flag == 4) { maximoVotantes = rnd.Next(100, 120); }
-          else{ maximoVotantes = rnd.Next(340, 370);}
+          if (flag == 1 ) { maximoVotantes = rnd.Next(50, 65); }
+          if (flag == 2) { maximoVotantes = rnd.Next(150,165); }
+          if (flag == 3 || flag == 4) { maximoVotantes = rnd.Next(100,115); }
+          else { maximoVotantes = rnd.Next(340, 370);}
           Mesa mesa = new Mesa(i, loc);
           context.Mesas.Add(mesa);
-          int cantidadVotos = rnd.Next(1, maximoVotantes);
-          Recuento r1 = new Recuento(senadorPro, cantidadVotos, mesa);
-          maximoVotantes -= cantidadVotos-1;
-          cantidadVotos = rnd.Next(1, maximoVotantes);
-          Recuento r2 = new Recuento(senador1p, cantidadVotos, mesa);
-          maximoVotantes -= cantidadVotos-1;
-          cantidadVotos = rnd.Next(1, maximoVotantes);
-          Recuento r3 = new Recuento(senadorUc, cantidadVotos, mesa);
-          maximoVotantes -= cantidadVotos-1;
-          cantidadVotos = rnd.Next(1, maximoVotantes);
-          Recuento r4 = new Recuento(senadorUcr, cantidadVotos, mesa);
-          context.Recuentos.Add(r1);
-          context.Recuentos.Add(r2);
-          context.Recuentos.Add(r3);
-          context.Recuentos.Add(r4);
+          Candidato[] candidatos = { senadorPro, senador1p, senadorUc, senadorUcr };
+          int cantidadVotos;
+          for (int j = 0; j < 4; j++)
+          {
+            int pos = rnd.Next(0, 4);
+            cantidadVotos = rnd.Next(1, maximoVotantes);
+            Recuento r1 = new Recuento(candidatos[pos], cantidadVotos, mesa);
+            maximoVotantes -= cantidadVotos - 1;
+            context.Recuentos.Add(r1);
+          }
         }
       };
       context.SaveChanges();
