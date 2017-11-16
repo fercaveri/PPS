@@ -88,9 +88,12 @@
 
   <div *ngIf="predije">
     <div *ngFor="let partido of pieChartLabels; let i = index">
-      <label>Cantidad de votos de {{partido}}</label>
-      <label>{{votosPredecidos[i]}}</label><br />
+      <label>Porcentaje esperado para final del recuento {{partido}}:</label>
+      <label>{{votosPredecidos[i]}}%</label><br />
     </div>
+  </div>
+  <div class="alert alert-warning" *ngIf="pocosVotos == true">
+    <strong>Existen sufiente cantidad de votos. La tendencia no cambiara</strong>
   </div>
 </div>
 
