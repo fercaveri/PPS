@@ -18,7 +18,7 @@ namespace PPS.Models
     [Key]
     public int id { get; set; }
     public string usuario { get; set; }
-    public string contraseña { get; set; }
+    public string pass { get; set; }
     public string nombreCompleto { get; set; }
     public Rol rol { get; set; } = 0;
 
@@ -30,9 +30,16 @@ namespace PPS.Models
     public Usuario(string usuario, string contraseña, string nombreCompleto, int rol)
     {
       this.usuario = usuario;
-      this.contraseña = contraseña;
+      this.pass = contraseña;
       this.nombreCompleto = nombreCompleto;
       this.rol = (Rol)rol;
+    }
+    public Usuario(string usuario, string contraseña, string nombreCompleto, Rol rol)
+    {
+      this.usuario = usuario;
+      this.pass = contraseña;
+      this.nombreCompleto = nombreCompleto;
+      this.rol = rol;
     }
   }
 }

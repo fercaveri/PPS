@@ -23,7 +23,7 @@ namespace PPS.Controllers
     [HttpGet]
     public int Get(String usuario, String pass)
     {
-      var usuarios = _db.Usuarios.Select(x => new Usuario(x.usuario, x.contraseña, x.nombreCompleto, (int)x.rol)).Where(x => x.usuario == usuario && x.contraseña == pass).ToList();
+      var usuarios = _db.Usuarios.Select(x => new Usuario(x.usuario, x.pass, x.nombreCompleto, (int)x.rol)).Where(x => x.usuario == usuario && x.pass == pass).ToList();
       if (usuarios.Any())
       {
         Usuario u = (Usuario) usuarios.First();
@@ -35,10 +35,18 @@ namespace PPS.Controllers
       }
     }
 
+    [HttpGet]
+    [Route("getAll")]
+    public IEnumerable<Usuario> getAll()
+    {
+      var users = this._db.Usuarios.Select(x => new Usuario(x.usuario,x.pass,x.nombreCompleto,x.rol)).ToList();
+      return users;
+    }
+
     [HttpPost]
     public HttpResponseMessage Post([FromBody] UsuarioWEB user)
     {
-      var usuario = _db.Usuarios.Select(x => new Usuario(x.usuario, x.contraseña, x.nombreCompleto, (int)x.rol)).Where(x => x.usuario == user.user).FirstOrDefault();
+      var usuario = _db.Usuarios.Select(x => new Usuario(x.usuario, x.pass, x.nombreCompleto, (int)x.rol)).Where(x => x.usuario == user.user).FirstOrDefault();
       if (usuario == null)
       {
         _db.Usuarios.Add(new Usuario(user.user, user.pass, user.fullName, user.role));

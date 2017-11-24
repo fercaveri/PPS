@@ -1,42 +1,59 @@
 <div class="container">
-  <h2>Alta de usuario</h2>
-  <label>Usuario</label>
-  <input name="user" [(ngModel)]="user.user"  class="form-control" required><br>
-  <label>Contraseña</label>
-  <input name="pass" [(ngModel)]="user.pass"  class="form-control" required><br>
-  <label>Nombre completo</label>
-  <input name="fullName" [(ngModel)]="user.fullName"  class="form-control" required><br>
-  <label>Rol</label>
-  <select class="form-control" id="role"
-          required
-          [(ngModel)]="role" name="role">
-    <option *ngFor="let rol of roles" [value]="rol">{{rol}}</option>
-  </select><br>
-  <div *ngIf="role == 'Normal'">
-    <label>Escoja que clase de permisos tendra dicho usuario:</label><br>
-    <button class="btn btn-info" (click)="mostrarForm('provincia')"> Permisos sobre una provincia </button>
-    <button class="btn btn-info" (click)="mostrarForm('localidad')"> Permisos sobre una localidad </button>
-    <button class="btn btn-info" (click)="mostrarForm('mesa')"> Permisos sobre una mesa </button>
-    <div *ngIf="eligioPermiso == true">
-      <div *ngIf="permiso=='provincia'||permiso=='localidad'||permiso=='mesa'">
-        <p>Seleccione una provincia</p>
-        <select class="form-control" id="provincia" [(ngModel)]="provincia" (change)="loadLocalidad()" required>
-          <option *ngFor="let provincia of provincias" [value]="provincia.nombreProvincia">{{provincia.nombreProvincia}}</option>
-        </select>
-      </div>
-      <div *ngIf="permiso=='localidad'||permiso=='mesa'">
-        <p>Seleccione una localidad</p>
-        <select class="form-control" id="localidad" (change)="loadMesas()" [(ngModel)]="localidad" required>
-          <option *ngFor="let localidad of localidades" [value]="localidad.nombreLocalidad">{{localidad.nombreLocalidad}}</option>
-        </select>
-      </div>
-      <div *ngIf="permiso=='mesa'">
-        <p>Seleccione una mesa</p>
-        <select class="form-control" id="mesa" [(ngModel)]="mesa" required>
-          <option *ngFor="let mesa of mesas" [value]="mesa.id">{{mesa.numero}}</option>
-        </select>
+  <div *ngIf="modo==''">
+    <button class="btn btn-info" (click)="modo='alta'"> Alta de Usuario </button>
+    <button class="btn btn-info" (click)="consulta()"> Consulta de Usuario </button>
+  </div>
+
+  <div *ngIf="modo=='alta'">
+    <h2>Alta de usuario</h2>
+    <label>Usuario</label>
+    <input name="user" [(ngModel)]="user.user" class="form-control" required><br>
+    <label>Contraseña</label>
+    <input name="pass" [(ngModel)]="user.pass" class="form-control" required><br>
+    <label>Nombre completo</label>
+    <input name="fullName" [(ngModel)]="user.fullName" class="form-control" required><br>
+    <label>Rol</label>
+    <select class="form-control" id="role"
+            required
+            [(ngModel)]="role" name="role">
+      <option *ngFor="let rol of roles" [value]="rol">{{rol}}</option>
+    </select><br>
+    <div *ngIf="role == 'Normal'">
+      <label>Escoja que clase de permisos tendra dicho usuario:</label><br>
+      <button class="btn btn-info" (click)="mostrarForm('provincia')"> Permisos sobre una provincia </button>
+      <button class="btn btn-info" (click)="mostrarForm('localidad')"> Permisos sobre una localidad </button>
+      <button class="btn btn-info" (click)="mostrarForm('mesa')"> Permisos sobre una mesa </button>
+      <div *ngIf="eligioPermiso == true">
+        <div *ngIf="permiso=='provincia'||permiso=='localidad'||permiso=='mesa'">
+          <p>Seleccione una provincia</p>
+          <select class="form-control" id="provincia" [(ngModel)]="provincia" (change)="loadLocalidad()" required>
+            <option *ngFor="let provincia of provincias" [value]="provincia.nombreProvincia">{{provincia.nombreProvincia}}</option>
+          </select>
+        </div>
+        <div *ngIf="permiso=='localidad'||permiso=='mesa'">
+          <p>Seleccione una localidad</p>
+          <select class="form-control" id="localidad" (change)="loadMesas()" [(ngModel)]="localidad" required>
+            <option *ngFor="let localidad of localidades" [value]="localidad.nombreLocalidad">{{localidad.nombreLocalidad}}</option>
+          </select>
+        </div>
+        <div *ngIf="permiso=='mesa'">
+          <p>Seleccione una mesa</p>
+          <select class="form-control" id="mesa" [(ngModel)]="mesa" required>
+            <option *ngFor="let mesa of mesas" [value]="mesa.id">{{mesa.numero}}</option>
+          </select>
+        </div>
       </div>
     </div>
+    <button (click)="back()" type="submit" class="btn btn-default btn-lg pull-right">Atras</button>
+    <button (click)="submit()" type="submit" class="btn btn-success btn-lg pull-right">Submit</button>
   </div>
-  <button (click)="submit()" type="submit" class="btn btn-success btn-lg pull-right">Submit</button>
+
+  <div *ngIf="modo=='consulta'">
+    <div *ngFor="let user of users">
+      <label>{{user.usuario}}</label>
+      <label>{{user.pass}}</label>
+      <label>{{roles[user.rol]}}</label><br />
+    </div>
+    <button (click)="back()" type="submit" class="btn btn-default btn-lg pull-right">Atras</button>
+  </div>
 </div>

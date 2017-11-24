@@ -19,8 +19,13 @@ export class UsuarioComponent implements OnInit {
   provincias: object[];
   localidades: object[];
   mesas: Mesa[];
+  users: object[];
+  modo: String = '';
   constructor(private _httpService: Http) { }
   ngOnInit() {
+  }
+  back() {
+    this.modo = '';
   }
   submit() {
       for (var i = 0; i < this.roles.length; i++) {
@@ -80,5 +85,12 @@ export class UsuarioComponent implements OnInit {
           this.mesas = values.json() as Mesa[];
           console.log(values);
       });
+  }
+  consulta() {
+    this.modo = 'consulta';
+    this._httpService.get('/api/usuario/getAll').subscribe(values => {
+      this.users = values.json();
+      console.log(values);
+    });
   }
 }
