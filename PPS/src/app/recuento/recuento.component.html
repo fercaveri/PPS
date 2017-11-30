@@ -6,25 +6,26 @@
         <button class="btn btn-info" (click)="mostrarForm('pais')"> Datos en el país </button>
         <button class="btn btn-info" (click)="mostrarForm('provincia')"> Datos por provincia </button>
         <button class="btn btn-info" (click)="mostrarForm('localidad')"> Datos por localidad </button>
+        <button class="btn btn-info" (click)="mostrarForm('circuito')"> Datos por circuito </button>
         <button class="btn btn-info" (click)="mostrarForm('mesa')"> Datos por mesa </button>
       </div>
       <div *ngIf="seleccionoModo == true">
-        <div *ngIf="modo=='localidad'||modo=='mesa'">
+        <div *ngIf="modo=='localidad'||modo=='mesa'||modo=='circuito'">
           <p>Seleccione una provincia</p>
           <select class="form-control" id="provincia" [(ngModel)]="provincia" (change)="loadLocalidad()" required>
             <option *ngFor="let provincia of provincias" [value]="provincia.nombreProvincia">{{provincia.nombreProvincia}}</option>
           </select>
         </div>
-        <div *ngIf="modo=='localidad'||modo=='mesa'">
+        <div *ngIf="modo=='localidad'||modo=='mesa'||modo=='circuito'">
           <p>Seleccione una localidad</p>
           <select class="form-control" id="localidad" (change)="loadCircuitos()" [(ngModel)]="localidadObj" required>
             <option *ngFor="let localidad of localidades" [ngValue]="localidad">{{localidad.nombreLocalidad}}</option>
           </select>
         </div>
-        <div *ngIf="modo=='mesa'">
+        <div *ngIf="modo=='mesa'||modo=='circuito'">
           <p>Seleccione un circuito</p>
-          <select class="form-control" id="circuito" (change)="loadMesas()" [(ngModel)]="circuitoID" required>
-            <option *ngFor="let circuito of circuitos" [ngValue]="circuito.id">{{circuito.numero}}</option>
+          <select class="form-control" id="circuito" (change)="loadMesas()" [(ngModel)]="circuitoObj" required>
+            <option *ngFor="let circuito of circuitos" [ngValue]="circuito">{{circuito.numero}}</option>
           </select>
         </div>
         <div *ngIf="modo=='mesa'">

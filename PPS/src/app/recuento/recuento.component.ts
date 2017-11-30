@@ -18,7 +18,9 @@ export class RecuentoComponent implements OnInit {
     provincias: object[];
     localidades: object[];
     circuitos: object[];
+    circuitoObj: object;
     circuitoID: number = -1;
+    circuitoNumero: number = -1;
     mesas: Mesa[];
     cargos = ["Concejal", "Diputado Provincial", "Diputado Nacional", "Senador Nacional"];
     cargo: number;
@@ -61,6 +63,9 @@ export class RecuentoComponent implements OnInit {
         this.escrute = false;
         this.cantVotos = 0;
         this.mesasTotales = 0;
+        this.circuitoID = -1;
+        this.circuitoNumero = -1;
+        this.circuitoObj = null;
     }
 
     // Pie
@@ -119,6 +124,8 @@ export class RecuentoComponent implements OnInit {
         });
     }
     loadMesas() {
+      this.circuitoID = this.circuitoObj['id'];
+      this.circuitoNumero = this.circuitoObj['numero'];
       this._httpService.get('/api/mesa/getxcircuito?idCircuito=' + this.circuitoID).subscribe(values => {
         this.mesas = values.json() as Mesa[];
         console.log(values);
@@ -237,7 +244,17 @@ export class RecuentoComponent implements OnInit {
               console.log('cantidadVotantesTotales:' + this.mesasTotales * 350);
               this.votantes = this.cantVotos * 100 / (this.mesasTotales * 350);
               this.escrute = true;
-            });}
+            });
+          }
+          if (this.modo == 'circuito') {
+            this._httpService.get('/api/mesa/cantidadCircuito?idCircuito=' + this.circuitoID).subscribe(values => {
+              this.mesasTotales = values.json();
+              console.log('cantidadMesas:' + this.mesasTotales);
+              console.log('cantidadVotantesTotales:' + this.mesasTotales * 350);
+              this.votantes = this.cantVotos * 100 / (this.mesasTotales * 350);
+              this.escrute = true;
+            });
+          }
           else {
             this.escrute = false;
           }
@@ -253,6 +270,9 @@ export class RecuentoComponent implements OnInit {
         } else if (this.modo == 'localidad') {
             this.messageRecuento = 'Resultados de votacion sobre ' + this.cargos[this.cargo] + ' en la localidad de ' + this.localidad;
             return '/api/recuento/todosporunalocalidad?localidadID=' + this.localidadID + '&'
+        } else if (this.modo == 'circuito') {
+          this.messageRecuento = 'Resultados de votacion sobre ' + this.cargos[this.cargo] + ' en la localidad de ' + this.localidad + ' circuito ' + this.circuitoNumero;
+          return '/api/recuento/todosporuncircuito?circuito=' + this.circuitoID + '&'
         } else {
             var numeroMesa;
             for (let mesa of this.mesas) {
@@ -307,6 +327,23 @@ export class RecuentoComponent implements OnInit {
         this.predije = true;
         this.pocosVotos = false;
         this._httpService.get('/api/recuento/predecirLocalidad?idLocalidad=' + this.localidadID + '&cargo=' + this.cargo).subscribe(values => {
+          this.votosPredecidos = values.json();
+          console.log(this.votosPredecidos);
+          var porcentaje = 100;
+          for (var i = 0; i < this.votosPredecidos.length; i++) {
+            this.cantidadVotantesPredecidos[i] = this.votosPredecidos[i] *
+              (this.mesasTotales * 350) / 100;
+            porcentaje -= this.votosPredecidos[i];
+          }
+          this.votosPredecidos[0] += porcentaje;
+          console.log(this.cantidadVotantesPredecidos);
+        });
+      } else {
+        console.log("cantidad votos:" + this.cantVotos);
+        console.log('cantidadVotantesTotales:' + this.mesasTotales * 350);
+        this.predije = true;
+        this.pocosVotos = false;
+        this._httpService.get('/api/recuento/predecirCircuito?idCircuito=' + this.localidadID + '&cargo=' + this.cargo).subscribe(values => {
           this.votosPredecidos = values.json();
           console.log(this.votosPredecidos);
           var porcentaje = 100;
