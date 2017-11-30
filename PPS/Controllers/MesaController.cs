@@ -40,6 +40,22 @@ namespace PPS.Controllers
       return Mesas;
     }
 
+    [HttpGet]
+    [Route("getcircuito")]
+    public IEnumerable<Circuito> GetCircuito(int idLocalidad)
+    {
+      var Circuitos = _db.Circuitos.Select(x => new Circuito(x.id, x.numero, x.localidad))
+                          .Where(x => x.localidad.id == idLocalidad).ToList();
+      return Circuitos;
+    }
+    [HttpGet]
+    [Route("getxcircuito")]
+    public IEnumerable<Mesa> GetMesasCircuito(int idCircuito)
+    {
+      var Mesas = _db.Mesas.Select(x => new Mesa(x.id, x.numero, x.localidad, x.circuito))
+                          .Where(x => x.circuito.id == idCircuito).ToList();
+      return Mesas;
+    }
     // GET api/mesa/votantes?localidad
     [HttpGet]
     [Route("cantidad")]

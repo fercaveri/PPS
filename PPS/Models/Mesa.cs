@@ -38,6 +38,21 @@ namespace PPS.Models
       this.localidad = l;
     }
 
+    public Mesa(int numero, Localidad l, Circuito circuito)
+    {
+      this.numero = numero;
+      this.localidad = l;
+      this.circuito = circuito;
+    }
+
+    public Mesa(int id, int numero, Localidad l, Circuito circuito)
+    {
+      this.id = id;
+      this.numero = numero;
+      this.localidad = l;
+      this.circuito = circuito;
+    }
+
     public Mesa(Localidad l)
     {
       this.localidad = l;

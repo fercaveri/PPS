@@ -148,29 +148,36 @@ namespace PPS.Data
       foreach (Localidad loc in localidades)
       {
         Random rnd = new Random();
-        int cantidadMesas = rnd.Next(10,50);
-        for (int i = 0; i < cantidadMesas; i++)
+        int cantidadCircuitos = rnd.Next(1, 10);
+        for (int i = 0; i < cantidadCircuitos; i++)
         {
-          int maximoVotantes = rnd.Next(340, 370);
-          int flag = rnd.Next(1, 5);
-          if (flag == 1 ) { maximoVotantes = rnd.Next(50, 65); }
-          if (flag == 2) { maximoVotantes = rnd.Next(150,165); }
-          if (flag == 3 || flag == 4) { maximoVotantes = rnd.Next(100,115); }
-          else { maximoVotantes = rnd.Next(340, 370);}
-          Mesa mesa = new Mesa(i, loc);
-          context.Mesas.Add(mesa);
-          Candidato[] candidatos = { senadorPro, senador1p, senadorUc, senadorUcr };
-          int cantidadVotos;
-          for (int j = 0; j < 4; j++)
+          Circuito c = new Circuito(i + 1, loc);
+          context.Circuitos.Add(c);
+          int cantidadMesas = rnd.Next(10, 50);
+          for (int j = 0; j < cantidadMesas; j++)
           {
-            int pos = rnd.Next(0, 4);
-            cantidadVotos = rnd.Next(1, maximoVotantes);
-            Recuento r1 = new Recuento(candidatos[pos], cantidadVotos, mesa);
-            maximoVotantes -= cantidadVotos - 1;
-            context.Recuentos.Add(r1);
+            int maximoVotantes;
+            int flag = rnd.Next(1, 5);
+            if (flag == 3 || flag == 4 || flag == 5) { maximoVotantes = rnd.Next(320,350); } //si se cargaron votos para esa mesa
+            else { maximoVotantes = 0; } //no se cargaron votos para esa mesa.
+            Mesa mesa = new Mesa(j+1, loc, c);
+            context.Mesas.Add(mesa);
+            Candidato[] candidatos = { senadorPro, senador1p, senadorUc, senadorUcr };
+            int cantidadVotos;
+            if (maximoVotantes != 0)
+            {
+              for (int k = 0; k < 4; k++)
+              {
+                int pos = rnd.Next(0, 4);
+                cantidadVotos = rnd.Next(1, maximoVotantes);
+                Recuento r1 = new Recuento(candidatos[pos], cantidadVotos, mesa);
+                maximoVotantes -= cantidadVotos - 1;
+                context.Recuentos.Add(r1);
+              }
+            }
           }
         }
-      };
+      }
       context.SaveChanges();
 
       //USUARIOS

@@ -17,8 +17,14 @@
         </div>
         <div *ngIf="modo=='localidad'||modo=='mesa'">
           <p>Seleccione una localidad</p>
-          <select class="form-control" id="localidad" (change)="loadMesas()" [(ngModel)]="localidadObj" required>
+          <select class="form-control" id="localidad" (change)="loadCircuitos()" [(ngModel)]="localidadObj" required>
             <option *ngFor="let localidad of localidades" [ngValue]="localidad">{{localidad.nombreLocalidad}}</option>
+          </select>
+        </div>
+        <div *ngIf="modo=='mesa'">
+          <p>Seleccione un circuito</p>
+          <select class="form-control" id="circuito" (change)="loadMesas()" [(ngModel)]="circuitoID" required>
+            <option *ngFor="let circuito of circuitos" [ngValue]="circuito.id">{{circuito.numero}}</option>
           </select>
         </div>
         <div *ngIf="modo=='mesa'">

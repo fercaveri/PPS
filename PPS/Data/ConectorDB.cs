@@ -18,6 +18,7 @@ namespace PPS.Data
     public DbSet<Usuario> Usuarios { get; set;}
     public DbSet<Telegrama> Telegramas { get; set; }
     public DbSet<Fiscalizacion> Fiscales { get; set; }
+    public DbSet<Circuito> Circuitos { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<Candidato>().ToTable("Candidatos");
@@ -28,6 +29,7 @@ namespace PPS.Data
       modelBuilder.Entity<Usuario>().ToTable("Usuarios");
       modelBuilder.Entity<Telegrama>().ToTable("Telegramas");
       modelBuilder.Entity<Fiscalizacion>().ToTable("Fiscales");
+      modelBuilder.Entity<Circuito>().ToTable("Circuitos");
     }
   }
 }

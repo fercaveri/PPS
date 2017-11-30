@@ -17,6 +17,8 @@ export class RecuentoComponent implements OnInit {
     mesa: String;
     provincias: object[];
     localidades: object[];
+    circuitos: object[];
+    circuitoID: number = -1;
     mesas: Mesa[];
     cargos = ["Concejal", "Diputado Provincial", "Diputado Nacional", "Senador Nacional"];
     cargo: number;
@@ -108,13 +110,19 @@ export class RecuentoComponent implements OnInit {
             console.log(values);
         });
     }
-    loadMesas() {
+    loadCircuitos() {
         this.localidadID = this.localidadObj['id'];
         this.localidad = this.localidadObj['nombreLocalidad'];
-        this._httpService.get('/api/mesa/' + this.localidad).subscribe(values => {
-            this.mesas = values.json() as Mesa[];
+        this._httpService.get('/api/mesa/getcircuito?idLocalidad=' + this.localidadID).subscribe(values => {
+            this.circuitos = values.json() as object[];
             console.log(values);
         });
+    }
+    loadMesas() {
+      this._httpService.get('/api/mesa/getxcircuito?idCircuito=' + this.circuitoID).subscribe(values => {
+        this.mesas = values.json() as Mesa[];
+        console.log(values);
+      });
     }
 
     seleccionarProv(prov) {
