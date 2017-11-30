@@ -29,7 +29,7 @@ export class RecuentoComponent implements OnInit {
     votos: string[];
     provinciaSeleccionada: string = "";
     votosPorProvincia: object[] = [];
-
+    cantidadVotantesPredecidos: number[] = [0,0,0,0];
     seleccionoModo: boolean = false;
     modo: String = "";
     pocosVotos: boolean = false;
@@ -239,13 +239,7 @@ export class RecuentoComponent implements OnInit {
               this.escrute = true;
             });}
           else {
-            if (this.cantVotos > 350) {
-              this.votantes = 100;
-            }
-            else {
-              this.votantes = this.cantVotos * 100 / 350;
-            }
-            this.escrute = true;
+            this.escrute = false;
           }
         });
     }
@@ -275,17 +269,22 @@ export class RecuentoComponent implements OnInit {
       console.log(this.mesa);
       console.log(this.localidadID);
       console.log(this.cargo);
-      this.votosPredecidos = [0,0,0,0];
+      this.votosPredecidos = [0, 0, 0, 0];
+      this.cantidadVotantesPredecidos = [0, 0, 0, 0];
       if (this.modo == 'pais') {
         console.log("cantidad votos:" + this.cantVotos);
         this.predije = true;
         this.pocosVotos = false;
         this._httpService.get('/api/recuento/predecirPais?cargo=' + this.cargo).subscribe(values => {
           this.votosPredecidos = values.json();
+          var porcentaje = 100;
           for (var i = 0; i < this.votosPredecidos.length; i++) {
-            var porcentajeActual = (this.pieChartData[i] * 100 / this.cantVotos);
-            this.votosPredecidos[i] = (this.votosPredecidos[i] + porcentajeActual as number) / 2;
+            this.cantidadVotantesPredecidos[i] = this.votosPredecidos[i] *
+              (this.mesasTotales * 350) / 100;
+            porcentaje -= this.votosPredecidos[i];
           }
+          this.votosPredecidos[0] += porcentaje;
+          console.log(this.cantidadVotantesPredecidos);
         });
       } else if (this.modo == 'provincia') {
         console.log("cantidad votos:" + this.cantVotos);
@@ -293,39 +292,32 @@ export class RecuentoComponent implements OnInit {
         this.pocosVotos = false;
         this._httpService.get('/api/recuento/predecirProvincia?idProvincia=' + this.provinciaSeleccionada + '&cargo=' + this.cargo).subscribe(values => {
           this.votosPredecidos = values.json();
+          var porcentaje = 100;
           for (var i = 0; i < this.votosPredecidos.length; i++) {
-            var porcentajeActual = (this.pieChartData[i] * 100 / this.cantVotos);
-            this.votosPredecidos[i] = (this.votosPredecidos[i] + porcentajeActual as number) / 2;
+            this.cantidadVotantesPredecidos[i] = this.votosPredecidos[i] *
+              (this.mesasTotales * 350) / 100;
+            porcentaje -= this.votosPredecidos[i];
           }
+          this.votosPredecidos[0] += porcentaje;
+          console.log(this.cantidadVotantesPredecidos);
         });
       } else if (this.modo == 'localidad') {
         console.log("cantidad votos:" + this.cantVotos);
+        console.log('cantidadVotantesTotales:' + this.mesasTotales * 350);
         this.predije = true;
         this.pocosVotos = false;
         this._httpService.get('/api/recuento/predecirLocalidad?idLocalidad=' + this.localidadID + '&cargo=' + this.cargo).subscribe(values => {
           this.votosPredecidos = values.json();
+          console.log(this.votosPredecidos);
+          var porcentaje = 100;
           for (var i = 0; i < this.votosPredecidos.length; i++) {
-            var porcentajeActual = (this.pieChartData[i] * 100 / this.cantVotos);
-            this.votosPredecidos[i] = (this.votosPredecidos[i] + porcentajeActual as number) / 2;
+            this.cantidadVotantesPredecidos[i] = this.votosPredecidos[i] *
+              (this.mesasTotales * 350) / 100;
+            porcentaje -= this.votosPredecidos[i];
           }
+          this.votosPredecidos[0] += porcentaje;
+          console.log(this.cantidadVotantesPredecidos);
         });
-      } else {
-        console.log("cantidad votos:" + this.cantVotos);
-        if (this.votantes < 60) {
-          this.predije = true;
-          this.pocosVotos = false;
-          this._httpService.get('/api/recuento/predecirMesa?idMesa=' + this.mesa + '&idLocalidad=' + this.localidadID + '&cargo=' + this.cargo).subscribe(values => {
-            this.votosPredecidos = values.json();
-            for (var i = 0; i < this.votosPredecidos.length; i++) {
-              var porcentajeActual = (this.pieChartData[i] * 100 / this.cantVotos);
-              this.votosPredecidos[i] = (this.votosPredecidos[i] + porcentajeActual as number) / 2;
-            }
-          });
-        } else {
-          this.predije = false;
-          this.pocosVotos = true;
-        }
-
       }
     }
 }

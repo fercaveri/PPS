@@ -39,7 +39,9 @@
         </select><br />
         <button class="btn btn-default  btn-lg pull-right" (click)="back()"> Atras </button>
         <button class="btn btn-success  btn-lg pull-right" (click)="mostrarDatos()"> Ver Datos </button>
-        <button class="btn btn-danger  btn-lg pull-right" *ngIf="llegoData" (click)="predecir()"> Predecir Resultados </button>
+        <div *ngIf="modo!='mesa'">
+          <button class="btn btn-danger  btn-lg pull-right" *ngIf="llegoData" (click)="predecir()"> Predecir Resultados </button>
+        </div>
       </div>
       <div *ngIf="modo=='provincia'">
         <svg height="450.00000000000009" version="1.1" width="405" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative; left: -0.5px;" viewBox="-66.78914097640263 0.13372294586697042 270 300.00000000000006" preserveAspectRatio="xMinYMin">
@@ -97,7 +99,8 @@
     <h4>Porcentajes esperado para final del recuento </h4>
     <div *ngFor="let partido of pieChartLabels; let i = index">
       <label>{{partido}}:</label>
-      <label>{{votosPredecidos[i]}}%</label><br />
+      <label>{{votosPredecidos[i]}}%</label>
+      <label>Votantes esperados:{{cantidadVotantesPredecidos[i]}}</label>
     </div>
   </div>
   <div class="alert alert-warning" *ngIf="pocosVotos == true">
