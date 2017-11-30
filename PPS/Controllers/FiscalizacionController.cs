@@ -75,7 +75,7 @@ namespace PPS.Controllers
     public HttpResponseMessage PostProvincia([FromBody] FiscalizacionWEB obj)
       {
       Localidad l = _db.Localidades.Select(x => new Localidad(x.id, x.nombreLocalidad, x.provincia)).Where(x => x.nombreLocalidad == "" && x.provincia.nombreProvincia == obj.provincia).FirstOrDefault();
-      Usuario u = _db.Usuarios.Where(x => x.usuario == obj.usuario.user && x.pass == obj.usuario.pass).FirstOrDefault();
+      Usuario u = _db.Usuarios.Where(x => x.usuario == obj.usuario.usuario && x.pass == obj.usuario.pass).FirstOrDefault();
       Fiscalizacion f = new Fiscalizacion(u, l);
       _db.Fiscales.Add(f);
       _db.SaveChanges();
@@ -87,7 +87,7 @@ namespace PPS.Controllers
     public HttpResponseMessage PostLocalidad([FromBody] FiscalizacionWEB obj)
       {
       Localidad l = _db.Localidades.Select(x => new Localidad(x.id, x.nombreLocalidad, x.provincia)).Where(x => x.nombreLocalidad == obj.localidad).FirstOrDefault();
-      Usuario u = _db.Usuarios.Where(x => x.usuario == obj.usuario.user && x.pass == obj.usuario.pass).FirstOrDefault();
+      Usuario u = _db.Usuarios.Where(x => x.usuario == obj.usuario.usuario && x.pass == obj.usuario.pass).FirstOrDefault();
       Console.WriteLine("Usuario es:" + u.id);
       Fiscalizacion f = new Fiscalizacion(u, l);
       _db.Fiscales.Add(f);
@@ -99,7 +99,7 @@ namespace PPS.Controllers
     [Route("xmesa")]
     public HttpResponseMessage PostMesa([FromBody] FiscalizacionWEB obj)
       {
-      Usuario u = _db.Usuarios.Where(x => x.usuario == obj.usuario.user && x.pass == obj.usuario.pass).FirstOrDefault();
+      Usuario u = _db.Usuarios.Where(x => x.usuario == obj.usuario.usuario && x.pass == obj.usuario.pass).FirstOrDefault();
       Mesa m = _db.Mesas.Find(obj.mesa);
       Fiscalizacion f = new Fiscalizacion(u, m);
       _db.Fiscales.Add(f);

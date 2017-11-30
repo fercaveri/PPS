@@ -5,8 +5,9 @@ export class Mesa {
 }
 
 export class Usuario {
-    user: String;
+    id: number;
+    usuario: String;
     pass: String;
-    fullName: String;
-    role: number;
+    nombreCompleto: String;
+    rol: number;
 }

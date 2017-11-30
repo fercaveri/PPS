@@ -513,7 +513,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/login/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Login</h2>\r\n<table class=\"form-group\" style=\"width: 50%; margin: 20px;\">\r\n  <tbody>\r\n    <tr>\r\n      <td><label>Usuario</label></td>\r\n      <td><input name=\"user\" class=\"form-control\" [(ngModel)]=\"user\" required></td>\r\n    </tr>\r\n    <tr>\r\n      <td><label>Contraseña</label></td>\r\n      <td><input name=\"pass\" class=\"form-control\" [(ngModel)]=\"pass\" required></td>\r\n    </tr>\r\n    <tr>\r\n      <td>\r\n        <button class=\"btn btn-info\" (click)=\"login()\">Logearse<span class=\"glyphicon glyphicon-ok\"></span></button>\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n\r\n<div *ngIf=\"showAlert == true\">\r\n  <div class=\"alert alert-success\" *ngIf=\"rol==2\">\r\n    <strong>Usted es un superAdmin.</strong> Tendrá acceso a toda la funcionalidad de la web.\r\n  </div>\r\n  <div class=\"alert alert-info\" *ngIf=\"rol==1\">\r\n    <strong>Usted es un Admin.</strong> Tendrá restringido la posibilidad de crear nuevos administradores.\r\n  </div>\r\n  <div class=\"alert alert-info\" *ngIf=\"rol==0\">\r\n    <strong>Usted es un usuario normal.</strong> Tendrá acceso solo a poder ver los resultados del recuento.\r\n  </div>\r\n  <div class=\"alert alert-danger\" *ngIf=\"rol==-1\">\r\n    <strong>Contraseña o usuario incorrecto.</strong> Vuelva a intentar.\r\n  </div>\r\n</div>\r\n"
+module.exports = "<h2>Login</h2>\r\n<table class=\"form-group\" style=\"width: 50%; margin: 20px;\">\r\n  <tbody>\r\n    <tr>\r\n      <td><label>Usuario</label></td>\r\n      <td><input name=\"user\" class=\"form-control\" [(ngModel)]=\"user\" required></td>\r\n    </tr>\r\n    <tr>\r\n      <td><label>Contraseña</label></td>\r\n      <td><input name=\"pass\" type=\"password\" class=\"form-control\" [(ngModel)]=\"pass\" required></td>\r\n    </tr>\r\n    <tr>\r\n      <td>\r\n        <button class=\"btn btn-info\" (click)=\"login()\">Logearse<span class=\"glyphicon glyphicon-ok\"></span></button>\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n</table>\r\n\r\n<div *ngIf=\"showAlert == true\">\r\n  <div class=\"alert alert-success\" *ngIf=\"rol==2\">\r\n    <strong>Usted es un superAdmin.</strong> Tendrá acceso a toda la funcionalidad de la web.\r\n  </div>\r\n  <div class=\"alert alert-info\" *ngIf=\"rol==1\">\r\n    <strong>Usted es un Admin.</strong> Tendrá restringido la posibilidad de crear nuevos administradores.\r\n  </div>\r\n  <div class=\"alert alert-info\" *ngIf=\"rol==0\">\r\n    <strong>Usted es un usuario normal.</strong> Tendrá acceso solo a poder ver los resultados del recuento.\r\n  </div>\r\n  <div class=\"alert alert-danger\" *ngIf=\"rol==-1\">\r\n    <strong>Contraseña o usuario incorrecto.</strong> Vuelva a intentar.\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1619,7 +1619,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/usuario/usuario.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n  <div *ngIf=\"modo==''\">\r\n    <button class=\"btn btn-info\" (click)=\"modo='alta'\"> Alta de Usuario </button>\r\n    <button class=\"btn btn-info\" (click)=\"consulta()\"> Consulta de Usuario </button>\r\n  </div>\r\n\r\n  <div *ngIf=\"modo=='alta'\">\r\n    <h2>Alta de usuario</h2>\r\n    <label>Usuario</label>\r\n    <input name=\"user\" [(ngModel)]=\"user.user\" class=\"form-control\" required><br>\r\n    <label>Contraseña</label>\r\n    <input name=\"pass\" [(ngModel)]=\"user.pass\" class=\"form-control\" required><br>\r\n    <label>Nombre completo</label>\r\n    <input name=\"fullName\" [(ngModel)]=\"user.fullName\" class=\"form-control\" required><br>\r\n    <label>Rol</label>\r\n    <select class=\"form-control\" id=\"role\"\r\n            required\r\n            [(ngModel)]=\"role\" name=\"role\">\r\n      <option *ngFor=\"let rol of roles\" [value]=\"rol\">{{rol}}</option>\r\n    </select><br>\r\n    <div *ngIf=\"role == 'Normal'\">\r\n      <label>Escoja que clase de permisos tendra dicho usuario:</label><br>\r\n      <button class=\"btn btn-info\" (click)=\"mostrarForm('provincia')\"> Permisos sobre una provincia </button>\r\n      <button class=\"btn btn-info\" (click)=\"mostrarForm('localidad')\"> Permisos sobre una localidad </button>\r\n      <button class=\"btn btn-info\" (click)=\"mostrarForm('mesa')\"> Permisos sobre una mesa </button>\r\n      <div *ngIf=\"eligioPermiso == true\">\r\n        <div *ngIf=\"permiso=='provincia'||permiso=='localidad'||permiso=='mesa'\">\r\n          <p>Seleccione una provincia</p>\r\n          <select class=\"form-control\" id=\"provincia\" [(ngModel)]=\"provincia\" (change)=\"loadLocalidad()\" required>\r\n            <option *ngFor=\"let provincia of provincias\" [value]=\"provincia.nombreProvincia\">{{provincia.nombreProvincia}}</option>\r\n          </select>\r\n        </div>\r\n        <div *ngIf=\"permiso=='localidad'||permiso=='mesa'\">\r\n          <p>Seleccione una localidad</p>\r\n          <select class=\"form-control\" id=\"localidad\" (change)=\"loadMesas()\" [(ngModel)]=\"localidad\" required>\r\n            <option *ngFor=\"let localidad of localidades\" [value]=\"localidad.nombreLocalidad\">{{localidad.nombreLocalidad}}</option>\r\n          </select>\r\n        </div>\r\n        <div *ngIf=\"permiso=='mesa'\">\r\n          <p>Seleccione una mesa</p>\r\n          <select class=\"form-control\" id=\"mesa\" [(ngModel)]=\"mesa\" required>\r\n            <option *ngFor=\"let mesa of mesas\" [value]=\"mesa.id\">{{mesa.numero}}</option>\r\n          </select>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <button (click)=\"back()\" type=\"submit\" class=\"btn btn-default btn-lg pull-right\">Atras</button>\r\n    <button (click)=\"submit()\" type=\"submit\" class=\"btn btn-success btn-lg pull-right\">Submit</button>\r\n  </div>\r\n\r\n  <div *ngIf=\"modo=='consulta'\">\r\n    <div *ngFor=\"let user of users\">\r\n      <label>{{user.usuario}}</label>\r\n      <label>{{user.pass}}</label>\r\n      <label>{{roles[user.rol]}}</label><br />\r\n    </div>\r\n    <button (click)=\"back()\" type=\"submit\" class=\"btn btn-default btn-lg pull-right\">Atras</button>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"container\">\r\n  <div *ngIf=\"modo==''\">\r\n    <button class=\"btn btn-info\" (click)=\"modo='alta'\"> Alta de Usuario </button>\r\n    <button class=\"btn btn-info\" (click)=\"consulta()\"> Consulta de Usuario </button>\r\n  </div>\r\n\r\n  <div *ngIf=\"modo=='alta'\">\r\n    <h2>Alta de usuario</h2>\r\n    <label>Usuario</label>\r\n    <input name=\"user\" [(ngModel)]=\"user.usuario\" class=\"form-control\" required><br>\r\n    <label>Contraseña</label>\r\n    <input name=\"pass\" [(ngModel)]=\"user.pass\" class=\"form-control\" required><br>\r\n    <label>Nombre completo</label>\r\n    <input name=\"fullName\" [(ngModel)]=\"user.nombreCompleto\" class=\"form-control\" required><br>\r\n    <label>Rol</label>\r\n    <select class=\"form-control\" id=\"role\"\r\n            required\r\n            [(ngModel)]=\"role\" name=\"role\">\r\n      <option *ngFor=\"let rol of roles\" [value]=\"rol\">{{rol}}</option>\r\n    </select><br>\r\n    <div *ngIf=\"role == 'Normal'\">\r\n      <label>Escoja que clase de permisos tendra dicho usuario:</label><br>\r\n      <button class=\"btn btn-info\" (click)=\"mostrarForm('provincia')\"> Permisos sobre una provincia </button>\r\n      <button class=\"btn btn-info\" (click)=\"mostrarForm('localidad')\"> Permisos sobre una localidad </button>\r\n      <button class=\"btn btn-info\" (click)=\"mostrarForm('mesa')\"> Permisos sobre una mesa </button>\r\n      <div *ngIf=\"eligioPermiso == true\">\r\n        <div *ngIf=\"permiso=='provincia'||permiso=='localidad'||permiso=='mesa'\">\r\n          <p>Seleccione una provincia</p>\r\n          <select class=\"form-control\" id=\"provincia\" [(ngModel)]=\"provincia\" (change)=\"loadLocalidad()\" required>\r\n            <option *ngFor=\"let provincia of provincias\" [value]=\"provincia.nombreProvincia\">{{provincia.nombreProvincia}}</option>\r\n          </select>\r\n        </div>\r\n        <div *ngIf=\"permiso=='localidad'||permiso=='mesa'\">\r\n          <p>Seleccione una localidad</p>\r\n          <select class=\"form-control\" id=\"localidad\" (change)=\"loadMesas()\" [(ngModel)]=\"localidad\" required>\r\n            <option *ngFor=\"let localidad of localidades\" [value]=\"localidad.nombreLocalidad\">{{localidad.nombreLocalidad}}</option>\r\n          </select>\r\n        </div>\r\n        <div *ngIf=\"permiso=='mesa'\">\r\n          <p>Seleccione una mesa</p>\r\n          <select class=\"form-control\" id=\"mesa\" [(ngModel)]=\"mesa\" required>\r\n            <option *ngFor=\"let mesa of mesas\" [value]=\"mesa.id\">{{mesa.numero}}</option>\r\n          </select>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <button (click)=\"back()\" type=\"submit\" class=\"btn btn-default btn-lg pull-right\">Atras</button>\r\n    <button (click)=\"submit()\" type=\"submit\" class=\"btn btn-success btn-lg pull-right\">Submit</button>\r\n  </div>\r\n\r\n  <div *ngIf=\"modo=='edit'\">\r\n    <h2>Alta de usuario</h2>\r\n    <label>Usuario</label>\r\n    <input name=\"user\" [(ngModel)]=\"user.usuario\" class=\"form-control\" required><br>\r\n    <label>Contraseña</label>\r\n    <input name=\"pass\" [(ngModel)]=\"user.pass\" class=\"form-control\" required><br>\r\n    <label>Nombre completo</label>\r\n    <input name=\"fullName\" [(ngModel)]=\"user.nombreCompleto\" class=\"form-control\" required><br>\r\n    <label>Rol</label>\r\n    <select class=\"form-control\" id=\"role\"\r\n            required\r\n            [(ngModel)]=\"role\" name=\"role\">\r\n      <option *ngFor=\"let rol of roles\" [value]=\"rol\">{{rol}}</option>\r\n    </select><br>\r\n    <div *ngIf=\"role == 'Normal'\">\r\n      <label>Escoja que clase de permisos tendra dicho usuario:</label><br>\r\n      <button class=\"btn btn-info\" (click)=\"mostrarForm('provincia')\"> Permisos sobre una provincia </button>\r\n      <button class=\"btn btn-info\" (click)=\"mostrarForm('localidad')\"> Permisos sobre una localidad </button>\r\n      <button class=\"btn btn-info\" (click)=\"mostrarForm('mesa')\"> Permisos sobre una mesa </button>\r\n      <div *ngIf=\"eligioPermiso == true\">\r\n        <div *ngIf=\"permiso=='provincia'||permiso=='localidad'||permiso=='mesa'\">\r\n          <p>Seleccione una provincia</p>\r\n          <select class=\"form-control\" id=\"provincia\" [(ngModel)]=\"provincia\" (change)=\"loadLocalidad()\" required>\r\n            <option *ngFor=\"let provincia of provincias\" [value]=\"provincia.nombreProvincia\">{{provincia.nombreProvincia}}</option>\r\n          </select>\r\n        </div>\r\n        <div *ngIf=\"permiso=='localidad'||permiso=='mesa'\">\r\n          <p>Seleccione una localidad</p>\r\n          <select class=\"form-control\" id=\"localidad\" (change)=\"loadMesas()\" [(ngModel)]=\"localidad\" required>\r\n            <option *ngFor=\"let localidad of localidades\" [value]=\"localidad.nombreLocalidad\">{{localidad.nombreLocalidad}}</option>\r\n          </select>\r\n        </div>\r\n        <div *ngIf=\"permiso=='mesa'\">\r\n          <p>Seleccione una mesa</p>\r\n          <select class=\"form-control\" id=\"mesa\" [(ngModel)]=\"mesa\" required>\r\n            <option *ngFor=\"let mesa of mesas\" [value]=\"mesa.id\">{{mesa.numero}}</option>\r\n          </select>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <button (click)=\"back()\" type=\"submit\" class=\"btn btn-default btn-lg pull-right\">Atras</button>\r\n    <button (click)=\"editarUsuario()\" type=\"submit\" class=\"btn btn-success btn-lg pull-right\">Editar</button>\r\n  </div>\r\n\r\n  <div *ngIf=\"modo=='consulta'\">\r\n    <table class=\"table table-bordered\">\r\n      <thead>\r\n        <tr>\r\n          <td>Usuario</td>\r\n          <td>Nombre Completo</td>\r\n          <td>Rol</td>\r\n          <td>Acciones</td>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let user of users\">\r\n          <td>{{user.usuario}}</td>\r\n          <td>{{user.nombreCompleto}}</td>\r\n          <td>{{roles[user.rol]}}</td>\r\n          <td>\r\n            <button class=\"btn-danger\" (click)=\"delete(user.id)\" style=\"margin-right: 10px;\">\r\n              <i class=\"glyphicon glyphicon-trash\"></i>\r\n            </button>\r\n            <button class=\"btn-info\" (click)=\"edit(user)\">\r\n              <i class=\"glyphicon glyphicon-pencil\"></i>\r\n            </button>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n    <button (click)=\"back()\" type=\"submit\" class=\"btn btn-default btn-lg pull-right\">Atras</button>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1653,14 +1653,27 @@ var UsuarioComponent = (function () {
     UsuarioComponent.prototype.ngOnInit = function () {
     };
     UsuarioComponent.prototype.back = function () {
-        this.modo = '';
+        this.user.id = -1;
+        this.user.nombreCompleto = '';
+        this.user.pass = '';
+        this.user.usuario = '';
+        this.user.rol = -1;
+        this.role = '';
+        if (this.modo == 'edit') {
+            this.modo = 'consulta';
+        }
+        else {
+            this.modo = '';
+        }
     };
     UsuarioComponent.prototype.submit = function () {
+        console.log(this.role);
         for (var i = 0; i < this.roles.length; i++) {
             if (this.roles[i] = this.role) {
-                this.user.role = i;
+                this.user.rol = i;
             }
         }
+        console.log(this.user);
         this._httpService.post('api/usuario', this.user).subscribe(function (response) {
             var body = JSON.parse(response.text("legacy"));
             console.log(body.statusCode);
@@ -1726,6 +1739,34 @@ var UsuarioComponent = (function () {
         this._httpService.get('/api/usuario/getAll').subscribe(function (values) {
             _this.users = values.json();
             console.log(values);
+        });
+    };
+    UsuarioComponent.prototype.delete = function (user) {
+        var _this = this;
+        console.log(user);
+        this._httpService.delete('/api/usuario?id=' + user).subscribe(function (values) {
+            var body = JSON.parse(values.text("legacy"));
+            console.log(body.statusCode);
+            _this.consulta();
+        });
+    };
+    UsuarioComponent.prototype.edit = function (user) {
+        this.modo = 'edit';
+        this.user.id = user['id'];
+        this.user.usuario = user['usuario'];
+        this.user.pass = user['pass'];
+        this.user.nombreCompleto = user['nombreCompleto'];
+        this.user.rol = user['rol'];
+        this.role = this.roles[user['rol']];
+    };
+    UsuarioComponent.prototype.editarUsuario = function () {
+        var _this = this;
+        console.log(this.user);
+        this._httpService.patch('/api/usuario', this.user).subscribe(function (values) {
+            var body = JSON.parse(values.text("legacy"));
+            console.log(body.statusCode);
+            _this.back();
+            _this.consulta();
         });
     };
     return UsuarioComponent;
