@@ -66,6 +66,14 @@ namespace PPS.Controllers
       return cantidadMesas;
     }
 
+    [HttpGet]
+    [Route("cantidadCircuito")]
+    public int CantidadCircuito(int idCircuito)
+    {
+      var cantidadMesas = _db.Mesas.Where(x => x.circuito.id == idCircuito).Count();
+      return cantidadMesas;
+    }
+
     // GET api/mesa/votantes?localidad
     [HttpGet]
     [Route("cantidadProvincia")]

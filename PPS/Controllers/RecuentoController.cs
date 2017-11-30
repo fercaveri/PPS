@@ -148,6 +148,27 @@ namespace PPS.Controllers
       return itemLocalidad;
     }
 
+    //api/recuento/todosporuncircuito
+    [HttpGet]
+    [Route("todosporuncircuito")]
+    public IEnumerable<Object> recuentosPorUnCircuito(int circuito, int cargo)
+    {
+      Cargo c = this.getCargo(cargo);
+      List<int> idPartidos = _db.Partidos.Select(x => x.numeroLista).ToList();
+      List<Object> itemCircuito = new List<Object>();
+      for (int i = 0; i < idPartidos.Count; i++)
+      {
+        var recuentos = _db.Recuentos.Where(x => x.candidato.cargo == c && x.candidato.partido.numeroLista == idPartidos[i]
+                                            && x.mesa.circuito.id == circuito).ToList();
+        int total = 0;
+        for (int j = 0; j < recuentos.Count; j++)
+        {
+          total += recuentos[j].votos;
+        }
+        itemCircuito.Add(new { votos = total, id = idPartidos[i] });
+      }
+      return itemCircuito;
+    }
     //api/recuento/todosporprovincia
     [HttpGet]
     [Route("todosporprovincia")]
@@ -305,6 +326,46 @@ namespace PPS.Controllers
         }
       }
       for (int j= 0; j< votosPredecidos.Count();j++)
+      {
+        votosPredecidos[j] = votosPredecidos[j] / (flag);
+      }
+      return votosPredecidos;
+    }
+
+    [HttpGet]
+    [Route("predecirCircuito")]
+    public IEnumerable<int> PredecirCircuito(int idCircuito, int cargo)
+    {
+      var partidos = _db.Partidos.ToList();
+      int[] votosPredecidos = new int[partidos.Count()];
+      int flag = 0;
+      List<Mesa> mesas = _db.Mesas.Where(x => x.circuito.id == idCircuito).Include(x => x.circuito).ToList();
+      foreach (Mesa m in mesas)
+      {
+        int[] votosEnMesa = new int[partidos.Count()];
+        for (int k = 0; k < partidos.Count(); k++)
+        {
+          votosEnMesa[k] = this.getVotosMesa(m.id, cargo, partidos.ElementAt(k).nombre);
+        }
+        int recuentosTotales = 0;
+        foreach (int i in votosEnMesa)
+        {
+          recuentosTotales += i;
+        }
+        if (recuentosTotales != 0)
+        {
+          for (int i = 0; i < votosEnMesa.Count(); i++)
+          {
+            var voto = votosEnMesa[i];
+            if (voto != 0)
+            {
+              votosPredecidos[i] += voto * 100 / recuentosTotales;
+            }
+          }
+          flag++;
+        }
+      }
+      for (int j = 0; j < votosPredecidos.Count(); j++)
       {
         votosPredecidos[j] = votosPredecidos[j] / (flag);
       }
