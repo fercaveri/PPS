@@ -22,7 +22,7 @@
           <ion-label>{{candidato.nombre}} {{candidato.apellido}}</ion-label>
           <ion-input type="number" placeholder="votos" [(ngModel)]="candidato.votos" name="votos-{{in}}"></ion-input>
         </ion-item>
-        <ion-item *ngIf="!globalVars.isConnected && candidato.partidoid == partido.numeroLista">
+        <ion-item *ngIf="!globalVars.isConnected && candidato.partidoid == partido.numeroLista && candidato.cargo != 0">
           <ion-label>{{candidato.nombre}} {{candidato.apellido}}</ion-label>
           <ion-input type="number" placeholder="votos" [(ngModel)]="candidato.votos" name="votos-{{in}}"></ion-input>
         </ion-item>

@@ -43,8 +43,6 @@ export class HomePage {
             storage.get('port').then((val) => {
               this.globalVars.port = val;
               this.globalVars.apiUrl = "http://" + this.globalVars.ip + ":" + this.globalVars.port;
-              this.crearTablas(0);
-              this.importDb(storage);
             })
           })
           this.sendRequests();
@@ -164,6 +162,9 @@ export class HomePage {
       console.log(res);
       if (index < this.globalVars.tables.length) {
         this.crearTablas(index);
+      }
+      else {
+        this.importDb(this.storage);
       }
     }, (error) => { console.log("HUBO UN ERROR " + error) });
   }
@@ -435,7 +436,7 @@ export class HomePage {
           console.log("FISCALIZACIONES CARGADAS");
         }
       })
-    }, 10000)
+    }, 10)
 
           //storage.get('telegramas_cached').then((filled) => {
       //  if (!filled) {

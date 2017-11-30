@@ -70,19 +70,13 @@ export class TelegramaPage {
           });
         }
         else {
-          this.database = new SQLite();
-          this.database.openDatabase({
-            name: 'PPS',
-            location: 'default'
-          }).then(() => {
-            this.database.executeSql("INSERT INTO requests (type, url, data, done) values ('post', '" + this.globalVars.apiUrl + "/api/recuento', '" + JSON.stringify(c) + "', 0);", {})
-              .then(res => {
-                console.log("Result: ", res);
-              })
-              .catch(err => {
-                console.log("Error: ", err);
-              });
-          })
+          this.database.executeSql("INSERT INTO requests (type, url, data, done) values ('post', '" + this.globalVars.apiUrl + "/api/recuento', '" + JSON.stringify(c) + "', 0);", {})
+            .then(res => {
+              console.log("Result: ", res);
+            })
+            .catch(err => {
+              console.log("Error: ", err);
+            });
         }
       }
     }
