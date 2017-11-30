@@ -37,7 +37,8 @@ namespace PPS.Controllers
       var recuentos = _db.Recuentos.Where(x => x.mesa.id == idMesa).Include(x => x.candidato).Include(x => x.candidato.localidad)
                                                                    .Include(x => x.candidato.localidad.provincia)
                                                                    .Include(x => x.mesa).Include(x => x.mesa.localidad)
-                                                                   .Include(x => x.mesa.localidad.provincia).ToList();
+                                                                   .Include(x => x.mesa.localidad.provincia)
+                                                                   .Include(x => x.candidato.partido).ToList();
       return recuentos;
     }
 
@@ -47,11 +48,15 @@ namespace PPS.Controllers
     public int getVotosMesa(int idMesa, int cargo, String partido)
     {
       Cargo c = this.getCargo(cargo);
-      Recuento recuento = (_db.Recuentos.Where(x => x.candidato.partido.nombre == partido && x.candidato.cargo == c && x.mesa.id == idMesa).FirstOrDefault());
-      if (recuento != null)
+      List<Recuento> recuentos = (_db.Recuentos.Where(x => x.candidato.partido.nombre == partido && x.candidato.cargo == c && x.mesa.id == idMesa).ToList());
+      if (recuentos.Count > 0)
       {
-        Console.WriteLine("Devolvi " + recuento.votos + " votos");
-        return recuento.votos;
+        int votos = 0;
+        foreach (Recuento rec in recuentos)
+          {
+          votos += rec.votos;
+          }
+        return votos;
       }
       return 0;
     }
