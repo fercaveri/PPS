@@ -55,5 +55,21 @@ namespace PPS.Controllers
       }
       return new HttpResponseMessage(HttpStatusCode.NotAcceptable);
     }
+
+    [HttpDelete]
+    public HttpResponseMessage Delete(String user)
+    {
+      try
+      {
+        Usuario usuario = _db.Usuarios.Where(x => x.usuario == user).FirstOrDefault();
+        _db.Usuarios.Remove(usuario);
+        _db.SaveChanges();
+        return new HttpResponseMessage(HttpStatusCode.OK);
+      }
+      catch
+      {
+        return new HttpResponseMessage(HttpStatusCode.NotAcceptable);
+      }
+    }
   }
 }

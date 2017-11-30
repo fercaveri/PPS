@@ -25,7 +25,12 @@ export class UsuarioComponent implements OnInit {
   ngOnInit() {
   }
   back() {
-    this.modo = '';
+    if (this.modo == 'edit') {
+      this.modo = 'consulta';
+    }
+    else {
+      this.modo = '';
+    }
   }
   submit() {
       for (var i = 0; i < this.roles.length; i++) {
@@ -92,5 +97,19 @@ export class UsuarioComponent implements OnInit {
       this.users = values.json();
       console.log(values);
     });
+  }
+  delete(user: String) {
+    this._httpService.delete('/api/usuario?user=' + user).subscribe(values => {
+      console.log(values);
+      this.users = this.users.filter(x => x["usuario"] = !user);
+    });
+  }
+  edit(user: Object) {
+    this.modo = 'edit';
+    this.user.fullName = user["fullName"];
+    this.user.user = user["user"];
+    this.user.pass = user["pass"];
+    this.user.role = user["role"];
+    this.role = user["role"];
   }
 }
