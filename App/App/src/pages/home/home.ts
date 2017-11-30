@@ -196,7 +196,7 @@ export class HomePage {
         '/api/fiscalizacion?usuario=' + this.user + '&pass=' + this.pass).map(res => res.json()).subscribe(data => {
           if (data.mesa == null) {
             this.nombreLocalidad = data.localidad.nombreLocalidad;
-            this.idLocalidad = data.localidad.id;
+            this.idLocalidad = data.mesa.localidad.id;
             this.storage.set('user', role);
             this.storage.set('localidad', this.nombreLocalidad);
             this.storage.set('idLocalidad', this.idLocalidad);
@@ -297,7 +297,7 @@ export class HomePage {
           self.http.get(self.globalVars.apiUrl +
             '/api/provincia').map(res => res.json()).subscribe(data => {
               for (let provincia of data) {
-                self.database.executeSql("INSERT INTO PROVINCIAS VALUES('" + provincia.nombreProvincia + "')", {});
+                self.database.executeSql("INSERT INTO PROVINCIAS VALUES(?)", [provincia.nombreProvincia]);
               }
               storage.set("provincias_cached", true);
             }, error => {
@@ -314,7 +314,7 @@ export class HomePage {
           self.http.get(self.globalVars.apiUrl +
             "/api/localidad").map(res => res.json()).subscribe(data => {
               for (let localidad of data) {
-                self.database.executeSql("INSERT INTO LOCALIDADES VALUES(" + localidad.id + ",'" + localidad.nombreLocalidad + "','" + localidad.provincia.nombreProvincia + "')", {}).then((resp) => {
+                self.database.executeSql("INSERT INTO LOCALIDADES VALUES(?,?,?)", [localidad.id, localidad.nombreLocalidad, localidad.provincia.nombreProvincia]).then((resp) => {
 
                 }, error => {
                   console.log(error);
@@ -335,7 +335,7 @@ export class HomePage {
           self.http.get(self.globalVars.apiUrl +
             "/api/partidopolitico").map(res => res.json()).subscribe(data => {
               for (let partido of data) {
-                self.database.executeSql("INSERT INTO PARTIDOPOLITICOS VALUES (" + partido.numeroLista + ",'" + partido.nombre + "'," + partido.provincia.nombreProvincia + ",'" + partido.color + "')", {}).then((resp) => {
+                self.database.executeSql("INSERT INTO PARTIDOPOLITICOS VALUES (?,?,?,?)", [partido.numeroLista, partido.nombre, partido.provincia.nombreProvincia, partido.color]).then((resp) => {
                   
                 }, error => {
                   console.log(error);
@@ -356,7 +356,7 @@ export class HomePage {
           self.http.get(self.globalVars.apiUrl +
             "/api/candidato").map(res => res.json()).subscribe(data => {
               for (let candidato of data) {
-                self.database.executeSql("INSERT INTO CANDIDATOS VALUES(" + candidato.id + "," + candidato.cargo + ",'" + candidato.urlFoto + "','" + candidato.nombre + "','" + candidato.apellido + "','" + candidato.nombreCompleto + "'," + candidato.localidad.id + "," + candidato.partido.numeroLista + "," + candidato.votos + "," + ")", {}).then((resp) => {
+                self.database.executeSql("INSERT INTO CANDIDATOS VALUES(?,?,?,?,?,?,?,?,?)", [candidato.id, candidato.cargo, candidato.urlFoto, candidato.nombre, candidato.apellido, candidato.nombreCompleto, candidato.localidad.id, candidato.partido.numeroLista, candidato.votos]).then((resp) => {
                   
                 }, error => {
                   console.log(error);
@@ -377,7 +377,7 @@ export class HomePage {
           self.http.get(self.globalVars.apiUrl +
             "/api/mesa").map(res => res.json()).subscribe(data => {
               for (let mesa of data) {
-                self.database.executeSql("INSERT INTO MESAS VALUES (" + mesa.id + "," + mesa.numero + "," + mesa.circuito + "," + mesa.localidad.id + ")", {}).then((resp) => {
+                self.database.executeSql("INSERT INTO MESAS VALUES (?,?,?,?)", [mesa.id, mesa.numero, mesa.circuito, mesa.localidad.id]).then((resp) => {
                   
                 }, error => {
                   console.log(error);
@@ -393,54 +393,34 @@ export class HomePage {
         }
       })
 
-      storage.get('recuentos_cached').then((filled) => {
-        if (!filled) {
-          self.http.get(self.globalVars.apiUrl +
-            "/api/recuento").map(res => res.json()).subscribe(data => {
-              for (let recuento of data) {
-                self.database.executeSql("INSERT INTO RECUENTOS VALUES (" + recuento.id + "," + recuento.candidato + "," + recuento.votos + "," + recuento.mesa + ")", {}).then((resp) => {
+      //TERMINAR
+      //storage.get('recuentos_cached').then((filled) => {
+      //  if (!filled) {
+      //    self.http.get(self.globalVars.apiUrl +
+      //      "/api/recuento/getall").map(res => res.json()).subscribe(data => {
+      //        for (let recuento of data) {
+      //          self.database.executeSql("INSERT INTO RECUENTOS VALUES (?,?,?,?)", [recuento.id, recuento.candidato.id, recuento.votos, recuento.mesa.id]).then((resp) => {
                   
-                }, error => {
-                  console.log(error);
-                });
-              }
-              storage.set("recuentos_cached", true);
-            }, error => {
-              console.log(error);
-            });
-        }
-        else {
-          console.log("RECUENTOS CARGADAS");
-        }
-      })
-
-      storage.get('telegramas_cached').then((filled) => {
-        if (!filled) {
-          self.http.get(self.globalVars.apiUrl +
-            "/api/telegrama").map(res => res.json()).subscribe(data => {
-              for (let telegrama of data) {
-                self.database.executeSql("INSERT INTO TELEGRAMAS VALUES(" + telegrama.id + ",'" + telegrama.data + "', " + telegrama.mesa + ")", {}).then((resp) => {
-                  
-                }, error => {
-                  console.log(error);
-                });
-              }
-              storage.set("telegramas_cached", true);
-            }, error => {
-              console.log(error);
-            });
-        }
-        else {
-          console.log("TELEGRAMAS CARGADAS");
-        }
-      })
+      //          }, error => {
+      //            console.log(error);
+      //          });
+      //        }
+      //        storage.set("recuentos_cached", true);
+      //      }, error => {
+      //        console.log(error);
+      //      });
+      //  }
+      //  else {
+      //    console.log("RECUENTOS CARGADAS");
+      //  }
+      //})
 
       storage.get('fiscalizaciones_cached').then((filled) => {
         if (!filled) {
           self.http.get(self.globalVars.apiUrl +
             "/api/fiscalizacion/getall").map(res => res.json()).subscribe(data => {
               for (let fiscal of data) {
-                self.database.executeSql("INSERT INTO FISCALIZACIONES VALUES(" + fiscal.id + "," + fiscal.user + ", " + fiscal.mesa + ", " + fiscal.localidad + ")", {}).then((resp) => {
+                self.database.executeSql("INSERT INTO FISCALIZACIONES VALUES(?,?,?,?)", [fiscal.id, fiscal.user, fiscal.mesa, fiscal.localidad]).then((resp) => {
                   
                 }, error => {
                   console.log(error);
@@ -456,6 +436,28 @@ export class HomePage {
         }
       })
     }, 10000)
+
+          //storage.get('telegramas_cached').then((filled) => {
+      //  if (!filled) {
+      //    self.http.get(self.globalVars.apiUrl +
+      //      "/api/telegrama").map(res => res.json()).subscribe(data => {
+      //        for (let telegrama of data) {
+      //          self.database.executeSql("INSERT INTO TELEGRAMAS VALUES(" + telegrama.id + ",'" + telegrama.data + "', " + telegrama.mesa + ")", {}).then((resp) => {
+
+      //          }, error => {
+      //            console.log(error);
+      //          });
+      //        }
+      //        storage.set("telegramas_cached", true);
+      //      }, error => {
+      //        console.log(error);
+      //      });
+      //  }
+      //  else {
+      //    console.log("TELEGRAMAS CARGADAS");
+      //  }
+      //})
+
     //this.http.get(this.globalVars.apiUrl +
     //  "/api/usuario").map(res => res.json()).subscribe(data => {
     //    for (let user of data) {

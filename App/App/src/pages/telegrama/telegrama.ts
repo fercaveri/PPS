@@ -31,8 +31,6 @@ export class TelegramaPage {
       location: 'default'
     }).then(() => {
       this.getPartidos();
-      this.getCandidatos();
-      this.getRecuento();
     })
   }
   logForm() {
@@ -94,6 +92,7 @@ export class TelegramaPage {
       this.http.get(this.globalVars.apiUrl + '/api/partidopolitico').map(res => res.json()).subscribe(data => {
         this.partidos = data;
         console.log(this.partidos);
+        this.getCandidatos();
       });
     }
     else {
@@ -106,6 +105,7 @@ export class TelegramaPage {
             console.log(item);
             this.partidos.push(item);
           }
+          this.getCandidatos();
         }
       })
     }
@@ -115,12 +115,15 @@ export class TelegramaPage {
       this.http.get(this.globalVars.apiUrl + '/api/candidato/' + this.localidad + '/').map(res => res.json()).subscribe(data => {
         this.candidatos = data;
         console.log(this.candidatos);
+        this.getRecuento();
       });
     }
     else {
-      let query = "SELECT * FROM candidatos WHERE localidadid = ?";
-      let localidadid = this.localidad;
-      this.database.executeSql(query, [ localidadid ]).then((resp) => {
+      let query = "SELECT * FROM candidatos;";
+      //let query = "SELECT * FROM candidatos c JOIN localidades l ON c.localidadid = l.id WHERE c.nombreLocalidad = ?";
+      let localidadname = this.localidad;
+      console.log(this.localidad);
+      this.database.executeSql(query, []).then((resp) => {
         console.log(resp);
         if (resp.rows.length > 0) {
           for (var i = 0; i < resp.rows.length; i++) {
@@ -128,6 +131,7 @@ export class TelegramaPage {
             console.log(item);
             this.candidatos.push(item);
           }
+          this.getRecuento();
         }
       })
     }
@@ -143,7 +147,7 @@ export class TelegramaPage {
           for (var i = 0; i < this.candidatos.length; i++) {
             for (var j = 0; j < this.recuento.length; j++) {
               if (this.candidatos[i].id == this.recuento[j].candidato.id) {
-                this.candidatos[i].votos = this.recuento[j].votos;
+                this.candidatos[i].votos += this.recuento[j].votos;
               }
             }
           }
@@ -152,7 +156,8 @@ export class TelegramaPage {
       });
     }
     else {
-      let query = "SELECT * FROM recuentos WHERE mesaid = ?";
+      let query = "SELECT * FROM recuentos WHERE mesaid = ?;";
+      //let query = "SELECT * FROM recuentos;";
       let mesaid = this.mesa;
       this.database.executeSql(query, [mesaid]).then((resp) => {
         console.log(resp);
