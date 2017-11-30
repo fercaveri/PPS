@@ -41,5 +41,13 @@ namespace PPS.Models
       this.nombreCompleto = nombreCompleto;
       this.rol = rol;
     }
+    public Usuario(int id,string usuario, string contraseña, string nombreCompleto, Rol rol)
+    {
+      this.id = id;
+      this.usuario = usuario;
+      this.pass = contraseña;
+      this.nombreCompleto = nombreCompleto;
+      this.rol = rol;
+    }
   }
 }

@@ -7,9 +7,10 @@ namespace PPS.WebModels
 {
     public class UsuarioWEB
     {
-      public String user { get; set; }
+      public int id { get; set; }
+      public String usuario { get; set; }
       public String pass { get; set; }
-      public String fullName { get; set; }
-      public int role { get; set; }
+      public String nombreCompleto { get; set; }
+      public int rol { get; set; }
   }
 }

@@ -25,6 +25,12 @@ export class UsuarioComponent implements OnInit {
   ngOnInit() {
   }
   back() {
+    this.user.id = -1;
+    this.user.nombreCompleto = '';
+    this.user.pass = '';
+    this.user.usuario = '';
+    this.user.rol = -1;
+    this.role = '';
     if (this.modo == 'edit') {
       this.modo = 'consulta';
     }
@@ -33,11 +39,13 @@ export class UsuarioComponent implements OnInit {
     }
   }
   submit() {
+      console.log(this.role);
       for (var i = 0; i < this.roles.length; i++) {
-          if (this.roles[i] = this.role) {
-              this.user.role = i;
+        if (this.roles[i] = this.role) {
+            this.user.rol = i;
           }
       }
+      console.log(this.user);
       this._httpService.post('api/usuario', this.user).subscribe(response => {
           let body = JSON.parse(response.text("legacy"));
           console.log(body.statusCode)
@@ -98,18 +106,30 @@ export class UsuarioComponent implements OnInit {
       console.log(values);
     });
   }
-  delete(user: String) {
-    this._httpService.delete('/api/usuario?user=' + user).subscribe(values => {
-      console.log(values);
-      this.users = this.users.filter(x => x["usuario"] = !user);
+  delete(user: number) {
+    console.log(user);
+    this._httpService.delete('/api/usuario?id=' + user).subscribe(values => {
+      let body = JSON.parse(values.text("legacy"));
+      console.log(body.statusCode);
+      this.consulta();
     });
   }
-  edit(user: Object) {
+  edit(user: object) {
     this.modo = 'edit';
-    this.user.fullName = user["fullName"];
-    this.user.user = user["user"];
-    this.user.pass = user["pass"];
-    this.user.role = user["role"];
-    this.role = user["role"];
+    this.user.id = user['id'];
+    this.user.usuario = user['usuario'];
+    this.user.pass = user['pass'];
+    this.user.nombreCompleto = user['nombreCompleto'];
+    this.user.rol = user['rol'];
+    this.role = this.roles[user['rol']];
+  }
+  editarUsuario() {
+    console.log(this.user);
+    this._httpService.patch('/api/usuario', this.user).subscribe(values => {
+      let body = JSON.parse(values.text("legacy"));
+      console.log(body.statusCode);
+      this.back();
+      this.consulta();
+    });
   }
 }

@@ -7,11 +7,11 @@
   <div *ngIf="modo=='alta'">
     <h2>Alta de usuario</h2>
     <label>Usuario</label>
-    <input name="user" [(ngModel)]="user.user" class="form-control" required><br>
+    <input name="user" [(ngModel)]="user.usuario" class="form-control" required><br>
     <label>Contraseña</label>
     <input name="pass" [(ngModel)]="user.pass" class="form-control" required><br>
     <label>Nombre completo</label>
-    <input name="fullName" [(ngModel)]="user.fullName" class="form-control" required><br>
+    <input name="fullName" [(ngModel)]="user.nombreCompleto" class="form-control" required><br>
     <label>Rol</label>
     <select class="form-control" id="role"
             required
@@ -51,11 +51,11 @@
   <div *ngIf="modo=='edit'">
     <h2>Alta de usuario</h2>
     <label>Usuario</label>
-    <input name="user" [(ngModel)]="user.user" class="form-control" required><br>
+    <input name="user" [(ngModel)]="user.usuario" class="form-control" required><br>
     <label>Contraseña</label>
     <input name="pass" [(ngModel)]="user.pass" class="form-control" required><br>
     <label>Nombre completo</label>
-    <input name="fullName" [(ngModel)]="user.fullName" class="form-control" required><br>
+    <input name="fullName" [(ngModel)]="user.nombreCompleto" class="form-control" required><br>
     <label>Rol</label>
     <select class="form-control" id="role"
             required
@@ -89,7 +89,7 @@
       </div>
     </div>
     <button (click)="back()" type="submit" class="btn btn-default btn-lg pull-right">Atras</button>
-    <button (click)="submit()" type="submit" class="btn btn-success btn-lg pull-right">Editar</button>
+    <button (click)="editarUsuario()" type="submit" class="btn btn-success btn-lg pull-right">Editar</button>
   </div>
 
   <div *ngIf="modo=='consulta'">
@@ -108,7 +108,7 @@
           <td>{{user.nombreCompleto}}</td>
           <td>{{roles[user.rol]}}</td>
           <td>
-            <button class="btn-danger" (click)="delete(user.usuario)" style="margin-right: 10px;">
+            <button class="btn-danger" (click)="delete(user.id)" style="margin-right: 10px;">
               <i class="glyphicon glyphicon-trash"></i>
             </button>
             <button class="btn-info" (click)="edit(user)">
